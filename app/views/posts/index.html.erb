@@ -1,0 +1,62 @@
+<h1>Listing posts</h1>
+    
+<% @tags.each do |tag| %>
+<button id="btn-<%=tag.id.gsub('.','-')%>" class="button" onclick="column('<%=tag.id.gsub('.','-')%>')"><%=tag.id%></button>
+<%end%>
+
+<table class="table">
+  <tr>
+    <th class="col-lg-1">id</th>
+    <th class="col-lg-4">content</th>
+    <% @tags.each do |tag| %>
+      <th style="display:none" class="<%=tag.id.gsub('.','-')%>"><%=tag.id%></th>
+    <% end %>
+    <th class="col-lg-1">actions</th>
+  </tr>
+
+<% @posts.each do |post| %>
+  <tr class="post" id="<%=post.id%>">
+    <td><%= post.id %></td>
+    <td><%= post.content %></td>
+    <% @tags.each do |tag| %>
+      <td style="display:none" class="<%=tag.id.gsub('.','-')%>">N/A</td>
+    <% end %>
+    <td>
+      <%= link_to 'Show', post %>
+      <%= link_to 'Edit', edit_post_path(post) %>
+      <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </td>
+  </tr>
+<% end %>
+</table>
+<%= will_paginate @posts %>
+
+<br />
+
+<%= link_to 'New Post', new_post_path %>
+
+<script type="text/javascript">
+  $('.post').each(function(){
+    var id = this.id;
+    $.ajax({
+      url: "posts/"+id+".json",
+      success: function(p){
+         for (var tag in p["tags"]){
+           $("#"+p.id+" ."+tag).text(p["tags"][tag]);
+         } 
+      }    
+    });
+  });
+
+  function column(tag){
+    var active = $("#btn-"+tag).hasClass("btn-primary");
+    if (active){
+      $("."+tag).hide();
+      $("#btn-"+tag).removeClass("btn-primary");
+    }else{
+      $("."+tag).show();
+      $("#btn-"+tag).addClass("btn-primary");      
+    }
+
+  }
+</script>

@@ -1,0 +1,24 @@
+<h1>Listing tags</h1>
+
+<table class="table">
+  <tr>
+    <th>tag</th>
+    <th>positive occurance</th>
+    <th>negative occurance</th>
+    <th>prior</th>
+    <th>action</th>
+  </tr>
+
+<% @tags.each do |tag| %>
+  <tr>
+    <td><%=tag.tag_id%></td>
+    <td><%=tag.positive_occurance%></td>
+    <td><%=tag.negative_occurance%></td>
+    <td><%=tag.prior%></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Tag', new_tag_path %>

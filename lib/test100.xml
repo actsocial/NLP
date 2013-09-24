@@ -1,0 +1,586 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-16T00:00:00Z</Created>
+  <LastSaved>2013-09-09T10:17:25Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>8010</WindowHeight>
+  <WindowWidth>14805</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>105</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s62">
+   <Alignment ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="s63">
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+  </Style>
+  <Style ss:ID="s64">
+   <Alignment ss:Vertical="Center"/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s65">
+   <Alignment ss:Vertical="Center"/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12"/>
+  </Style>
+  <Style ss:ID="s66">
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+   <NumberFormat/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="101" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="15">
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">内容</Data></Cell>
+    <Cell><Data ss:Type="String">positive</Data></Cell>
+    <Cell><Data ss:Type="String">negative</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">师奶再见，意甲最后一个球星！视频-斯内德蓝黑生涯回眸 助力国米重返欧洲之巅 http://t.cn/zjsl4z2 （分享自 @新浪视频）</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">#我有话说#【中国式机场滞留：事前不通报事后不道歉】 我现在就在成都双流机场，等待晚点4个半小时的飞机，春秋航空飞往石家庄的。虽然是知道石家庄下雪，但是还是很恼火！ http://t.cn/zjk737G</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">昨天晚上和贱人崔大吵一架，为了不在一个房子里互相生气，我就出去走走，不知不觉来到欧尚那家肯德基，我就坐下来把他的不好全写下来，写到签字笔没油了，气就消了，然后和好后让他自己读，自己检讨。很好的缓解情绪的方式。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">台湾的松塔饼干比越南的TIOP饼干好吃很多有木有啊!!该晓得多买点松塔饼干的.</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">新加fn的腰带，自己的帽子。老公的natica，和儿子的 博士蛙</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">#时代气象# 今天是2013年1月20日，星期日，天气情况多云转小雨，气温5—12度，东南风4-5度。穿衣指数： 温凉 ；化妆指数： 保湿 ；洗车指数： 不宜 。车子脏兮兮的亲们，忍两天再洗车吧哈~</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">质量好，上脚很好，样子很好，服务好，这款达芙妮入手了</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">好吧 我承认去吃KFC的速生鸡 是为了这只冬天不穿秋裤的兔子@坚持不穿秋裤的兔子</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">被骗啦！被骗啦！300块钱买了一部山寨机（朵唯S11)，一帮打着联通旗号的人招摇撞骗，送5元如意联通卡，199炒锅，东西太烂了，交学费了，切误贪小利……悲催中……</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">饭后半小时强化练习，我已经跟小o同学和平共处！oxelo轮滑鞋(*ˉ︶ˉ*)没有摔我很多次！你真是好乖乖！哈哈</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">CZ6296 中国南方航空 广州飞贵阳 晚点了？？@飞常准</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">工行真是菜市场啊，前面一波吵，后面一波接着吵，balabalabalabalabala......然后警察叔叔就来了.... 全是制服</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">去吾悦主要是为了吃这个，虽然也打着上海的名号，但味道明显就差远了……</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s63"><Data ss:Type="String">首先携程上的价格要比门市价不仅要便宜一些 而且携程上能够还能返还现金 所以建议大家在携程上订比较好 然后服务态度我觉得还可以 基本要求也都达到了 办理入住和退房都比较快 毕竟也不是什么节假日 地理位置我觉得不错 周边就有地道的上海早餐吃 交通也很方便 离五角场就坐公交就两站 房间整体也还可以 这个价格非常能够接受 隔音的话 可能是早上因为距离高架比较近.还是有点吵吧..  晚上就没什么了更多评价&#10;&#10;房间卫生周边环境&#10;&#10;&#10;酒店服务设施设备</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">Urban Decay UD Naked 2 第二代裸妆眼影盘 45 大爱 自留一盒</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">推荐给美妈一个好东东。从美国买的餐具中，这个 food face 最牛。单价虽然是最高，可是物有所值。非常厚的磁盘，妈妈们可以发挥想像力创作给宝宝艺术大餐。等不及多多长大，我已经玩了好几天,加餐什么的就靠它！@爆爆WPAC @yoyo张思瑶 @幸福的小牛媽咪 @王宝花麻麻 @郝安妮Anni @FelistadeLulu</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">上海的异地中考、北京的异地高考扯到地域之争，太没意思。打工者也有守规则的，京沪人也有违法的，关键是确立标准，让诚实人受益。比如，在京沪按章缴税、遵守规则者子女给予异地中高考待遇。但超越规则边界还能获利者侵犯的是所有遵守规则人的利益，与地域无关</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">#Temple?Run#破纪录了捏！@Bruce_小韬?没到八百万居然就死翘翘了捏～～～～[神马][神马][神马][神马][神马][浮云][浮云][浮云][浮云][浮云][哈哈][哈哈][哈哈][哈哈][哈哈]?我在这里：http://t.cn/zjqnKWj</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">@山狼101 的照片很棒(来自专辑 默认专辑)，推荐给大家！过去只是回忆 http://t.cn/zjsNWyX</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">有人问我，你觉得路虎品牌怎么样？</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">@冯小刚 调侃@潘石屹 和@长城脚下的公社</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">报告各位辣妈，chuchu奶瓶可换贝亲宽口径奶嘴。刚刚好，不漏奶。又想奶瓶长的美，又想奶嘴柔软舒服的。美满了......大爱</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">热烈祝贺王强先生，于2013-1-5加入福特大家庭·成为有福一族！桐乡万国福特4S店随时恭候您的光临！希望我们的服务能得到您“完全满意”的评价，谢谢！ 桐乡福特4S店 </Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">1923年，德国人施勒特尔发明硬质合金 1926年，德国克虏伯公司进行硬质合金（钨钴类）的工业化生产 1929年，德国克虏伯公司开始生产钨钴钛类硬质合金 1965年，德国克虏伯公司研制涂层硬质合金 - 硬质合金的用途、分类及发展历程 ,中国木工刀具网  http://t.cn/zj1B5X2</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">知道住安缦法云为什么这么贵吗，每天要雇这么多和尚当群众演员。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">明天陪妈妈去菜市场，睡觉吧睡觉吧… ◆◆ 查看大图|向左转|向右转 标</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">在当当淘来的这本书，我说你们印刷的质量太差了吧！这个重影是怎么个回事啊！！！后面的还好，前面差点让我崩溃了！《等待一年半》《订地方报纸的女人》这么精彩的两篇差点看瞎我的眼……@新星出版社</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">好奢侈的王品台塑牛排走一个[钱]台塑牛排味道真心不错[馋嘴]香颂玫瑰露真是太美太好喝啦[花心][鼓掌]</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">中国大城市的&quot;标准配置&quot;&#45;&#45;- 1 大广场 2 大剧院 3 标志性建筑 4 轨道交通 5 肯德基 6</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">我都还清楚的记得想当年入职培训时我们挤在你房间一人抱一个手机玩burger,谈论快本上特二的嘉宾，鄙视栗子一大早就要吃冒着红油的早餐，地铁上四人齐刷刷的左摇右摆的接burger...时间就是这样，不经不意的改变着我们每个人，帮我们做着各个人生阶段的决定。心中各种不舍，深深祝福你一切顺利心想事成！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">教训啊，因为没有记清自己的续保时间，没及时续上，让自己吃了大亏。想起来就心痛，所以在车里跟大家提个醒，不要像我这样。 事情是上周的事，只是记得近期车险该续保了，可是工作上来了急任务就忘在脑后了。就是开车去通州出差的时候，撞倒了公路的护栏了。可能是心急，也心不在焉，车速比较快，前面给装得面目前非，车体严重损伤。，自己受了一点小伤，倒没什么大碍。可是我的标准408可惨了。 我的车子买的是平安的车险，以前遇到过几次理赔的事故，办的都挺妥当的。所以赶紧给平安报案。心想虽说撞得比较严重，不过理赔应该没什么问题，自己也损失不了太多。 晴天霹雳啊，准备材料的时候，发现我的保险刚刚过期了，过期了3天！工作人员告诉我，没办法，过了3天没有任何理赔，当时哭的心情都有了。一大笔修理费啊，要大换血啊！ 希望各位车友注意一下自己的车险续保日期啊，不要再让自己受到损失了，血的教训啊！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s65"><Data ss:Type="String">一般顺滑的产品都感觉油腻油腻的~但是这个用完后一点都不油腻~</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">天！这两天又收到好多封电子邮件让我去面试.........有点受宠若惊啊~~不过基本上都是厦门的，有谁知道众智品牌怎么样啊？</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">BataleonEvilTwins我公司四大优点：服务差！价格高！执行低！渠道少！最近极其烦躁！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">#思佳美儿圣诞心愿风暴#我家乐乐的愿望是设计师，她现在经常拿着笔画出各种她心目中的东西，小鸭子、彩虹等。http://t.cn/zjXAon6 @SERGENT_MAJOR 的这件衣服如果给乐乐穿上，真有设计师范~嘻嘻，期待梦想成真！@SERGENT_MAJOR\n</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s65"><Data ss:Type="String"> HOYO源于生活专卖经典呈献：z0808 折叠烫衣板大号熨衣板立式8档升降调节，出口韩国，24年老品牌，品质保证！天猫销量前列，大众口碑好</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">要开乐购了吗？可还是喜欢去欧尚！又近又便宜</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">减脂肪！！！gnc的这款减肥品是有点效果哦，不运动的时候每天早上空腹两颗，要运动的话运动前四十分钟吃两颗，加快脂肪燃烧，在这么凉爽的天气里，才做了几分钟仰卧起坐就一身汗了.....</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">有点讨厌乐购了，好多东西都要比其他地方贵[鄙视]还要停车费（每次去为了个停车费然后都要买50块以上）[衰]还不能带宠物，虽然说沃尔玛也不能带宠物，但人家至少不用停车费[哼]还是东兴好，可就是关门太早。尼玛呀！各种抱怨！[抓狂]</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">看照片很好，有机会去看看，享受一下。 ——看到荣宝斋学徒的博文《[转载]走在山水间&#45;&#45;-安缦法云酒店》有感而发的评论。http://t.cn/zjgN5Xw</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">我是眼袋加锥子脸 睡的有多不够 是要美白多少遍</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">【业主投诉：商场中央空调冷却塔噪音扰民】近日，家住城东名门小区的网友称，小区一楼某家商场冷却塔设计在距离居民楼水平距不足10米的地方，设备在运转过程中及商场员工每天早上6时左右在商场后门装卸货物时产生噪声影响楼上居民。http://t.cn/zYoM3ur 每天噪音充当闹钟的角色，谁受得了！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">情绪低落，吃得更不讨人欢喜！喜樂BBQ环境差服务差~快吃饱了都还没给我杯子喝水！老子胃寒就喜欢生菜热着吃！你们叫叫叫毛啊！两人花两百元一点也吃不饱，还不如去味牛烤肉！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">安安静静的在宿舍，蜷缩着看《台北飘雪》，关于台湾，有曾经的幻想，说不上什么滋味。现在在台湾旅行的兄弟@狗熊大侠 去把台湾的雨记住吧，台北的雨，总是会下的。即将走进台湾胖哥@風-澈 一路向东，台湾的新奇体验就在海的那一边，上岛快了，上岛快乐！密切关注着！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">引用: 原帖由 deerlapple 于 2012-7-22 12:27 发表 昨天大雨，我带着儿子一早就去了蓝色港湾……因为家近，我是推着宝宝去的。结果宝宝在博士蛙玩的兴奋，出来一会儿就睡着了，我们就在美食城一直抱着他睡……下午两点多宝宝醒了，我们看外面的雨不大，更没想到这雨越 ... 以后还是注意听听天气预报吧，之前好几次橙色预警</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">昨天参加宝宝幼儿园举行的迎新年亲子活动，在最后的爸爸拔河比赛中输给了宝宝2班，后来见到对面的爸爸们……我特么感觉自己瞬间苗条了</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">走遍全香港近12小时，。才在九龙城街市的惠康超市买到1罐安婴儿A+。我艹。。。我艹。。。我艹。。。。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">想买手机，太纠结了，有几个方面，电话不多，用的很少，苹果太贵且没货，索爱上海和嘉兴水货的差价是470元，嘉兴太贵，上海便宜，但要是有点事咋办！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">要不是看在离家近的份上我才不会去你们那，山核桃仁人家卖38你卖45，人华润也算价格高你家比华润还离谱，联华你坑爹的吧你[怒][怒][怒] </Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">总体来说糊糊还是非常满意的，唯一不满的就是自己身高不够，呵呵！这还是不能怪商家咯！大胆的尝试了一次长款连衣裙后，非常开心，因为真的很喜欢这款裙子，希望怀宝宝后还能长个几公分！嘻嘻！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">：#粤唯先美食# 好的用餐体验，就是在环境优雅的餐厅享用地道可口的美食吧。位于@索菲特国际饭店-郑州 二楼的粤唯先中餐厅推出的“春之芽”系列美食隆重面世。图说第三道：花生芽炒煎鱼松。欢迎品尝，预订电话：65950088</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">严重推荐#虎扑#碎碎念：拿科比跟詹姆斯比较，对詹姆斯确实不公平，科比年轻的时候，球队就是历史级的，教练是历史级的，队友也是历史级的，自己老爹是打过NBA的，家境也不错，完全就一富二代。 科比不像大部分球星，他没有尝到过多年扛着一只烂队挣扎的艰辛，这一... http://t.cn/zjsmE4n</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">超棒的三分渗血小牛排。试营业还有红酒送噢！！#王品台塑牛排#的服务真不是盖的呀，搞得我都快塞不进嘴巴里了。食物就是要美型又美味噢！哈哈 我要学煎牛排。 我在:http://t.cn/zjKtw7f</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">The enemy advances, we retreat; the enemy camps, we harass; the enemy tires, we attack; the enemy retreats, we pursue.敌进我退，敌驻我扰，敌疲我打，敌退我追。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">《生化危机5》超乎预期的好！！3D效果真心不错。李冰冰的颜跟英文都给力了~ </Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">认同//@-Li欣欣欣瑶:d死撈仔以為自己扎住部爛鬼摩托起度飛車好型咁！都唔知自己又樣衰又撈 成個鄉村非主流 呢d就真系死腦殘！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">#ASHLEY问早安#If you fall in love with your Mr. Right,every day is like Valentine's Day. 其实爱对了人，情人节每天都过。早安~</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">展览&lt;夜袭&gt;布展中?明天晚上5点在莫干山路3号楼2楼视界艺术中心开幕有时间一起来玩吧@牛清噗噗 @阿琦_PSYCHO-PASS粉丝无误 @Wendy文艺女青年 @稻草达 @疯油菁</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">一早上紧张兮兮，看看窗户外，天非常非常黑，一个人都没有，我都不敢出去，没办法，我带着剪刀就出来了，转个弯，发现欧尚超市的很多货车都已经到了，人们都忙碌着，这个城市总有我意想不到的</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">阿贼判断正确，扑到皮球，可惜手套质量差，皮球仍滚进球门。但是，阿贼凭借本场比赛多次神级扑救，他仍可以拿到85分。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">樱桃汁能帮助面部皮肤嫩白去皱清斑。樱桃营养丰富，所含蛋白质、糖、磷、胡萝卜素、维生素C等均比苹果、梨高，尤其含铁量高，常用樱桃汁涂擦面部及皱纹处，能使面部皮肤红润嫩白，去皱消斑，可谓美白又祛斑呢。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">奥迪开开，叉5开开满爽的哇 我在#五角场华美达大酒店</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">【2012美国国家地理摄影奖】2012年美国国家地理摄影奖（National Geographic Photography Contest）评选结果刚刚公布，英国摄影师 Ashley Vincent 以一张拍摄泰国动物园老虎甩掉身上水珠的照片获得今... &#45;-@孙-行-者 的微刊《神思陌路》 http://t.cn/zjFRgbJ</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">【香港攻略网周五温馨提示】如果您是想要购买奢侈品，那么并不是只有广东道（海港城）可以买得到，如果你就在尖沙咀，那么不妨去半岛酒店瞧瞧。 如果你是要买药品，那么你还去“龙城大药房”你就OUT了，这几年被游客挤爆了，早上还早早的去排队，还不如去排下珍妮曲奇划算，香港无假货非游客区更划算哦</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">#思佳美儿用心配#比照色搭配：指两个相隔较远的颜色相配，也就是如今时下流行的撞色。为童年的绚烂打造一片天空，扫去沉睡已久的雪白冬天；脱去黑白色调的沉闷，在这个节日里，让自己的宝贝更加靓丽活泼。每一个时尚宝宝的背后，都有一个用心良苦、追赶潮流的妈妈。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">享受球球，热爱生活！ Hammer__刚刚获得一张卡卡！在这里Ta郑重宣布：在卡卡面前什么图拉朗、巴里弱爆了！一起去收集球星http://t.cn/zjsyHjh</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">南京城人气很高的秋林龙虾，@郭小沫momo 同学五个人吃了十二斤啊！去的都是奔着口味去的，所以环境差一点也无所谓~越吃越上瘾，现在正是季节啊</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">实物挺好看的，很有分量，很结实，就是快递实在是好慢</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">香港机场的各类服务水平对比这次美国三个机场，还存在较大差距，更存在心态上的问题。香港机场应该脚踏实地的学习下美国人的机场管理方法与对所有族群一视同仁的平等观念，而不是一昧将所有产生问题的源头归咎于大陆人。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">时尚是一种行为【视频：oxelo上海2012，演绎时尚大片】 http://t.cn/zORg6Ka  （分享自 @优酷网）</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">无人要拼spa机家庭套装呢划算很多呢东西多多呢快点联系我拉！ </Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">睡前「趣岳」一下，晚安</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">保时捷911我把车速提高到了200，转速4000，感觉风燥、胎噪、路噪等所有噪音全来了，几乎无法忍受的地步</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">Nike这潮货的质量再一次刷新了我的认知底线，有图为证，这条nike pro只穿了不超过10次就惨不忍睹了</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">上海建工基础公司承建的福州地铁1号线工程（三叉街站至上藤路站、上藤路站穿越闽江至达道站），地下多岩石，公司特从德国定制两台海瑞克新型盾构机。该盾构机具有两组分别可在软土层及岩石层掘进的刀具，满足了硬岩掘进及下穿闽江的施工要求，图为第一台盾构机吊装下井。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">所有的火锅店中，价格属于较有档次型，但味道说真的各家都差不多。肥羊肉等的盘子和肉比一般的大一些。和亲戚去过一次，感觉请客比较适合，自己吃不太经济实惠。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">杭州雪景就是一副水墨画，心动到不行。//@杭州西溪悦榕庄: 跨越至新的一年，当我们还在回味那时的美好，新的祝福已经悄然而至了，请接受这来自#杭州西溪悦榕庄#的纯洁祝福吧</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">亚航网站，自助穷游儿伤不起啊。。。5本护照，核对多次，对着穷游锦囊搞了半天，就给了我一个错误提示？啥啥都没了啊。。。12点了。。。@亚航之家 @穷游网</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">备用//@围脖经典语录:最全最强的泰国旅游攻略！！收了吼吼~~</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">这条珍珠项链真的很不错，是那种淡粉色的，但是不是每颗都是粉的，有个别的颜色有点偏黄色，颜色也比较暗淡，但是不细看的话看不出来，卖家的发货速度也蛮快的，这种淡水珍珠能够长到这么大，而且光泽度也这么好，确实是淡水珍珠的上品，很感谢淘宝与卖家给我的试用机会。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">今天下午学校的亲子活动，冬节搓汤圆，家长们玩得很开心，宝贝们也吃得欢快，五颜六色的汤圆，都是@月儿佳佳-妞妞丫丫妈?的创意[鼓掌][鼓掌][鼓掌]快收图喔@candy阡陌草</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">本帖最后由 梦想天空分外蓝 于 2012-9-11 20:26 编辑?小肥羊现金券100元，两张。使用说明：1、点餐前出示。2、锅底、酒水、鲜活游水、纸巾、羊排除外。3、不外卖，不开发票。4、每次每台限用一张。5、券抵用不得超过最大可用金额的50%。6、9月30日到期。50元转一张，95元转两张啦！！！！！电话：18971067963</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">逸动符合国人的审美标准，有型，有感</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">谢谢@星星火社区Wildfire @SERGENT_MAJOR 帽子很帅气，和今天穿的衣服也很搭哦。 我在#百盛购物中心(莘庄店)# http://t.cn/zOgoEXD</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">哇K歌点这个可谓麦霸，一个人唱了32首，哈哈//@胡yy写论文嗷嗷嗷: K歌必点曲目啊！//@朱朱geiliable: 推荐，挺好听的：），而且串场特别自然</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66"><Data ss:Type="String">本帖最后由 daotrip 于 2013-1-10 13:38 编辑 &#10;春秋99元飞到香港，价格便宜啊，免受深圳过关的舟车劳顿。&#13;&#10;行李手提不超出过5KG,不过登机口没有称重的；&#13;&#10;托运10KG,超过要另外收费，&#13;&#10;座位间隙比普通航空公司略窄1个拳头左右，毫无舒适性，基本上2小时左右可以忍受。&#13;&#10;想想机票才99+税，忍了。春秋只能靠特价了，再贵点不会选春秋了。&#13;&#10;飞机上饮料要收费，价格也不贵，大多5-10元。&#13;&#10;飞行过程中，开始推行会员卡，号称颠覆了航空积分的累积方式，按买票的金额来算，&#13;&#10;而且在飞机上还限量办理15名。 我琢磨着，这99元的票能给多少分呢？</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">点评了商户船工哨子，总体评价一星，没有味道超好的：超级黑店，一般是乐山旅游团必须带你来的地方，环境差，服务差，菜没敢点，不过一起去的团友有点的，结果很坑人，鱼要128一斤，...</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">都三月了，机票、行程都没定，境内境外都辣么贵</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">天气冷，不敢不给小p穿纸尿片，所以一天最少需要三片纸尿片，上次入的帮宝适很快用完一包，还剩一包。要考虑入货了，在想是入帮宝适好，还是入好奇好？</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">突然神經病的玩起這個遊戲. 糟糕 ~~</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">MLGB，每次住的北京的宾馆对面房间 总是在嗷嗷叫的一个楼层都能听到...住起来环境挺好，隔音真心差啊...菇凉，凌晨一点多了，大家都睡了，您不用拿着麦克风来释放你火热的欲望吧...我在:#外交公寓#</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">京东商城的东西太烂了，第一次买就这么失望！再也不买它东西了！！！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">今早6点多被饿醒， 去tesco，吃了闭门羹，悲剧了吧@夕夕躲 叫你肚子饿，这下更饿了吧还是回家吃粉丝吧</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">福克斯垃圾车，谁买谁后悔，，，</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">@广州地铁：#暖冬关怀，地铁随行#【地铁荟换领换购活动】热饮免费换？地铁列车萌物优惠购？加入地铁荟，两个愿望同时实现啦现在就进入广州地铁官方APP或手机网站http://t.cn/zYAVmnL ，注册成为地铁荟用户并登入（旧用户直接登入），打开“暖冬关怀，地铁随行”活动页面一起参加换领换购吧</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">吃饭吃饭，我在这里:#浙江省,杭州市,拱墅区,莫干山路# 我在:http://t.cn/zjkiyF4</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">《艺术家》顽强挺立熬到了今天，比前几日的1.82%微升至2.2%，更让人欢欣鼓舞的是，俺家附近的影院居然也上映了，虽然只有两场而已。好电影需要时间让人接受，在根本就没有宣传的条件下。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">新单位500米以内，有个菜市场，忽然发现这特马的给力了，坚果 水果 小吃 随便一逛都有了，在生活区上班，是多么的亲切啊！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">【苏州人吃的三黄鸡百把天才会出栏】养40天就重六斤，为防病不停吃禁药。山东等地的“速生白羽鸡”最近引发了食品安全的又一次地震。市民不禁会疑惑，苏州有速生鸡吗？我们吃的鸡安全吗？苏州有293家规模养鸡场，每年出栏2300万羽鸡，基本都是黄羽鸡，也叫三黄鸡（嘴黄、毛黄、脚黄）。</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">TED有篇演讲说过 当你下定决心做某件事情的时候 比如戒烟或者减肥 最好keep it to your self 因为当你和别人分享的时候 这种分享的行为会造成一种假象和错觉 大大减缓你真正做成事情之后的满足感 而延迟满足感是任何一位高效能人士都会的最基本自我管理方法 这样就会导致成功率大大降低 我就是典型！</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Unsynced/>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveCol>2</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
