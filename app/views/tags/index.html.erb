@@ -1,6 +1,6 @@
 <h1>Listing tags</h1>
 
-<table class="table">
+<table class="table table-hover">
   <tr>
     <th>tag</th>
     <th>positive occurance</th>
@@ -11,10 +11,14 @@
 
 <% @tags.each do |tag| %>
   <tr>
-    <td><%=tag.tag_id%></td>
+    <td><input type="checkbox" class="select_tag" value="<%=tag.tag_id%>"><%=tag.tag_id%></td>
     <td><%=tag.positive_occurance%></td>
     <td><%=tag.negative_occurance%></td>
     <td><%=tag.prior%></td>
+    <td>
+      <button class="btn btn-default" onclick="singleRebuild('<%=tag.tag_id%>')">Rebuild</button>
+      <a class="btn btn-default" onclick="showCompare('<%=tag.tag_id%>')">Show Compare</a>
+    </td>
   </tr>
 <% end %>
 </table>
@@ -22,3 +26,116 @@
 <br />
 
 <%= link_to 'New Tag', new_tag_path %>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width:1000px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Data Compare</h4>
+      </div>
+      <div class="modal-body">
+        <table id="compare_show" class="table-hover table">
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary save_to_redis" onclick="saveToRedis()">Save</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+  function singleRebuild(tag,e){
+    e=e||window.event;
+    var src=e.srcElement||e.target;
+    src.textContent = "Running..."
+    src.disabled = true
+    $.ajax({
+      type: "POST",
+      url: "calc/single_rebuild",
+      data: {tag:tag},
+      success:function(data){
+        src.textContent = "Rebuild"
+        src.disabled = false
+        if(data["status"] == "ok") alert("success!");
+        else alert("failed! Something is wrong!");
+      }
+    });
+  }
+
+  function showCompare(tag,e) {
+    e=e||window.event;
+    var src=e.srcElement||e.target;
+    src.textContent = "Loading...";
+    src.disabled = true;
+    $.ajax({
+      type: "POST",
+      url: "tags/load_data",
+      data:{tag:tag},
+      success:function(data){
+        var show_table = $('#compare_show');
+        show_table.children().remove();
+        var head_tr = $("<tr>");
+        var local_tr = $("<tr>");
+        var redis_tr = $("<tr>");
+
+        var temp_td = $("<th>", {"id": "tag_id", "text": tag});
+        head_tr.append(temp_td);
+        temp_td = $("<th>", {"text": "Prior"});
+        head_tr.append(temp_td);
+
+        temp_td = $("<th>", {"text": "Local"});
+        local_tr.append(temp_td);
+        temp_td = $("<th>", {"id": "local_prior","text": data["local"]["prior"]});
+        local_tr.append(temp_td);
+
+        temp_td = $("<th>", {"text": "Redis"});
+        redis_tr.append(temp_td);
+        temp_td = $("<th>", {"text": data["redis"]["prior"]});
+        redis_tr.append(temp_td);
+
+        for(var i=0; i<data["features"].length; i++) {
+          feature = data["features"][i];
+          temp_td = $("<th>", {"text": feature});
+          head_tr.append(temp_td);
+          temp_td = $("<td>", {"text": data["local"]["likelihood"][feature]});
+          local_tr.append(temp_td);
+          temp_td = $("<td>", {"text": data["redis"]["likelihood"][feature]});
+          redis_tr.append(temp_td);
+        }
+        show_table.append(head_tr);
+        show_table.append(local_tr);
+        show_table.append(redis_tr);
+
+        $('#confirmModal').modal('show')
+        src.textContent = "Show Compare";
+        src.disabled = false;
+      }
+    });
+  }
+
+  function saveToRedis(e) {
+    e=e||window.event;
+    var src=e.srcElement||e.target;
+    src.textContent = "Saving...";
+    src.disabled = true;
+
+    tag = $("#tag_id").text();
+    local_prior = $("#local_prior").text();
+    data = {tag:tag, local_prior: local_prior};
+    $.ajax({
+      type: "POST",
+      url: "tags/save_to_redis",
+      data: data,
+      success: function(data){
+        if(data["status"] != "ok") {alert("Failed! Something is wrong...");}
+        src.textContent = "Save";
+        src.disabled = false;
+        $('#confirmModal').modal('hide');
+      }
+    });
+  }
+</script>

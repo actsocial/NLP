@@ -87,4 +87,28 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def change_tag
+    begin
+      case params[:value]
+      when "1"
+        post_tag = PostTag.find(:first, :conditions=>["post_id = ? and tag_id = ?",params[:post_id], params[:tag]])
+        post_tag.value = 0
+        post_tag.save
+      when "0"
+        PostTag.find(:first, :conditions=>["post_id = ? and tag_id = ?",params[:post_id], params[:tag]]).destroy
+      when "N/A"
+        post_tag = PostTag.new
+        post_tag.post_id = params[:post_id]
+        post_tag.tag_id = params[:tag]
+        post_tag.value = 1
+        post_tag.save
+      end
+      respond_to do |format|
+        format.json {render json: post_tag}
+      end
+    rescue Exception => e
+      puts e
+    end
+  end
 end

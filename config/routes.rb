@@ -5,6 +5,10 @@ Mltraining::Application.routes.draw do
   resources :posts
 
   get "calc/rebuild"
+  post "posts/change_tag"
+  post "calc/single_rebuild"
+  post "tags/load_data"
+  post "tags/save_to_redis"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

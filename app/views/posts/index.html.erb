@@ -19,7 +19,9 @@
     <td><%= post.id %></td>
     <td><%= post.content %></td>
     <% @tags.each do |tag| %>
-      <td style="display:none" class="<%=tag.id.gsub('.','-')%>">N/A</td>
+      <td style="display:none" class="<%=tag.id.gsub('.','-')%>">
+        <button class="button <%=tag.id.gsub('.','-')%>" onclick="change_tag('<%=post.id%>','<%=tag.id.gsub('.','-')%>')">N/A</button>
+      </td>
     <% end %>
     <td>
       <%= link_to 'Show', post %>
@@ -41,9 +43,9 @@
     $.ajax({
       url: "posts/"+id+".json",
       success: function(p){
-         for (var tag in p["tags"]){
-           $("#"+p.id+" ."+tag).text(p["tags"][tag]);
-         } 
+        for (var tag in p["tags"]){
+          $("#"+p.id+" .button."+tag).text(p["tags"][tag]);
+        } 
       }    
     });
   });
@@ -57,6 +59,21 @@
       $("."+tag).show();
       $("#btn-"+tag).addClass("btn-primary");      
     }
+  }
 
+  function change_tag(post_id,tag,e){
+    e=e||window.event;
+    var src=e.srcElement||e.target;
+    $.ajax({
+      type: "POST",
+      url: "posts/change_tag",
+      data:{post_id: post_id, tag: tag, value: src.textContent},
+      success: function(p){
+        if (p)
+          $("#"+post_id+" .button."+tag).text(p.value);
+        else
+          $("#"+post_id+" .button."+tag).text("N/A");
+      }    
+    });
   }
 </script>
