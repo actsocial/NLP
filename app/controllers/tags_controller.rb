@@ -20,7 +20,7 @@ class TagsController < ApplicationController
   # GET /tags/1
   # GET /tags/1.json
   def show
-    @tag = Tag.find(params[:id])
+    @tag = Tag.find_by_id(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -47,7 +47,8 @@ class TagsController < ApplicationController
   # POST /tags
   # POST /tags.json
   def create
-    @tag = Tag.new(params[:tag])
+    @tag = Tag.new
+    @tag.id = params[:tag]
 
     respond_to do |format|
       if @tag.save
