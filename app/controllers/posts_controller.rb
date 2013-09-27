@@ -90,13 +90,9 @@ class PostsController < ApplicationController
 
   def select_tag
     begin
+      session[:selected_tag] = params[:selected_tag]
       if params[:do_action] == "add"
-        if session[:selected_tag].nil?
-          session[:selected_tag] = params[:selected_tag]
-          session[:selected_tag].push(params[:tag])
-        else
-          session[:selected_tag].push(params[:tag])
-        end
+        session[:selected_tag].push(params[:tag])
       elsif params[:do_action] == "remove"
         session[:selected_tag].delete(params[:tag]);
       end
