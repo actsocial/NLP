@@ -1,7 +1,27 @@
 <h1>Listing posts</h1>
-    
+<%= form_tag({:action => "import_data"}, :multipart => true) do %>
+  <table>
+    <tr>
+      <th>
+        <div style="display:none">
+          <input type="file" id="import_file" class="btn-primary btn-lg select_file"  name="file[file]" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        </div>
+        <a class="btn-primary btn-lg select_file" onclick="importData()">选择导入文件</a>        
+      </th>
+      <th><input type="submit" class="btn-danger btn-lg select_file" value="导入"></th>
+    </tr>
+  </table>
+<% end %>
 <% @tags.each do |tag| %>
-<button id="btn-<%=tag.id.gsub('.','-')%>" class="button" onclick="column('<%=tag.id.gsub('.','-')%>')"><%=tag.id%></button>
+  <% if session[:selected_tag].nil? %>
+    <button id="btn-<%=tag.id.gsub('.','-')%>" class="button select_tag" onclick="column('<%=tag.id.gsub('.','-')%>')"><%=tag.id%></button>
+  <% else %>
+    <% if session[:selected_tag].include?(tag.id) %>
+      <button id="btn-<%=tag.id.gsub('.','-')%>" class="button btn-primary select_tag" onclick="column('<%=tag.id.gsub('.','-')%>')"><%=tag.id%></button>
+    <% else %>
+      <button id="btn-<%=tag.id.gsub('.','-')%>" class="button select_tag" onclick="column('<%=tag.id.gsub('.','-')%>')"><%=tag.id%></button>
+    <% end %>
+  <% end %>
 <%end%>
 
 <table class="table">
@@ -9,7 +29,15 @@
     <th class="col-lg-1">id</th>
     <th class="col-lg-4">content</th>
     <% @tags.each do |tag| %>
-      <th style="display:none" class="<%=tag.id.gsub('.','-')%>"><%=tag.id%></th>
+      <% if session[:selected_tag].nil? %>
+        <th style="display:none" class="<%=tag.id.gsub('.','-')%>"><%=tag.id%></th>
+      <% else %>
+        <% if session[:selected_tag].include?(tag.id) %>
+          <th style="" class="<%=tag.id.gsub('.','-')%>"><%=tag.id%></th>
+        <% else %>
+          <th style="display:none" class="<%=tag.id.gsub('.','-')%>"><%=tag.id%></th>
+        <% end %>
+      <% end %>      
     <% end %>
     <th class="col-lg-1">actions</th>
   </tr>
@@ -19,9 +47,21 @@
     <td><%= post.id %></td>
     <td><%= post.content %></td>
     <% @tags.each do |tag| %>
-      <td style="display:none" class="<%=tag.id.gsub('.','-')%>">
-        <button class="button <%=tag.id.gsub('.','-')%>" onclick="change_tag('<%=post.id%>','<%=tag.id.gsub('.','-')%>')">N/A</button>
-      </td>
+      <% if session[:selected_tag].nil? %>
+        <td style="display:none" class="<%=tag.id.gsub('.','-')%>">
+          <button class="button <%=tag.id.gsub('.','-')%>" onclick="change_tag('<%=post.id%>','<%=tag.id.gsub('.','-')%>')">N/A</button>
+        </td>
+      <% else %>
+        <% if session[:selected_tag].include?(tag.id) %>
+          <td style="" class="<%=tag.id.gsub('.','-')%>">
+            <button class="button <%=tag.id.gsub('.','-')%>" onclick="change_tag('<%=post.id%>','<%=tag.id.gsub('.','-')%>')">N/A</button>
+          </td>
+        <% else %>
+          <td style="display:none" class="<%=tag.id.gsub('.','-')%>">
+            <button class="button <%=tag.id.gsub('.','-')%>" onclick="change_tag('<%=post.id%>','<%=tag.id.gsub('.','-')%>')">N/A</button>
+          </td>
+        <% end %>
+      <% end %>
     <% end %>
     <td>
       <%= link_to 'Show', post %>
@@ -52,12 +92,37 @@
 
   function column(tag){
     var active = $("#btn-"+tag).hasClass("btn-primary");
+    var selected_tag = [];
+    $(".select_tag").each(function(){
+      if (this.classList.contains("btn-primary"))
+        selected_tag.push(this.id.substr(4));
+    });
     if (active){
-      $("."+tag).hide();
-      $("#btn-"+tag).removeClass("btn-primary");
+      $.ajax({
+        type: "POST",
+        url:"/posts/select_tag",
+        data:{tag:tag, do_action:"remove", selected_tag: selected_tag},
+        success: function(data){
+          if (data["status"]=="ok") {
+            $("."+tag).hide();
+            $("#btn-"+tag).removeClass("btn-primary");
+          }
+        }
+      });
     }else{
+      $.ajax({
+        type: "POST",
+        url:"/posts/select_tag",
+        data:{tag:tag, do_action:"add", selected_tag: selected_tag},
+        success: function(data){
+          if (data["status"]=="ok") {
+            $("."+tag).show();
+            $("#btn-"+tag).addClass("btn-primary");
+          }
+        }
+      });
       $("."+tag).show();
-      $("#btn-"+tag).addClass("btn-primary");      
+      $("#btn-"+tag).addClass("btn-primary"); 
     }
   }
 
@@ -76,4 +141,9 @@
       }    
     });
   }
+
+  function importData() {
+    $("#import_file").click();
+  }
+
 </script>

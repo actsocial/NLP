@@ -1,10 +1,10 @@
+require 'soap/wsdlDriver'
 class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
     @tags = Tag.all
     @posts = Post.paginate(:page => params[:page], :per_page => 30)
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @posts }
@@ -88,6 +88,26 @@ class PostsController < ApplicationController
     end
   end
 
+  def select_tag
+    begin
+      if params[:do_action] == "add"
+        if session[:selected_tag].nil?
+          session[:selected_tag] = params[:selected_tag]
+          session[:selected_tag].push(params[:tag])
+        else
+          session[:selected_tag].push(params[:tag])
+        end
+      elsif params[:do_action] == "remove"
+        session[:selected_tag].delete(params[:tag]);
+      end
+      respond_to do |format|
+        format.json {render json: {"status" => "ok"}}
+      end
+    rescue Exception => e
+      puts e
+    end
+  end
+
   def change_tag
     begin
       case params[:value]
@@ -111,4 +131,102 @@ class PostsController < ApplicationController
       puts e
     end
   end
+
+  def import_data
+    file = params[:file]['file']
+    begin
+      doc = Nokogiri::XML(file)
+      all_post_contents = []
+      Post.select("content").each do |p|
+        all_post_contents << p.content
+      end
+      @exist_posts = []
+      session[:new_posts] = []
+      session[:tag_list] = []
+      doc.css("Worksheet").first.css("Row").each_with_index do |row, i|
+        # read taglist
+        if (i==0 && row.css("Data").count>1)
+          row.css("Data")[1..-1].each do |tag|
+            session[:tag_list] << tag.text
+          end
+          next
+        end
+
+        body = row.css("Data")[0].text
+        if all_post_contents.include?(body)
+            @exist_posts << {:content => body}
+        else
+            session[:new_posts] << {:content => body}
+        end
+      end
+      respond_to do |format|
+        format.html
+      end
+    rescue Exception => e
+      puts e
+    end
+  end
+
+  def confirm_import
+    begin
+      new_posts = []
+      tag_list = []
+      soap_client = SOAP::WSDLDriverFactory.new(Settings.feature_ws_url).create_rpc_driver
+      session[:new_posts].each do |post|
+        p = Post.new
+        p.content = post["content"]
+        p.save
+        new_posts << p
+
+        post_tags = []
+        session[:tag_list].each_with_index do |t,index|
+          data = row.css("Data")[index+1]
+          if data.nil?
+            next
+          end
+          value = data.text
+          if value == "1" || value=="0"
+            pt = PostTag.new
+            pt.post_id = p.id
+            pt.tag_id = t
+            pt.value = value.to_i
+            post_tags << pt
+          else
+            next
+          end
+        end
+        PostTag.import post_tags
+      end
+      
+      # 为新的posts存feature
+      if new_posts.count > 0
+        new_posts.each do |post|
+          document = {:body => post.content}
+          response = soap_client.doFeature([document].collect{|p| p.nil? ? "{}" : p.to_json.to_s})
+          if response['return'].blank?
+            next
+          end
+          pfs = []
+          features = response['return'].split("|")[0].split(",")
+          features.each do |feature|
+            f = feature.split("=")[0]
+            occurrence = feature.split("=")[1]
+            #存posts_features， post_id, f, occurance（数字！！！）
+            pf = Post_Feature.new
+            pf.post_id = post.id
+            pf.feature = f
+            pf.occurrence = occurrence
+            pfs << pf
+          end
+          Post_Feature.import pfs
+        end
+      end
+      respond_to do |format|
+        format.json {render json: {"status" => "ok"} }
+      end
+    rescue Exception => e
+      puts e
+    end
+  end
+
 end
