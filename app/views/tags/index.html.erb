@@ -2,16 +2,18 @@
 
 <table class="table table-hover">
   <tr>
-    <th>tag</th>
+    <th><input type="checkbox" class="select_all"> tag</th>
     <th>positive occurance</th>
     <th>negative occurance</th>
     <th>prior</th>
-    <th>action</th>
+    <th>action 
+      <button class="btn-small" onclick="batchRebuild()">Batch Rebuild</button>
+    </th>
   </tr>
 
 <% @tags.each do |tag| %>
   <tr>
-    <td><input type="checkbox" class="select_tag" value="<%=tag.tag_id%>"><%=tag.tag_id%></td>
+    <td><input type="checkbox" class="select_tag" value="<%=tag.tag_id%>"> <%=tag.tag_id%></td>
     <td><%=tag.positive_occurance%></td>
     <td><%=tag.negative_occurance%></td>
     <td><%=tag.prior%></td>
@@ -48,18 +50,24 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
+  $(".select_all").click(function() {
+    var should_check = $(this).attr("checked") == 'checked';
+    console.log(should_check);
+    $(".select_tag").attr('checked', should_check);
+  });
+
   function singleRebuild(tag,e){
     e=e||window.event;
     var src=e.srcElement||e.target;
-    src.textContent = "Running..."
-    src.disabled = true
+    src.textContent = "Running...";
+    src.disabled = true;
     $.ajax({
       type: "POST",
       url: "calc/single_rebuild",
       data: {tag:tag},
       success:function(data){
-        src.textContent = "Rebuild"
-        src.disabled = false
+        src.textContent = "Rebuild";
+        src.disabled = false;
         if(data["status"] == "ok") alert("success!");
         else alert("failed! Something is wrong!");
       }
@@ -137,5 +145,38 @@
         $('#confirmModal').modal('hide');
       }
     });
+  }
+
+  function batchRebuild(e) {
+    e=e||window.event;
+    var src=e.srcElement||e.target;
+    src.textContent = "Running...";
+    src.disabled = true;
+    var tag_list = [];
+    $('.select_tag').each(function(){
+      var checkedStatus = $(this).prop('checked');
+      var tag = $(this).attr("value");
+      if(checkedStatus)
+        tag_list.push(tag);
+    });
+    if(tag_list.length > 0 ){
+      $.ajax({
+        type: "POST",
+        url: "calc/batch_rebuild",
+        data: {tag_list:tag_list},
+        success:function(data){
+          src.textContent = "Batch Rebuild";
+          src.disabled = false;
+          if(data["status"] == "ok") alert("success!");
+          else alert("failed! Something is wrong!");
+        }
+      });
+    }
+    else {
+      src.textContent = "Batch Rebuild";
+      src.disabled = false;
+      alert("no tag seleted!");
+    }
+    
   }
 </script>

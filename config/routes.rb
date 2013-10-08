@@ -6,6 +6,7 @@ Mltraining::Application.routes.draw do
 
   get "calc/rebuild"
   post "calc/single_rebuild"
+  post "calc/batch_rebuild"
   post "posts/change_tag"
   post "posts/confirm_import"
   post "posts/import_data"
