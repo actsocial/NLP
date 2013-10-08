@@ -1,9 +1,9 @@
 <h2>New Posts Overview</h2>
 <div>
   <table id="compare_show" class="table-hover table">
-    <% if @exist_posts.count>0 || session[:new_posts].count>0 %>
+    <% if @exist_posts.count>0 || @new_posts.count>0 %>
       <tr><th>New Posts</th></tr>
-      <% session[:new_posts].each do |np| %>
+      <% @new_posts.each do |np| %>
         <tr><td><%= np[:content] %></td></tr>
       <% end %>
       <tr><th>Exist Posts</th></tr>

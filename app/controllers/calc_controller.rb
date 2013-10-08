@@ -70,7 +70,7 @@ AS SELECT
    `pt`.`tag_id` AS `tag_id`,
    `pf`.`feature` AS `feature`,
    `pt`.`value` AS `value`,sum(`pf`.`occurrence`) AS `frequency`
-FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 0) and (`pt`.`tag_id` = '"+table_name+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
+FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 0) and (`pt`.`tag_id` = '"+tag.id+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
 ");
     ActiveRecord::Base.connection.execute("drop table IF EXISTS feature_"+table_name+"_tag_1");
 
@@ -79,7 +79,7 @@ AS SELECT
    `pt`.`tag_id` AS `tag_id`,
    `pf`.`feature` AS `feature`,
    `pt`.`value` AS `value`,sum(`pf`.`occurrence`) AS `frequency`
-FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 1) and (`pt`.`tag_id` = '"+table_name+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
+FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 1) and (`pt`.`tag_id` = '"+tag.id+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
 ");
     end
   end
@@ -92,7 +92,7 @@ FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`
        `pt`.`tag_id` AS `tag_id`,
        `pf`.`feature` AS `feature`,
        `pt`.`value` AS `value`,sum(`pf`.`occurrence`) AS `frequency`
-      FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 0) and (`pt`.`tag_id` = '"+table_name+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
+      FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 0) and (`pt`.`tag_id` = '"+tag.id+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
       ");
     ActiveRecord::Base.connection.execute("drop table IF EXISTS feature_"+table_name+"_tag_1");
     ActiveRecord::Base.connection.execute("create table `feature_"+table_name+"_tag_1` 
@@ -100,7 +100,7 @@ FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`
        `pt`.`tag_id` AS `tag_id`,
        `pf`.`feature` AS `feature`,
        `pt`.`value` AS `value`,sum(`pf`.`occurrence`) AS `frequency`
-      FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 1) and (`pt`.`tag_id` = '"+table_name+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
+      FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 1) and (`pt`.`tag_id` = '"+tag.id+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
       ");
   end
 
@@ -113,7 +113,7 @@ FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`
          `pt`.`tag_id` AS `tag_id`,
          `pf`.`feature` AS `feature`,
          `pt`.`value` AS `value`,sum(`pf`.`occurrence`) AS `frequency`
-        FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 0) and (`pt`.`tag_id` = '"+table_name+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
+        FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 0) and (`pt`.`tag_id` = '"+tag.id+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
         ");
       ActiveRecord::Base.connection.execute("drop table IF EXISTS feature_"+table_name+"_tag_1");
       ActiveRecord::Base.connection.execute("create table `feature_"+table_name+"_tag_1` 
@@ -121,7 +121,7 @@ FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`
          `pt`.`tag_id` AS `tag_id`,
          `pf`.`feature` AS `feature`,
          `pt`.`value` AS `value`,sum(`pf`.`occurrence`) AS `frequency`
-        FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 1) and (`pt`.`tag_id` = '"+table_name+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
+        FROM (`post_features` `pf` join `posts_tags` `pt`) where ((`pf`.`post_id` = `pt`.`post_id`) and (`pt`.`value` = 1) and (`pt`.`tag_id` = '"+tag.id+"')) group by `pt`.`tag_id`,`pf`.`feature`,`pt`.`value`;
         ");
     end
   end

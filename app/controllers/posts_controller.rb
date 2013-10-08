@@ -131,19 +131,19 @@ class PostsController < ApplicationController
   def import_data
     file = params[:file]['file']
     begin
-      doc = Nokogiri::XML(file)
+      @@doc = Nokogiri::XML(file)
       all_post_contents = []
       Post.select("content").each do |p|
         all_post_contents << p.content
       end
       @exist_posts = []
-      session[:new_posts] = []
-      session[:tag_list] = []
-      doc.css("Worksheet").first.css("Row").each_with_index do |row, i|
+      @new_posts = []
+      @tag_list = []
+      @@doc.css("Worksheet").first.css("Row").each_with_index do |row, i|
         # read taglist
         if (i==0 && row.css("Data").count>1)
           row.css("Data")[1..-1].each do |tag|
-            session[:tag_list] << tag.text
+            @tag_list << tag.text
           end
           next
         end
@@ -152,7 +152,7 @@ class PostsController < ApplicationController
         if all_post_contents.include?(body)
             @exist_posts << {:content => body}
         else
-            session[:new_posts] << {:content => body}
+            @new_posts << {:content => body}
         end
       end
       respond_to do |format|
@@ -168,32 +168,48 @@ class PostsController < ApplicationController
       new_posts = []
       tag_list = []
       soap_client = SOAP::WSDLDriverFactory.new(Settings.feature_ws_url).create_rpc_driver
-      session[:new_posts].each do |post|
-        p = Post.new
-        p.content = post["content"]
-        p.save
-        new_posts << p
-
-        post_tags = []
-        session[:tag_list].each_with_index do |t,index|
-          data = row.css("Data")[index+1]
-          if data.nil?
-            next
-          end
-          value = data.text
-          if value == "1" || value=="0"
-            pt = PostTag.new
-            pt.post_id = p.id
-            pt.tag_id = t
-            pt.value = value.to_i
-            post_tags << pt
-          else
-            next
-          end
-        end
-        PostTag.import post_tags
+      all_post_contents = []
+      Post.select("content").each do |p|
+        all_post_contents << p.content
       end
-      
+      @@doc.css("Worksheet").first.css("Row").each_with_index do |row, i|
+        # read taglist
+        if (i==0 && row.css("Data").count>1)
+          row.css("Data")[1..-1].each do |tag|
+            tag_list << tag.text
+          end
+          next
+        end
+
+        body = row.css("Data")[0].text
+        if all_post_contents.include?(body)
+          next
+        else
+          p = Post.new
+          p.content = body
+          p.save
+          new_posts << p
+
+          post_tags = []
+          tag_list.each_with_index do |t,index|
+            data = row.css("Data")[index+1]
+            if data.nil?
+              next
+            end
+            value = data.text
+            if value == "1" || value=="0"
+              pt = PostTag.new
+              pt.post_id = p.id
+              pt.tag_id = t
+              pt.value = value.to_i
+              post_tags << pt
+            else
+              next
+            end
+          end
+          PostTag.import post_tags
+        end
+      end
       # 为新的posts存feature
       if new_posts.count > 0
         new_posts.each do |post|
