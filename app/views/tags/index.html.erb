@@ -1,8 +1,9 @@
 <h1>Listing tags</h1>
-
+<%= link_to 'New Tag', new_tag_path, {:class => "btn btn-warning"} %>
 <table class="table table-hover">
   <tr>
     <th><input type="checkbox" class="select_all"> tag</th>
+    <th>is in redis</th>
     <th>positive occurance</th>
     <th>negative occurance</th>
     <th>prior</th>
@@ -14,6 +15,13 @@
 <% @tags.each do |tag| %>
   <tr>
     <td><input type="checkbox" class="select_tag" value="<%=tag.tag_id%>"> <%=tag.tag_id%></td>
+    <% if @redis_tags.include?(tag.tag_id) %>
+      <td>yes</td>
+    <% else %>
+      <td>
+        <button class="btn-default" onclick="addToRedis('<%=tag.tag_id%>')">add_to_redis</button>
+      </td>
+    <% end %>
     <td><%=tag.positive_occurance%></td>
     <td><%=tag.negative_occurance%></td>
     <td><%=tag.prior%></td>
@@ -25,9 +33,6 @@
 <% end %>
 </table>
 
-<br />
-
-<%= link_to 'New Tag', new_tag_path %>
 
 <!-- Modal -->
 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -55,6 +60,24 @@
     console.log(should_check);
     $(".select_tag").attr('checked', should_check);
   });
+
+  function addToRedis(tag,e) {
+    e=e||window.event;
+    var src=e.srcElement||e.target;
+    src.textContent = "Running...";
+    src.disabled = true;
+    $.ajax({
+      type: "POST",
+      url: "tags/add_to_redis",
+      data: {tag:tag},
+      success:function(data){
+        src.textContent = "success!";
+        if(data["status"] != "ok") {
+          alert("failed! Something is wrong!");
+        }
+      }
+    });
+  }
 
   function singleRebuild(tag,e){
     e=e||window.event;

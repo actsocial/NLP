@@ -9,6 +9,7 @@ class TagsController < ApplicationController
     @@redis_likelihood = get_likelihood if @@redis_likelihood.nil?
     @@redis_prior = get_prior if @@redis_prior.nil?
     @@redis_tags = get_tag_list if @@redis_tags.nil?
+    @redis_tags = @@redis_tags
     @tags = Prior.all
 
     respond_to do |format|
@@ -41,7 +42,7 @@ class TagsController < ApplicationController
 
   # GET /tags/1/edit
   def edit
-    @tag = Tag.find(params[:id])
+    @tag = Tag.find_by_id(params[:id])
   end
 
   # POST /tags
@@ -64,7 +65,7 @@ class TagsController < ApplicationController
   # PUT /tags/1
   # PUT /tags/1.json
   def update
-    @tag = Tag.find(params[:id])
+    @tag = Tag.find_by_id(params[:id])
 
     respond_to do |format|
       if @tag.update_attributes(params[:tag])
@@ -80,7 +81,7 @@ class TagsController < ApplicationController
   # DELETE /tags/1
   # DELETE /tags/1.json
   def destroy
-    @tag = Tag.find(params[:id])
+    @tag = Tag.find_by_id(params[:id])
     @tag.destroy
 
     respond_to do |format|
@@ -105,12 +106,29 @@ class TagsController < ApplicationController
       main_features.each do |mf|
         results[:features] << mf[1]
         results[:local][:likelihood][mf[1]] = mf[2]
-        results[:redis][:likelihood][mf[1]] = @@redis_likelihood[tag_id][mf[1]]
+        if @@redis_likelihood[tag_id]
+          results[:redis][:likelihood][mf[1]] = @@redis_likelihood[tag_id][mf[1]]
+        else
+          results[:redis][:likelihood][mf[1]] = nil
+        end
       end
-      puts @@redis_prior
 
       respond_to do |format|
         format.json{render json: results}
+      end
+    rescue Exception => e
+      puts e
+    end
+  end
+
+  def add_to_redis
+    tag_id = params[:tag]
+    begin
+      redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
+      redis.lpush("tag_list", tag_id)
+      @@redis_tags << tag_id
+      respond_to do |format|
+        format.json {render json:{"status"=>"ok"}}
       end
     rescue Exception => e
       puts e

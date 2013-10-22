@@ -13,6 +13,7 @@ Mltraining::Application.routes.draw do
   post "posts/select_tag"
   post "tags/load_data"
   post "tags/save_to_redis"
+  post "tags/add_to_redis"
   post "tags/show"
   # The priority is based upon order of creation:
   # first created -> highest priority.
