@@ -4,146 +4,186 @@
     <tr>
       <th>
         <div style="display:none">
-          <input type="file" id="import_file" class="btn-primary btn-lg select_file"  name="file[file]" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+          <input type="file" id="import_file" class="btn-primary btn-lg select_file" name="file[file]" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         </div>
-        <a class="btn-primary btn-lg select_file" onclick="importData()">选择导入文件</a>        
+        <a class="btn-primary btn-lg select_file" onclick="importData()">选择导入文件</a>
       </th>
       <th><input type="submit" class="btn-danger btn-lg select_file" value="导入"></th>
+      <th><button class="btn-success btn-lg" onclick="doFeature()">Do Feature</button></th>
     </tr>
   </table>
+
 <% end %>
 <% @tags.each do |tag| %>
   <% if session[:selected_tag].nil? %>
-    <button id="btn-<%=tag.id.gsub('.','-')%>" class="button select_tag" onclick="column('<%=tag.id.gsub('.','-')%>')"><%=tag.id%></button>
+    <button id="btn-<%= tag.tag_id.gsub('.', '-') %>" class="button select_tag" onclick="column('<%=tag.tag_id.gsub('.','-')%>')"><%= tag.tag_id %></button>
   <% else %>
-    <% if session[:selected_tag].include?(tag.id) %>
-      <button id="btn-<%=tag.id.gsub('.','-')%>" class="button btn-primary select_tag" onclick="column('<%=tag.id.gsub('.','-')%>')"><%=tag.id%></button>
+    <% if session[:selected_tag].include?(tag.tag_id.gsub('.', '-')) %>
+      <button id="btn-<%= tag.tag_id.gsub('.', '-') %>" class="button btn-primary select_tag" onclick="column('<%=tag.tag_id.gsub('.','-')%>')"><%= tag.tag_id %></button>
     <% else %>
-      <button id="btn-<%=tag.id.gsub('.','-')%>" class="button select_tag" onclick="column('<%=tag.id.gsub('.','-')%>')"><%=tag.id%></button>
+      <button id="btn-<%= tag.tag_id.gsub('.', '-') %>" class="button select_tag" onclick="column('<%=tag.tag_id.gsub('.','-')%>')"><%= tag.tag_id %></button>
     <% end %>
   <% end %>
-<%end%>
+<% end %>
 
 <table class="table">
   <tr>
-    <th class="col-lg-1">id</th>
+    <th class="col-lg-1"><input type="checkbox" class="select_all"> id</th>
     <th class="col-lg-4">content</th>
     <% @tags.each do |tag| %>
       <% if session[:selected_tag].nil? %>
-        <th style="display:none" class="<%=tag.id.gsub('.','-')%>"><%=tag.id%></th>
+        <th style="display:none" class="<%= tag.tag_id.gsub('.', '-') %>"><%= tag.tag_id %></th>
       <% else %>
-        <% if session[:selected_tag].include?(tag.id) %>
-          <th style="" class="<%=tag.id.gsub('.','-')%>"><%=tag.id%></th>
+        <% if session[:selected_tag].include?(tag.tag_id.gsub('.', '-')) %>
+          <th style="" class="<%= tag.tag_id.gsub('.', '-') %>"><%= tag.tag_id %></th>
         <% else %>
-          <th style="display:none" class="<%=tag.id.gsub('.','-')%>"><%=tag.id%></th>
+          <th style="display:none" class="<%= tag.tag_id.gsub('.', '-') %>"><%= tag.tag_id %></th>
         <% end %>
-      <% end %>      
+      <% end %>
     <% end %>
     <th class="col-lg-1">actions</th>
   </tr>
 
-<% @posts.each do |post| %>
-  <tr class="post" id="<%=post.id%>">
-    <td><%= post.id %></td>
-    <td><%= post.content %></td>
-    <% @tags.each do |tag| %>
-      <% if session[:selected_tag].nil? %>
-        <td style="display:none" class="<%=tag.id.gsub('.','-')%>">
-          <button class="button <%=tag.id.gsub('.','-')%>" onclick="change_tag('<%=post.id%>','<%=tag.id.gsub('.','-')%>')">N/A</button>
-        </td>
-      <% else %>
-        <% if session[:selected_tag].include?(tag.id) %>
-          <td style="" class="<%=tag.id.gsub('.','-')%>">
-            <button class="button <%=tag.id.gsub('.','-')%>" onclick="change_tag('<%=post.id%>','<%=tag.id.gsub('.','-')%>')">N/A</button>
+  <% @posts.each do |post| %>
+    <tr class="post" id="<%= post.id %>">
+      <td><input type="checkbox" class="select_post" value="<%= post.id %>"> <%= post.id %></td>
+      <td><%= post.content %></td>
+      <% @tags.each do |tag| %>
+        <% if session[:selected_tag].nil? %>
+          <td style="display:none" class="<%= tag.tag_id.gsub('.', '-') %>">
+            <button class="button <%= tag.tag_id.gsub('.', '-') %>" onclick="change_tag('<%=post.id%>','<%=tag.tag_id.gsub('-','.')%>')">N/A</button>
           </td>
         <% else %>
-          <td style="display:none" class="<%=tag.id.gsub('.','-')%>">
-            <button class="button <%=tag.id.gsub('.','-')%>" onclick="change_tag('<%=post.id%>','<%=tag.id.gsub('.','-')%>')">N/A</button>
-          </td>
+          <% if session[:selected_tag].include?(tag.tag_id.gsub('.', '-')) %>
+            <td style="" class="<%= tag.tag_id.gsub('.', '-') %>">
+              <button class="button <%= tag.tag_id.gsub('.', '-') %>" onclick="change_tag('<%=post.id%>','<%=tag.tag_id.gsub('-','.')%>')">N/A</button>
+            </td>
+          <% else %>
+            <td style="display:none" class="<%= tag.tag_id.gsub('.', '-') %>">
+              <button class="button <%= tag.tag_id.gsub('.', '-') %>" onclick="change_tag('<%=post.id%>','<%=tag.tag_id.gsub('-','.')%>')">N/A</button>
+            </td>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
-    <td>
-      <%= link_to 'Show', post %>
-      <%= link_to 'Edit', edit_post_path(post) %>
-      <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
-    </td>
-  </tr>
-<% end %>
+      <td>
+        <%= link_to 'Show', post %>
+        <%= link_to 'Edit', edit_post_path(post) %>
+        <%= link_to 'Destroy', post, method: :delete, data: {confirm: 'Are you sure?'} %>
+      </td>
+    </tr>
+  <% end %>
 </table>
 <%= will_paginate @posts %>
 
-<br />
+<br/>
 
 <%= link_to 'New Post', new_post_path %>
 
 <script type="text/javascript">
-  $('.post').each(function(){
+  $(".select_all").click(function () {
+    var should_check = $(this).attr("checked") == 'checked';
+    $(".select_post").attr('checked', should_check);
+  });
+
+  $('.post').each(function () {
     var id = this.id;
     $.ajax({
-      url: "posts/"+id+".json",
-      success: function(p){
-        for (var tag in p["tags"]){
-          $("#"+p.id+" .button."+tag).text(p["tags"][tag]);
-        } 
-      }    
+      url: "posts/" + id + ".json",
+      success: function (p) {
+        for (var tag in p["tags"]) {
+          $("#" + p.id + " .button." + tag).text(p["tags"][tag]);
+        }
+      }
     });
   });
 
-  function column(tag){
-    var active = $("#btn-"+tag).hasClass("btn-primary");
+  function column(tag) {
+    var active = $("#btn-" + tag).hasClass("btn-primary");
     var selected_tag = [];
-    $(".select_tag").each(function(){
+    $(".select_tag").each(function () {
       if (this.classList.contains("btn-primary"))
         selected_tag.push(this.id.substr(4));
     });
-    if (active){
+    if (active) {
       $.ajax({
         type: "POST",
-        url:"/posts/select_tag",
-        data:{tag:tag, do_action:"remove", selected_tag: selected_tag},
-        success: function(data){
-          if (data["status"]=="ok") {
-            $("."+tag).hide();
-            $("#btn-"+tag).removeClass("btn-primary");
+        url: "/posts/select_tag.json",
+        data: {tag: tag, do_action: "remove", selected_tag: selected_tag},
+        success: function (data) {
+          if (data["status"] == "ok") {
+            $("." + tag).hide();
+            $("#btn-" + tag).removeClass("btn-primary");
           }
         }
       });
-    }else{
+    } else {
       $.ajax({
         type: "POST",
-        url:"/posts/select_tag",
-        data:{tag:tag, do_action:"add", selected_tag: selected_tag},
-        success: function(data){
-          if (data["status"]=="ok") {
-            $("."+tag).show();
-            $("#btn-"+tag).addClass("btn-primary");
+        url: "/posts/select_tag.json",
+        data: {tag: tag, do_action: "add", selected_tag: selected_tag},
+        success: function (data) {
+          if (data["status"] == "ok") {
+            $("." + tag).show();
+            $("#btn-" + tag).addClass("btn-primary");
           }
         }
       });
-      $("."+tag).show();
-      $("#btn-"+tag).addClass("btn-primary"); 
+      $("." + tag).show();
+      $("#btn-" + tag).addClass("btn-primary");
     }
   }
 
-  function change_tag(post_id,tag,e){
-    e=e||window.event;
-    var src=e.srcElement||e.target;
+  function change_tag(post_id, tag, e) {
+    e = e || window.event;
+    var src = e.srcElement || e.target;
     $.ajax({
       type: "POST",
       url: "posts/change_tag",
-      data:{post_id: post_id, tag: tag, value: src.textContent},
-      success: function(p){
+      data: {post_id: post_id, tag: tag, value: src.textContent},
+      success: function (p) {
         if (p)
-          $("#"+post_id+" .button."+tag).text(p.value);
+          $("#" + post_id + " .button." + tag).text(p.value);
         else
-          $("#"+post_id+" .button."+tag).text("N/A");
-      }    
+          $("#" + post_id + " .button." + tag).text("N/A");
+      }
     });
   }
 
   function importData() {
     $("#import_file").click();
+  }
+
+  function doFeature(e) {
+    e = e || window.event;
+    var src = e.srcElement || e.target;
+    src.textContent = "Running...";
+    src.disabled = true;
+
+    var post_ids = [];
+    $('.select_post').each(function () {
+      var checkedStatus = $(this).prop('checked');
+      var post_id = $(this).attr("value");
+      if (checkedStatus)
+        post_ids.push(post_id);
+    });
+    if (post_ids.length > 0) {
+      $.ajax({
+        type: "POST",
+        url: "posts/do_feature",
+        data: {post_ids: post_ids},
+        success: function (data) {
+          src.textContent = "Do Feature";
+          src.disabled = false;
+          if (data["status"] == "ok") alert("success!");
+          else alert("failed! Something is wrong!");
+        }
+      });
+    }
+    else {
+      src.textContent = "Do Feature";
+      src.disabled = false;
+      alert("no post seleted!");
+    }
   }
 
 </script>

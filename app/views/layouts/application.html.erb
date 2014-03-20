@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Mltraining</title>
-	<link rel="stylesheet" href="/assets/bootstrap.min.css">
-	<link rel="stylesheet" href="/assets/application.css">
-	<script src="/assets/jquery-1.8.2.min.js"></script>
+  <title>MlTraining</title>
+  <link rel="stylesheet" href="/assets/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/application.css">
+  <script src="/assets/jquery-1.8.2.min.js"></script>
 
-	<script src="/assets/bootstrap.min.js"></script>
+  <script src="/assets/bootstrap.min.js"></script>
 
 </head>
 <body>
-
-	<%= yield %>
+	<div id="main-navigation">
+		<ul class="wat-cf">
+			<li><a href="/tags">Tags</a></li>
+			<li><a href="/posts">Posts</a></li>
+		</ul>
+	</div>
+<%= yield %>
 
 </body>
 </html>

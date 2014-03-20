@@ -1,16 +1,19 @@
 require "redis"
 class TagsController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :only => [:create]
   # GET /tags
   # GET /tags.json
   @@redis_likelihood = nil
   @@redis_prior = nil
   @@redis_tags = nil
+
   def index
-    @@redis_likelihood = get_likelihood if @@redis_likelihood.nil?
     @@redis_prior = get_prior if @@redis_prior.nil?
     @@redis_tags = get_tag_list if @@redis_tags.nil?
+
+    @redis_prior = @@redis_prior
     @redis_tags = @@redis_tags
-    @tags = Prior.all
+    @tags = Tag.joins("left join priors on priors.tag_id = tags.tag_id").joins("left join precises on precises.tag_id = tags.tag_id").select("tags.*, priors.prior, precises.precise, precises.recall, precises.true_positive, precises.false_positive, precises.true_negative, precises.false_negative, precises.test_volume, precises.updated_at")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,11 +24,18 @@ class TagsController < ApplicationController
   # GET /tags/1
   # GET /tags/1.json
   def show
-    @tag = Tag.find_by_id(params[:id])
+    if params[:id] && params[:id] != "index"
+      @tag = Tag.find_by_id(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @tag }
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @tag }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to tags_path } # index.html.erb
+        format.json { head :no_content  }
+      end
     end
   end
 
@@ -91,10 +101,11 @@ class TagsController < ApplicationController
   end
 
   def load_data
+    # @@redis_likelihood = get_likelihood if @@redis_likelihood.nil?
     tag_id = params[:tag]
     begin
-      table_name = tag_id.gsub('.','_')
-      main_features = ActiveRecord::Base.connection.execute("select `tag_id`, `feature`, `likelihood` from LIKELIHOOD_"+table_name+" order by `freq1` desc limit 5")
+      main_features = Likelihood.select("tag_id, feature, likelihood").where("tag_id = '" + tag_id + "'").order("likelihood desc").limit(5)
+
       results = {}
       results[:local] = {}
       results[:redis] = {}
@@ -104,17 +115,18 @@ class TagsController < ApplicationController
       results[:local][:likelihood] = {}
       results[:redis][:likelihood] = {}
       main_features.each do |mf|
-        results[:features] << mf[1]
-        results[:local][:likelihood][mf[1]] = mf[2]
+        results[:features] << mf.feature
+        results[:local][:likelihood][mf.feature] = mf.likelihood
         if @@redis_likelihood[tag_id]
-          results[:redis][:likelihood][mf[1]] = @@redis_likelihood[tag_id][mf[1]]
+          results[:redis][:likelihood][mf.feature] = @@redis_likelihood[tag_id][mf.feature]
         else
-          results[:redis][:likelihood][mf[1]] = nil
+          results[:redis][:likelihood][feature] = nil
         end
+        results[:redis][:likelihood][mf.feature] = nil
       end
 
       respond_to do |format|
-        format.json{render json: results}
+        format.json { render json: results }
       end
     rescue Exception => e
       puts e
@@ -128,7 +140,7 @@ class TagsController < ApplicationController
       redis.lpush("tag_list", tag_id)
       @@redis_tags << tag_id
       respond_to do |format|
-        format.json {render json:{"status"=>"ok"}}
+        format.json { render json: {"status" => "ok"} }
       end
     rescue Exception => e
       puts e
@@ -137,22 +149,21 @@ class TagsController < ApplicationController
 
   def save_to_redis
     tag_id = params[:tag]
-    local_prior = params[:local_prior]
+    local_prior = params[:local_prior].to_f
     begin
       backup_likelihood_prior(@@redis_likelihood, @@redis_prior)
       @@redis_prior[tag_id] = local_prior
-      table_name = tag_id.gsub('.','_')
-      local_features = ActiveRecord::Base.connection.execute("select `feature`, `likelihood` from LIKELIHOOD_"+table_name).to_a
+      local_features = Likelihood.select("feature, likelihood").where({:tag_id => tag_id}).to_a
       local_likelihood = {}
       local_features.each do |lf|
-        local_likelihood[lf[0]] = lf[1]
+        local_likelihood[lf.feature] = lf.likelihood.to_f
       end
       @@redis_likelihood[tag_id] = local_likelihood
-      
+
       save_prior(@@redis_prior)
       save_likelihood(@@redis_likelihood)
       respond_to do |format|
-        format.json {render json:{"status"=>"ok"}}
+        format.json { render json: {"status" => "ok"} }
       end
     rescue Exception => e
       puts e
@@ -163,34 +174,34 @@ class TagsController < ApplicationController
     redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
     result = {}
     redis.llen("likelihood").times.each do |i|
-      result.merge!(JSON.parse(redis.lrange("likelihood",i,i)[0]))
+      result.merge!(JSON.parse(redis.lrange("likelihood", i, i)[0]))
     end
     result
   end
-  
+
   def get_prior
     redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
-    ret = redis.hget("parameters","prior")
+    ret = redis.hget("parameters", "prior")
     JSON.parse(ret)
   end
 
   def get_tag_list
     redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
-    redis.lrange("tag_list",0,-1)
+    redis.lrange("tag_list", 0, -1)
   end
 
   def save_prior(prior)
     redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
-    ret = redis.hset("parameters","prior",prior.to_json)
+    ret = redis.hset("parameters", "prior", prior.to_json)
   end
-  
+
   def save_likelihood(likelihood)
     redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
     redis.del("likelihood")
-    likelihood.each do |k,v|
+    likelihood.each do |k, v|
       e = {}
       e[k] = v
-      redis.lpush("likelihood",e.to_json)
+      redis.lpush("likelihood", e.to_json)
     end
   end
 
@@ -200,7 +211,7 @@ class TagsController < ApplicationController
     bak_likelihood = "likelihood_bak" + timestamp + ".txt"
     File.open("G:/redis_backup_data/" + bak_prior, 'w') { |file| file.write(prior.to_json) }
     lbfile = File.open("G:/redis_backup_data/" + bak_likelihood, 'w')
-    likelihood.each do |k,v|
+    likelihood.each do |k, v|
       e = {}
       e[k] = v
       lbfile.write(e.to_json)

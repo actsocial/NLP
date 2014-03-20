@@ -1,16 +1,17 @@
 Mltraining::Application.routes.draw do
   resources :tags
-
-
+  resources :priors
   resources :posts
 
-  get "calc/rebuild"
-  post "calc/single_rebuild"
-  post "calc/batch_rebuild"
+  post "calc/rebuild"
+  post "calc/test_rebuild"
+  
   post "posts/change_tag"
   post "posts/confirm_import"
   post "posts/import_data"
   post "posts/select_tag"
+  post "posts/do_feature"
+
   post "tags/load_data"
   post "tags/save_to_redis"
   post "tags/add_to_redis"
@@ -71,4 +72,5 @@ Mltraining::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+  root :to => "tags#index"
 end

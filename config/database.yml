@@ -5,23 +5,31 @@ development:
   reconnect: false
   database: ml
   username: root
-  password: 
+  password: root
+
+  # adapter: mysql2
+  # encoding: utf8
+  # host: influencerforce.canhg57duqhd.ap-northeast-1.rds.amazonaws.com
+  # reconnect: false
+  # database: ml
+  # username: hive
+  # password: '58363216'
 
 test:
   adapter: mysql2
   encoding: utf8
-  host: mvp3.canhg57duqhd.ap-northeast-1.rds.amazonaws.com
+  host: influencerforce.canhg57duqhd.ap-northeast-1.rds.amazonaws.com
   reconnect: false
   database: ml
-  username: root
-  password: IVmenyCUp2iPeGa
+  username: hive
+  password: '58363216'
 
 production:
   adapter: mysql2
   encoding: utf8
-  host: mvp3.canhg57duqhd.ap-northeast-1.rds.amazonaws.com
+  host: influencerforce.canhg57duqhd.ap-northeast-1.rds.amazonaws.com
   reconnect: false
   database: ml
-  username: root
-  password: IVmenyCUp2iPeGa
+  username: hive
+  password: '58363216'
 

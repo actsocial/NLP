@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  tag_id: MyString
+  precise: 1.5
+  recall: 1.5
+  true_postive: 1.5
+  false_postive: 1.5
+  true_negative: 1.5
+  false_negative: 1.5
+
+two:
+  tag_id: MyString
+  precise: 1.5
+  recall: 1.5
+  true_postive: 1.5
+  false_postive: 1.5
+  true_negative: 1.5
+  false_negative: 1.5

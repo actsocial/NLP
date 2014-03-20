@@ -15,10 +15,10 @@ class PostsController < ApplicationController
   # GET /posts/1.json
   def show
     @post = Post.find(params[:id])
-    tagList = @post.post_tag
+    tagList = @post.post_tags
     @post[:tags] = {}
     tagList.each do |post_tag|
-      @post[:tags][post_tag[:tag_id]] = post_tag[:value]
+      @post[:tags][post_tag[:tag_id].gsub(".", "-")] = post_tag[:value]
     end
     respond_to do |format|
       format.html
@@ -107,24 +107,55 @@ class PostsController < ApplicationController
   def change_tag
     begin
       case params[:value]
-      when "1"
-        post_tag = PostTag.find(:first, :conditions=>["post_id = ? and tag_id = ?",params[:post_id], params[:tag]])
-        post_tag.value = 0
-        post_tag.save
-      when "0"
-        PostTag.find(:first, :conditions=>["post_id = ? and tag_id = ?",params[:post_id], params[:tag]]).destroy
-      when "N/A"
-        post_tag = PostTag.new
-        post_tag.post_id = params[:post_id]
-        post_tag.tag_id = params[:tag]
-        post_tag.value = 1
-        post_tag.save
+        when "1"
+          post_tag = PostTag.find(:first, :conditions => ["post_id = ? and tag_id = ?", params[:post_id], params[:tag]])
+          post_tag.value = 0
+          post_tag.save
+        when "0"
+          PostTag.find(:first, :conditions => ["post_id = ? and tag_id = ?", params[:post_id], params[:tag]]).destroy
+        when "N/A"
+          post_tag = PostTag.new
+          post_tag.post_id = params[:post_id]
+          post_tag.tag_id = params[:tag]
+          post_tag.value = 1
+          post_tag.save
       end
       respond_to do |format|
-        format.json {render json: post_tag}
+        format.json { render json: post_tag }
       end
     rescue Exception => e
       puts e
+    end
+  end
+
+  def do_feature
+    post_ids = params[:post_ids]
+    soap_client = SOAP::WSDLDriverFactory.new(Settings.feature_ws_url).create_rpc_driver
+    posts = Post.where({:id => post_ids})
+    Post_Feature.delete_all({:post_id => post_ids})
+
+    posts.each do |post|
+      document = {:body => post.content}
+      response = soap_client.doFeature([document].collect { |p| p.nil? ? "{}" : p.to_json.to_s })
+      if response['return'].blank?
+        next
+      end
+      pfs = []
+      features = response['return'].split("|")[0].split(",")
+      features.each do |feature|
+        f = feature.split("=")[0]
+        occurrence = feature.split("=")[1]
+        #存posts_features， post_id, f, occurance（数字！！！）
+        pf = Post_Feature.new
+        pf.post_id = post.id
+        pf.feature = f
+        pf.occurrence = occurrence.to_i
+        pfs << pf
+      end
+      Post_Feature.import pfs
+    end
+    respond_to do |format|
+      format.json {render json: {status => "ok"}}
     end
   end
 
@@ -150,9 +181,9 @@ class PostsController < ApplicationController
 
         body = row.css("Data")[0].text
         if all_post_contents.include?(body)
-            @exist_posts << {:content => body}
+          @exist_posts << {:content => body}
         else
-            @new_posts << {:content => body}
+          @new_posts << {:content => body}
         end
       end
       respond_to do |format|
@@ -191,7 +222,7 @@ class PostsController < ApplicationController
           new_posts << p
 
           post_tags = []
-          tag_list.each_with_index do |t,index|
+          tag_list.each_with_index do |t, index|
             data = row.css("Data")[index+1]
             if data.nil?
               next
@@ -214,7 +245,7 @@ class PostsController < ApplicationController
       if new_posts.count > 0
         new_posts.each do |post|
           document = {:body => post.content}
-          response = soap_client.doFeature([document].collect{|p| p.nil? ? "{}" : p.to_json.to_s})
+          response = soap_client.doFeature([document].collect { |p| p.nil? ? "{}" : p.to_json.to_s })
           if response['return'].blank?
             next
           end
@@ -227,14 +258,14 @@ class PostsController < ApplicationController
             pf = Post_Feature.new
             pf.post_id = post.id
             pf.feature = f
-            pf.occurrence = occurrence
+            pf.occurrence = occurrence.to_i
             pfs << pf
           end
           Post_Feature.import pfs
         end
       end
       respond_to do |format|
-        format.json {render json: {"status" => "ok"} }
+        format.json { render json: {"status" => "ok"} }
       end
     rescue Exception => e
       puts e
