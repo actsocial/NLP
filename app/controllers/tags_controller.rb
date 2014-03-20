@@ -105,12 +105,14 @@ class TagsController < ApplicationController
     tag_id = params[:tag]
     begin
       main_features = Likelihood.select("tag_id, feature, likelihood").where("tag_id = '" + tag_id + "'").order("likelihood desc").limit(5)
+      
+      prior = Prior.find_by_tag_id(tag_id)
 
       results = {}
       results[:local] = {}
       results[:redis] = {}
       results[:features] = []
-      results[:local][:prior] = Prior.find_by_tag_id(tag_id).prior
+      results[:local][:prior] = prior.prior if prior
       results[:redis][:prior] = @@redis_prior[tag_id]
       results[:local][:likelihood] = {}
       results[:redis][:likelihood] = {}
