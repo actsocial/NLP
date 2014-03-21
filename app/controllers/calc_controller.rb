@@ -142,7 +142,8 @@ class CalcController < ApplicationController
     distinct_features = {}
 
     post_ids = []
-    post_tags = PostTag.where({:tag_id => tags}).to_a.map(&:serializable_hash);nil
+    # post_tags = PostTag.where({:tag_id => tags}).to_a.map(&:serializable_hash);nil
+    post_tags = PostTag.joins("left join posts on post_tags.post_id = posts.id").where({post_tags:{:tag_id => tags}, posts:{:is_test => true}}).to_a.map(&:serializable_hash);nil
     post_tags.each{|pt| post_ids << pt['post_id']}
     post_ids.uniq!
 
@@ -209,8 +210,8 @@ class CalcController < ApplicationController
     m = 0
     n = 0
     #save tag precise and recall
-    FpContent.delete_all({:tag_id => tags})
-    FnContent.delete_all({:tag_id => tags})
+    # FpContent.delete_all({:tag_id => tags})
+    # FnContent.delete_all({:tag_id => tags})
     return_precise = {}
     tags.each do |tag|
       precise = Precise.find_by_tag_id(tag)
@@ -254,17 +255,17 @@ class CalcController < ApplicationController
         'updated_at' => Time.now
       }
 
-      contents = ""
-      fp_content[tag].each do |c|
-        contents += c.gsub("\n", " ")
-      end
-      FpContent.create({:tag_id => tag, :fp_count => fp_content[tag].count, :content => contents, :test_volume => posts.count})
+      # contents = ""
+      # fp_content[tag].each do |c|
+      #   contents += c.gsub("\n", " ")
+      # end
+      # FpContent.create({:tag_id => tag, :fp_count => fp_content[tag].count, :content => contents, :test_volume => posts.count})
 
-      contents = ""
-      fn_content[tag].each do |c|
-        contents += c.gsub("\n", " ")
-      end
-      FnContent.create({:tag_id => tag, :fn_count => fn_content[tag].count, :content => contents, :test_volume => posts.count})
+      # contents = ""
+      # fn_content[tag].each do |c|
+      #   contents += c.gsub("\n", " ")
+      # end
+      # FnContent.create({:tag_id => tag, :fn_count => fn_content[tag].count, :content => contents, :test_volume => posts.count})
 
       x += tp[tag].to_f
       y += tp[tag]+fp[tag]

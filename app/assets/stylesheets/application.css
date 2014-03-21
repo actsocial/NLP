@@ -13,7 +13,9 @@
  */
 
 .select_file {
-    float: left;
+  float: left;
+  text-decoration: none !important;
+  cursor: pointer;
 }
 
 #main-navigation {

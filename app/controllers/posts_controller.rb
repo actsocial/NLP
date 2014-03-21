@@ -255,13 +255,13 @@ class PostsController < ApplicationController
             f = feature.split("=")[0]
             occurrence = feature.split("=")[1]
             #存posts_features， post_id, f, occurance（数字！！！）
-            pf = Post_Feature.new
+            pf = PostFeature.new
             pf.post_id = post.id
             pf.feature = f
             pf.occurrence = occurrence.to_i
             pfs << pf
           end
-          Post_Feature.import pfs
+          PostFeature.import pfs
         end
       end
       respond_to do |format|
