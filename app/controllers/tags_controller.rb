@@ -101,7 +101,7 @@ class TagsController < ApplicationController
   end
 
   def load_data
-    # @@redis_likelihood = get_likelihood if @@redis_likelihood.nil?
+    @@redis_likelihood = get_likelihood if @@redis_likelihood.nil?
     tag_id = params[:tag]
     begin
       main_features = Likelihood.select("tag_id, feature, likelihood").where("tag_id = '" + tag_id + "'").order("likelihood desc").limit(5)
