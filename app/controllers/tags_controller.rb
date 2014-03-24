@@ -101,38 +101,36 @@ class TagsController < ApplicationController
   end
 
   def load_data
+    puts params
     @@redis_likelihood = get_likelihood if @@redis_likelihood.nil?
-    tag_id = params[:tag]
-    begin
-      main_features = Likelihood.select("tag_id, feature, likelihood").where("tag_id = '" + tag_id + "'").order("likelihood desc").limit(5)
-      
-      prior = Prior.find_by_tag_id(tag_id)
+    tag_id = params["tag"]
+    main_features = Likelihood.select("tag_id, feature, likelihood").where("tag_id = '" + tag_id + "'").order("likelihood desc").limit(5)
+    prior = Prior.find_by_tag_id(tag_id)
 
-      results = {}
-      results[:local] = {}
-      results[:redis] = {}
-      results[:features] = []
-      results[:local][:prior] = prior.prior if prior
-      results[:redis][:prior] = @@redis_prior[tag_id]
-      results[:local][:likelihood] = {}
-      results[:redis][:likelihood] = {}
-      main_features.each do |mf|
-        results[:features] << mf.feature
-        results[:local][:likelihood][mf.feature] = mf.likelihood
-        if @@redis_likelihood[tag_id]
-          results[:redis][:likelihood][mf.feature] = @@redis_likelihood[tag_id][mf.feature]
-        else
-          results[:redis][:likelihood][feature] = nil
-        end
-        results[:redis][:likelihood][mf.feature] = nil
+    results = {}
+    results[:local] = {}
+    results[:redis] = {}
+    results[:features] = []
+    results[:local][:prior] = prior.prior if prior
+    results[:redis][:prior] = @@redis_prior[tag_id]
+    results[:local][:likelihood] = {}
+    results[:redis][:likelihood] = {}
+    main_features.each do |mf|
+      results[:features] << mf.feature
+      results[:local][:likelihood][mf.feature] = mf.likelihood
+      if @@redis_likelihood[tag_id]
+        results[:redis][:likelihood][mf.feature] = @@redis_likelihood[tag_id][mf.feature]
+      else
+        results[:redis][:likelihood][feature] = nil
       end
-
-      respond_to do |format|
-        format.json { render json: results }
-      end
-    rescue Exception => e
-      puts e
+      results[:redis][:likelihood][mf.feature] = nil
     end
+
+    puts results
+    respond_to do |format|
+      format.json { render json: results }
+    end
+
   end
 
   def add_to_redis
@@ -150,26 +148,32 @@ class TagsController < ApplicationController
   end
 
   def save_to_redis
-    tag_id = params[:tag]
-    local_prior = params[:local_prior].to_f
-    begin
-      backup_likelihood_prior(@@redis_likelihood, @@redis_prior)
-      @@redis_prior[tag_id] = local_prior
-      local_features = Likelihood.select("feature, likelihood").where({:tag_id => tag_id}).to_a
-      local_likelihood = {}
-      local_features.each do |lf|
-        local_likelihood[lf.feature] = lf.likelihood.to_f
-      end
-      @@redis_likelihood[tag_id] = local_likelihood
+    puts params
+    @@redis_prior = get_prior if @@redis_prior.nil?
+    @@redis_tags = get_tag_list if @@redis_tags.nil?
+    @@redis_likelihood = get_likelihood if @@redis_likelihood.nil?
 
-      save_prior(@@redis_prior)
-      save_likelihood(@@redis_likelihood)
-      respond_to do |format|
-        format.json { render json: {"status" => "ok"} }
-      end
-    rescue Exception => e
-      puts e
+    tag_id = params["tag"]
+    local_prior = params["local_prior"].to_f
+
+    #backup_likelihood_prior(@@redis_likelihood, @@redis_prior)
+    @@redis_prior[tag_id] = local_prior
+
+    local_features = Likelihood.select("feature, likelihood").where({:tag_id => tag_id}).to_a
+    local_likelihood = {}
+    local_features.each do |lf|
+      local_likelihood[lf.feature] = lf.likelihood.to_f
     end
+
+    @@redis_likelihood[tag_id] = local_likelihood
+
+    save_prior(@@redis_prior)
+    save_likelihood(@@redis_likelihood)
+
+    respond_to do |format|
+      format.json { render json: {"status" => "ok"} }
+    end
+
   end
 
   def get_likelihood
