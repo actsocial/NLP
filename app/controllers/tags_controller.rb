@@ -25,10 +25,10 @@ class TagsController < ApplicationController
       if(tag.precise && tag.recall)
         hash["f"] = (2*tag.precise.to_f*tag.recall.to_f/(tag.precise.to_f+tag.recall.to_f)).round(4)
       end
-      hash["true_positive"] = tag.true_positive || ""
-      hash["false_positive"] = tag.false_positive || ""
-      hash["true_negative"] = tag.true_negative || ""
-      hash["false_negative"] = tag.false_negative || ""
+      hash["true_positive"] = tag.true_positive.to_i || ""
+      hash["false_positive"] = tag.false_positive.to_i || ""
+      hash["true_negative"] = tag.true_negative.to_i || ""
+      hash["false_negative"] = tag.false_negative.to_i || ""
       hash["test_volume"] = tag.test_volume || ""
       hash["updated_at"] = tag.updated_at.to_s.split(" UTC")[0] || ""
       @tags << hash
