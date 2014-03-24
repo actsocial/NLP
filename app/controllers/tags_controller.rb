@@ -1,8 +1,8 @@
 require "redis"
+
 class TagsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:create]
-  # GET /tags
-  # GET /tags.json
+
   @@redis_likelihood = nil
   @@redis_prior = nil
   @@redis_tags = nil
@@ -14,8 +14,7 @@ class TagsController < ApplicationController
     @redis_prior = @@redis_prior
     @redis_tags = @@redis_tags
     tags = Tag.joins("left join priors on priors.tag_id = tags.tag_id").joins("left join precises on precises.tag_id = tags.tag_id").select("tags.*, priors.prior, precises.precise, precises.recall, precises.true_positive, precises.false_positive, precises.true_negative, precises.false_negative, precises.test_volume, precises.updated_at")
-    #tags = Tag.find_by_sql ["select tags.*, priors.prior, precises.precise, precises.recall, precises.true_positive, precises.false_positive, precises.true_negative, precises.false_negative, precises.test_volume, precises.updated_at from tags left join priors on priors.tag_id = tags.tag_id left join  precises on precises.tag_id = tags.tag_id"]
-    
+
     @tags = []
     tags.each do |tag|
       hash = {}
@@ -31,7 +30,7 @@ class TagsController < ApplicationController
       hash["true_negative"] = tag.true_negative || ""
       hash["false_negative"] = tag.false_negative || ""
       hash["test_volume"] = tag.test_volume || ""
-      hash["updated_at"] = tag.updated_at || ""
+      hash["updated_at"] = tag.updated_at.to_s.split(" UTC")[0] || ""
       @tags << hash
     end
 
@@ -195,6 +194,8 @@ class TagsController < ApplicationController
     end
 
   end
+
+  # redis
 
   def get_likelihood
     redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))

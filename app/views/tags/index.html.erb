@@ -1,5 +1,8 @@
-<h1>Listing tags</h1>
-<%= link_to 'New Tag', new_tag_path, {:class => "btn btn-warning"} %>
+<h1>
+  Listing tags
+  <%= link_to 'New Tag', new_tag_path, {:class => "btn btn-warning"} %>
+</h1>
+
 <table class="table table-hover">
   <tr>
     <th><input type="checkbox" class="select_all"> Tag</th>
@@ -14,10 +17,10 @@
     <th>Tn</th>
     <th>Fn</th>
     <th>Test Volume</th>
-    <th style="text-align: center">Last Test Date</th>
+    <th style="text-align: center">Last Test Date (UTC)</th>
     <th>
-      <button class="btn-small btn-danger" onclick="batchRebuild()">Batch Rebuild</button>
-      <button class="btn-small btn-danger" onclick="batchTest()">Batch Test</button>
+      <button class="btn-small btn-warning" onclick="batchRebuild()">Batch Rebuild</button>
+      <button class="btn-small btn-warning" onclick="batchTest()">Batch Test</button>
     </th>
   </tr>
 
@@ -43,8 +46,6 @@
   <% end %>
 </table>
 
-
-<!-- Modal -->
 <div class="modal" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width:1000px">
     <div class="modal-content">
@@ -61,11 +62,10 @@
         <button type="button" class="btn btn-primary save_to_redis" onclick="saveToRedis()">Save</button>
       </div>
     </div>
-    <!-- /.modal-content -->
   </div>
-  <!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
 
+<script type="text/javascript" src="/assets/bootstrap.min.js"></script>
 <script type="text/javascript">
   $(".select_all").click(function () {
     var should_check = $(this).attr("checked") == 'checked';
@@ -88,7 +88,7 @@
           }
       }
     });
-  }
+  };
 
   function singleRebuild(tag, e) {
     e = e || window.event;
@@ -109,7 +109,7 @@
           else alert("failed! Something is wrong!");
       }
     });
-  }
+  };
 
   function showCompare(tag, e) {
     e = e || window.event;
@@ -155,12 +155,12 @@
         show_table.append(local_tr);
         show_table.append(redis_tr);
 
-        $('#confirmModal').show();
+        $('#confirmModal').modal('show');
         src.textContent = "Show Compare";
         src.disabled = false;
       }
     });
-  }
+  };
 
   function saveToRedis(e) {
     e = e || window.event;
@@ -181,10 +181,10 @@
         }
         src.textContent = "Save";
         src.disabled = false;
-        $('#confirmModal').hide();
+        $('#confirmModal').modal('hide');
       }
     });
-  }
+  };
 
   function batchRebuild(e) {
     e = e || window.event;
@@ -215,13 +215,12 @@
           else alert("failed! Something is wrong!");
         }
       });
-    }
-    else {
+    } else {
       src.textContent = "Batch Rebuild";
       src.disabled = false;
       alert("no tag seleted!");
     }
-  }
+  };
 
   function batchTest(e) {
     e = e || window.event;
@@ -260,11 +259,10 @@
           else alert("failed! Something is wrong!");
         }
       });
-    }
-    else {
+    } else {
       src.textContent = "Batch Test";
       src.disabled = false;
       alert("no tag seleted!");
     }
-  }
+  };
 </script>
