@@ -6,6 +6,7 @@
     <!-- <th>is in redis</th> -->
     <th>Local Prior</th>
     <th>Redis Prior</th>
+    <th style="text-align: center">F</th>
     <th>Precise</th>
     <th>Recall</th>
     <th>Tp</th>
@@ -13,29 +14,30 @@
     <th>Tn</th>
     <th>Fn</th>
     <th>Test Volume</th>
-    <th>Last Test Date</th>
-    <th>Action
-      <button class="btn-small btn-default" onclick="batchRebuild()">Batch Rebuild</button>
-      <button class="btn-small btn-default" onclick="batchTest()">Batch Test</button>
+    <th style="text-align: center">Last Test Date</th>
+    <th>
+      <button class="btn-small btn-danger" onclick="batchRebuild()">Batch Rebuild</button>
+      <button class="btn-small btn-danger" onclick="batchTest()">Batch Test</button>
     </th>
   </tr>
 
   <% @tags.each do |tag| %>
-      <tr id="<%= tag.tag_id %>">
-        <td><input type="checkbox" class="select_tag" value="<%= tag.tag_id %>"> <%= tag['tag_id'] %></td>
-        <td name="local_prior"><%= tag['prior'] %></td>
-        <td name="redis_prior"><%= @redis_prior[tag.tag_id] %></td>
+      <tr id="<%= tag['tag_id'] %>">
+        <td><input type="checkbox" class="select_tag" value="<%= tag['tag_id'] %>"> <%= tag['tag_id'] %></td>
+        <td name="local_prior"><%= tag['prior'].to_f.round(4) %></td>
+        <td name="redis_prior"><%= @redis_prior[tag['tag_id']].round(4) %></td>
+        <td name="f"><%= tag['f'] %></td>
         <td name="precise"><%= tag['precise'] %></td>
         <td name="recall"><%= tag['recall'] %></td>
         <td name="true_positive"><%= tag['true_positive'] %></td>
         <td name="false_positive"><%= tag['false_positive'] %></td>
         <td name="true_negative"><%= tag['true_negative'] %></td>
         <td name="false_negative"><%= tag['false_negative'] %></td>
-        <td name="test_volume"><%= tag['test_volume'] %></td>
-        <td name="updated_at"><%= tag['updated_at'] %></td>
+        <td name="test_volume" style="text-align: center"><%= tag['test_volume'] %></td>
+        <td name="updated_at" style="text-align: center"><%= tag['updated_at'] %></td>
         <td>
-          <button class="btn btn-default" onclick="singleRebuild('<%=tag.tag_id%>')">Rebuild</button>
-          <button class="btn btn-default" onclick="showCompare('<%=tag.tag_id%>')">Show Compare</button>
+          <button class="btn btn-default btn-sm" onclick="singleRebuild('<%= tag['tag_id'] %>')">Rebuild</button>
+          <button class="btn btn-default btn-sm" onclick="showCompare('<%= tag['tag_id'] %>')">Show Compare</button>
         </td>
       </tr>
   <% end %>

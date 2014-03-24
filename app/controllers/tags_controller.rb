@@ -13,10 +13,30 @@ class TagsController < ApplicationController
 
     @redis_prior = @@redis_prior
     @redis_tags = @@redis_tags
-    @tags = Tag.joins("left join priors on priors.tag_id = tags.tag_id").joins("left join precises on precises.tag_id = tags.tag_id").select("tags.*, priors.prior, precises.precise, precises.recall, precises.true_positive, precises.false_positive, precises.true_negative, precises.false_negative, precises.test_volume, precises.updated_at")
+    tags = Tag.joins("left join priors on priors.tag_id = tags.tag_id").joins("left join precises on precises.tag_id = tags.tag_id").select("tags.*, priors.prior, precises.precise, precises.recall, precises.true_positive, precises.false_positive, precises.true_negative, precises.false_negative, precises.test_volume, precises.updated_at")
+    #tags = Tag.find_by_sql ["select tags.*, priors.prior, precises.precise, precises.recall, precises.true_positive, precises.false_positive, precises.true_negative, precises.false_negative, precises.test_volume, precises.updated_at from tags left join priors on priors.tag_id = tags.tag_id left join  precises on precises.tag_id = tags.tag_id"]
+    
+    @tags = []
+    tags.each do |tag|
+      hash = {}
+      hash["prior"] = tag['prior'] || ""
+      hash["tag_id"] = tag.tag_id || ""
+      hash["precise"] = tag.precise || ""
+      hash["recall"] = tag.recall || ""
+      if(tag.precise && tag.recall)
+        hash["f"] = (2*tag.precise.to_f*tag.recall.to_f/(tag.precise.to_f+tag.recall.to_f)).round(4)
+      end
+      hash["true_positive"] = tag.true_positive || ""
+      hash["false_positive"] = tag.false_positive || ""
+      hash["true_negative"] = tag.true_negative || ""
+      hash["false_negative"] = tag.false_negative || ""
+      hash["test_volume"] = tag.test_volume || ""
+      hash["updated_at"] = tag.updated_at || ""
+      @tags << hash
+    end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @tags }
     end
   end
