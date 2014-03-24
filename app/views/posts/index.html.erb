@@ -1,19 +1,21 @@
-<h1>Listing posts</h1>
-<%= form_tag({:action => "import_data"}, :multipart => true) do %>
-  <table>
+<h3>
+  Listing posts
+  <%= form_tag({:action=>"import_data"},:multipart=>true,:class=>'form-inline',:style=>'margin-left:150px;margin-top:-30px;') do %>
+    <table>
     <tr>
       <th>
         <div style="display:none">
-          <input type="file" id="import_file" class="btn-primary btn-lg select_file" name="file[file]" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+          <input type="file" id="import_file" class="btn btn-primary select_file" name="file[file]" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         </div>
-        <a class="btn-primary btn-lg select_file" onclick="importData()">选择导入文件</a>
+        <a class="btn btn-primary select_file" onclick="importData()">Select</a>
       </th>
-      <th><input type="submit" class="btn-danger btn-lg select_file" value="导入"></th>
-      <th><button class="btn-success btn-lg" onclick="doFeature()">Do Feature</button></th>
+      <th><input type="submit" class="btn btn-danger select_file" value="Import"></th>
+      <th><button class="btn btn-success" onclick="doFeature()">Do Feature</button></th>
     </tr>
-  </table>
+    </table>
+  <% end %>
+</h3>
 
-<% end %>
 <% @tags.each do |tag| %>
   <% if session[:selected_tag].nil? %>
     <button id="btn-<%= tag.tag_id.gsub('.', '-') %>" class="button select_tag" onclick="column('<%=tag.tag_id.gsub('.','-')%>')"><%= tag.tag_id %></button>
@@ -26,10 +28,10 @@
   <% end %>
 <% end %>
 
-<table class="table">
+<table class="table table-hover table-striped table-condensed">
   <tr>
-    <th class="col-lg-1"><input type="checkbox" class="select_all"> id</th>
-    <th class="col-lg-4">content</th>
+    <th style="width: 5%;"><input type="checkbox" class="select_all"> id</th>
+    <th style="width: 80%;text-align: center">content</th>
     <% @tags.each do |tag| %>
       <% if session[:selected_tag].nil? %>
         <th style="display:none" class="<%= tag.tag_id.gsub('.', '-') %>"><%= tag.tag_id %></th>
@@ -41,7 +43,7 @@
         <% end %>
       <% end %>
     <% end %>
-    <th class="col-lg-1">actions</th>
+    <th style="width: 15%;text-align: center">actions</th>
   </tr>
 
   <% @posts.each do |post| %>
@@ -65,7 +67,7 @@
           <% end %>
         <% end %>
       <% end %>
-      <td>
+      <td style="text-align: center;">
         <%= link_to 'Show', post %>
         <%= link_to 'Edit', edit_post_path(post) %>
         <%= link_to 'Destroy', post, method: :delete, data: {confirm: 'Are you sure?'} %>
@@ -73,6 +75,7 @@
     </tr>
   <% end %>
 </table>
+
 <%= will_paginate @posts %>
 
 <br/>
