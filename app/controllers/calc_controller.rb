@@ -71,9 +71,10 @@ class CalcController < ApplicationController
         end
         training_data << {:features => features, :category => category}
       end
+      #training_data = [{:features=>[{"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"分享", "id"=>1, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"欧洲", "id"=>2, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"最后", "id"=>3, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"斯内德", "id"=>4, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"HTTP", "id"=>5, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"再见", "id"=>6, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"球星", "id"=>7, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"黑", "id"=>8, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"生涯", "id"=>9, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"视频", "id"=>10, "occurrence"=>2, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"新浪", "id"=>11, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"一个", "id"=>12, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}], :category=>["not_baby"]}]
 
       nb = []
-      all_categories.each_with_index do |categories,index|
+      all_categories.each_with_index do |categories,index| # ??????????????
         training_data.each_with_index do |data, j|
           if data[:category].include?(categories[0]) || data[:category].include?(categories[1])
             nb[index] ||= NaiveBayes.new(categories,
@@ -256,10 +257,6 @@ class CalcController < ApplicationController
         'recall' => temp_recall,
         'updated_at' => Time.now
       }
-
-      puts "======================="
-      puts fp_content[tag]
-      puts "======================="
 
       # save fn fp to fnfps
       fp_content[tag].each do |c|
