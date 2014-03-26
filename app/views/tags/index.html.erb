@@ -33,9 +33,9 @@
         <td name="precise"><%= tag['precise'] %></td>
         <td name="recall"><%= tag['recall'] %></td>
         <td name="true_positive"><%= tag['true_positive'] %></td>
-        <td name="false_positive"><%= tag['false_positive'] %></td>
+        <td name="false_positive"><a href="/fnfps?t=<%= tag['tag_id'] %>&f=fp" target="_blank"><%= tag['false_positive'] %></a></td>
         <td name="true_negative"><%= tag['true_negative'] %></td>
-        <td name="false_negative"><%= tag['false_negative'] %></td>
+        <td name="false_negative"><a href="/fnfps?t=<%= tag['tag_id'] %>&f=fn" target="_blank"><%= tag['false_negative'] %></a></td>
         <td name="test_volume" style="text-align: center"><%= tag['test_volume'] %></td>
         <td name="updated_at" style="text-align: center"><%= tag['updated_at'] %></td>
         <td>
