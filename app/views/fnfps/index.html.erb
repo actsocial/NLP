@@ -22,14 +22,15 @@
     <td><%= link_to 'Destroy', fnfp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <script>
        $(document).ready(function(){
-        $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
-            var feature_str = "";
-            for (feature in data.features)
-            {
-                feature_str += feature.feature+" x "+feature.occurrence+"   ";
-            }
-           $("#<%= fnfp.post_id %>").append(feature_str);
-        });
+           $.get("/posts/get_features?post_id=8073").success(function(data){
+               var feature_str = "";
+               data.features.forEach(function(feature){
+                   {
+                       feature_str += feature["feature"]+" x "+feature.occurrence+"     ";
+                   }
+               });
+               $("#8073").append(feature_str);
+           });
        })
     </script>
   </tr>
