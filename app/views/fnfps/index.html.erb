@@ -12,7 +12,7 @@
   </tr>
 
 <% @fnfps.each do |fnfp| %>
-  <tr>
+  <tr id="<%= fnfp.post_id %>">
     <td><%= fnfp.post_id %></td>
     <td><%= fnfp.tag_id %></td>
     <td><%= fnfp.flag %></td>
@@ -20,6 +20,11 @@
     <td><%= link_to 'Show', fnfp %></td>
     <td><%= link_to 'Edit', edit_fnfp_path(fnfp) %></td>
     <td><%= link_to 'Destroy', fnfp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <script>
+        $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
+           $("#<%= fnfp.post_id %>").append(data);
+        });
+    </script>
   </tr>
 <% end %>
 </table>
