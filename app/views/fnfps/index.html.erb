@@ -6,9 +6,6 @@
     <th>Tag</th>
     <th>Flag</th>
     <th>content</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @fnfps.each do |fnfp| %>
@@ -17,9 +14,6 @@
     <td><%= fnfp.tag_id %></td>
     <td><%= fnfp.flag %></td>
     <td><%= fnfp.content %></td>
-    <td><%= link_to 'Show', fnfp %></td>
-    <td><%= link_to 'Edit', edit_fnfp_path(fnfp) %></td>
-    <td><%= link_to 'Destroy', fnfp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <script>
        $(document).ready(function(){
            $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
@@ -29,7 +23,7 @@
                        feature_str += feature["feature"]+" x "+feature.occurrence+"     ";
                    }
                });
-               $("#<%= fnfp.post_id %>").append(feature_str);
+               $("#<%= fnfp.post_id %>").after("<tr><td></td><td></td><td>" + feature_str + "</td></tr>");
            });
        })
     </script>
