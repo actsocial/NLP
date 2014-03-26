@@ -300,6 +300,17 @@ class PostsController < ApplicationController
 
   def change
     puts params
+    post_id = params["post_id"]
+    tag_id = params["tag_id"]
+    flag = params["flag"]
+    if(flag == "fn")
+      true_value = 0
+    elsif(flag == "fp")
+      true_value = 1
+    end
+    posttag = PostTag.find(:all,:conditions=>["post_id = ? and tag_id = ?",post_id,tag_id])
+    posttag.value = true_value
+    posttag.save
     respond_to do |format|
       format.json { render json: {"status" => "ok"} }
     end
