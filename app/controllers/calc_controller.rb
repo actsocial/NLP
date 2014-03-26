@@ -13,7 +13,7 @@ class CalcController < ApplicationController
 
       distinct_features = {}
       post_ids = []
-      post_tags = PostTag.where({:tag_id => tags}).limit(1).to_a.map(&:serializable_hash) # limit()  post_ids = post_ids[0..300]
+      post_tags = PostTag.where({:tag_id => tags}).to_a.map(&:serializable_hash) # limit()  post_ids = post_ids[0..300]
       post_tags.each{|pt| post_ids << pt['post_id']}
       post_ids.uniq!
 
