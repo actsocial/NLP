@@ -15,7 +15,13 @@
     <td><%= fnfp.tag_id %></td>
     <td><%= fnfp.flag %></td>
     <td><%= fnfp.content %>
-    <td><button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,'<%= fnfp.tag_id %>','<%= fnfp.flag %>')">change</button></td>
+    <td>
+      <% if(fnfp.flag == "fn") %>
+        <button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,'<%= fnfp.tag_id %>','<%= fnfp.flag %>')">Not <%= fnfp.tag_id%></button>
+      <% elsif(fnfp.flag == "fp") %>
+        <button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,'<%= fnfp.tag_id %>','<%= fnfp.flag %>')">Is <%= fnfp.tag_id%></button>
+      <% end %>
+    </td>
     <script  type="text/javascript">
        $(document).ready(function(){
            $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
