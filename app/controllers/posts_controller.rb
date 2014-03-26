@@ -229,7 +229,7 @@ class PostsController < ApplicationController
             f = feature.split("=")[0]
             occurrence = feature.split("=")[1]
             pf = PostFeature.new
-            pf.post_id = post.id
+            pf.post_id = p.id
             pf.feature = f
             pf.occurrence = occurrence.to_i
             pfs << pf
