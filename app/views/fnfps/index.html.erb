@@ -15,7 +15,7 @@
     <td><%= fnfp.tag_id %></td>
     <td><%= fnfp.flag %></td>
     <td><%= fnfp.content %>
-    <td><button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,<%= fnfp.tag_id %>,<%= fnfp.flag %>)">change</button></td>
+    <td><button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,'<%= fnfp.tag_id %>','<%= fnfp.flag %>')">change</button></td>
     <script  type="text/javascript">
        $(document).ready(function(){
            $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
