@@ -16,7 +16,7 @@
     <td><%= fnfp.flag %></td>
     <td><%= fnfp.content %>
     <td><button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,<%= fnfp.tag_id %>,<%= fnfp.flag %>)">change</button></td>
-    <script>
+    <script  type="text/javascript">
        $(document).ready(function(){
            $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
                var feature_str = "";
@@ -28,18 +28,6 @@
                $("#<%= fnfp.post_id %>").after("<tr style='border-bottom: 1px solid black;'><td></td><td></td><td></td><td>" + feature_str + "</td></tr>");
            });
        });
-
-       function change(post_id,tag_id,flag){
-           $.ajax({
-               type: "POST",
-               url: "posts/change",
-               data: {post_id: post_id, tag_id: tag_id, flag: flag},
-               success: function (data) {
-                    alert("change finish");
-                   console.log(data);
-               }
-           });
-       };
     </script>
   </tr>
 <% end %>
@@ -48,3 +36,17 @@
 <br />
 
 <%= link_to 'New Fnfp', new_fnfp_path %>
+
+<script  type="text/javascript">
+    function change(post_id,tag_id,flag){
+        $.ajax({
+            type: "POST",
+            url: "posts/change",
+            data: {post_id: post_id, tag_id: tag_id, flag: flag},
+            success: function (data) {
+                alert("change finish");
+                console.log(data);
+            }
+        });
+    };
+</script>
