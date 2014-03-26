@@ -23,7 +23,12 @@
     <script>
        $(document).ready(function(){
         $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
-           $("#<%= fnfp.post_id %>").append(data);
+            var feature_str = "";
+            for (feature in data.features)
+            {
+                feature_str += feature.feature+" x "+feature.occurrence+"   ";
+            }
+           $("#<%= fnfp.post_id %>").append(feature_str);
         });
        })
     </script>
