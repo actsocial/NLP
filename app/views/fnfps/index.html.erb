@@ -25,11 +25,13 @@
            $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
                var feature_str = "";
                data.features.forEach(function(feature){
-                   feature_str += feature["feature"]+" x "+feature.occurrence+"     ";
-               }
+                   {
+                       feature_str += feature["feature"]+" x "+feature.occurrence+"     ";
+                   }
+               });
                $("#<%= fnfp.post_id %>").append(feature_str);
-           }
-       });
+           });
+       })
     </script>
   </tr>
 <% end %>
