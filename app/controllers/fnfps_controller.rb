@@ -1,9 +1,12 @@
 class FnfpsController < ApplicationController
+
   # GET /fnfps
   # GET /fnfps.json
   def index
-    @fnfps = Fnfp.all
-
+    flag = params["f"]
+    tag_id = params["t"]
+    #fnfps = Fnfp.find_by_sql ["select * from fnfps join posts where fnfps.flag = ? and fnfps.tag_id = ?",flag,tag_id]
+    fnfps = Fnfp.find(:all,:conditions=>["flag = ? and tag_id = ?",flag,tag_id])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @fnfps }
