@@ -291,7 +291,7 @@ class PostsController < ApplicationController
   end
 
   def get_features
-    post_id = parama["post_id"]
+    post_id = params["post_id"]
     features = Post.find(post_id).features
     respond_to do |format|
       format.json { render json: {"features" => features} }
