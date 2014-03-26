@@ -14,6 +14,7 @@ Mltraining::Application.routes.draw do
   post "posts/import_data"
   post "posts/select_tag"
   post "posts/do_feature"
+  get "posts/get_features"
 
   post "tags/load_data"
   post "tags/save_to_redis"
