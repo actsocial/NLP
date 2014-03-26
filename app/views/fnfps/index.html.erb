@@ -1,0 +1,27 @@
+<h1>Listing fnfps</h1>
+
+<table>
+  <tr>
+    <th>Post</th>
+    <th>Tag</th>
+    <th>Flag</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @fnfps.each do |fnfp| %>
+  <tr>
+    <td><%= fnfp.post_id %></td>
+    <td><%= fnfp.tag_id %></td>
+    <td><%= fnfp.flag %></td>
+    <td><%= link_to 'Show', fnfp %></td>
+    <td><%= link_to 'Edit', edit_fnfp_path(fnfp) %></td>
+    <td><%= link_to 'Destroy', fnfp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Fnfp', new_fnfp_path %>

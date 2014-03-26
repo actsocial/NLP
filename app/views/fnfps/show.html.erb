@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Post:</b>
+  <%= @fnfp.post_id %>
+</p>
+
+<p>
+  <b>Tag:</b>
+  <%= @fnfp.tag_id %>
+</p>
+
+<p>
+  <b>Flag:</b>
+  <%= @fnfp.flag %>
+</p>
+
+
+<%= link_to 'Edit', edit_fnfp_path(@fnfp) %> |
+<%= link_to 'Back', fnfps_path %>

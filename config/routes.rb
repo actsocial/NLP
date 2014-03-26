@@ -1,4 +1,7 @@
 Mltraining::Application.routes.draw do
+  resources :fnfps
+
+
   resources :tags
   resources :priors
   resources :posts

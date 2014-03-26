@@ -1,7 +1,7 @@
 require 'soap/wsdlDriver'
+
 class PostsController < ApplicationController
-  # GET /posts
-  # GET /posts.json
+
   def index
     @tags = Tag.all
     @posts = Post.paginate(:page => params[:page], :per_page => 30)
@@ -11,8 +11,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # GET /posts/1
-  # GET /posts/1.json
   def show
     @post = Post.find(params[:id])
     tagList = @post.post_tags
@@ -27,8 +25,6 @@ class PostsController < ApplicationController
 
   end
 
-  # GET /posts/new
-  # GET /posts/new.json
   def new
     @post = Post.new
 
@@ -43,8 +39,6 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
-  # POST /posts
-  # POST /posts.json
   def create
     @post = Post.new(params[:post])
 
@@ -128,7 +122,7 @@ class PostsController < ApplicationController
     end
   end
 
-  def do_feature
+  def do_feature # Do feature after update features
     post_ids = params[:post_ids]
     soap_client = SOAP::WSDLDriverFactory.new(Settings.feature_ws_url).create_rpc_driver
     posts = Post.where({:id => post_ids})
@@ -159,7 +153,7 @@ class PostsController < ApplicationController
     end
   end
 
-  def import_data
+  def import_data # Select
     file = params[:file]['file']
     begin
       @@doc = Nokogiri::XML(file)
@@ -194,15 +188,17 @@ class PostsController < ApplicationController
     end
   end
 
-  def confirm_import
+  def confirm_import # Import
     begin
       new_posts = []
       tag_list = []
       soap_client = SOAP::WSDLDriverFactory.new(Settings.feature_ws_url).create_rpc_driver
+
       all_post_contents = []
       Post.select("content").each do |p|
         all_post_contents << p.content
       end
+
       @@doc.css("Worksheet").first.css("Row").each_with_index do |row, i|
         # read taglist
         if (i==0 && row.css("Data").count>1)
@@ -220,6 +216,26 @@ class PostsController < ApplicationController
           p.content = body
           p.save
           new_posts << p
+
+          ###################################
+          document = {:body => body}
+          response = soap_client.doFeature([document].collect { |p| p.nil? ? "{}" : p.to_json.to_s })
+          if response['return'].blank?
+            next
+          end
+          pfs = []
+          features = response['return'].split("|")[0].split(",")
+          features.each do |feature|
+            f = feature.split("=")[0]
+            occurrence = feature.split("=")[1]
+            pf = PostFeature.new
+            pf.post_id = post.id
+            pf.feature = f
+            pf.occurrence = occurrence.to_i
+            pfs << pf
+          end
+          PostFeature.import pfs
+          ###################################
 
           post_tags = []
           tag_list.each_with_index do |t, index|
@@ -241,6 +257,7 @@ class PostsController < ApplicationController
           PostTag.import post_tags
         end
       end
+=begin
       # 为新的posts存feature
       if new_posts.count > 0
         new_posts.each do |post|
@@ -264,6 +281,7 @@ class PostsController < ApplicationController
           PostFeature.import pfs
         end
       end
+=end
       respond_to do |format|
         format.json { render json: {"status" => "ok"} }
       end

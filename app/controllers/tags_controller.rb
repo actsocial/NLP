@@ -196,7 +196,6 @@ class TagsController < ApplicationController
   end
 
   # redis
-
   def get_likelihood
     redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
     result = {}

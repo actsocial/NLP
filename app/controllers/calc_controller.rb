@@ -3,32 +3,31 @@ require 'naivebayes'
 class CalcController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:create]
 
-  # params: {:tags :array}
-  def rebuild
+  def rebuild # params: {:tags :array}
+    puts params
     begin
       tags = params[:tags]
       all_categories = []
       tags.each{|tag| all_categories << [tag, "not_"+tag]}
-      distinct_features = {}
+      # all_categories = [["baby", "not_baby"]]
 
+      distinct_features = {}
       post_ids = []
-      post_tags = PostTag.where({:tag_id => tags}).to_a.map(&:serializable_hash)    
+      post_tags = PostTag.where({:tag_id => tags}).limit(1).to_a.map(&:serializable_hash) # limit()  post_ids = post_ids[0..300]
       post_tags.each{|pt| post_ids << pt['post_id']}
-      # post_ids = post_ids[0..300]
       post_ids.uniq!
 
       post_id_tag_map = {}
       post_ids.each do |post_id|
         post_id_tag_map[post_id] = post_tags.select{|pt| pt['post_id'] == post_id}
       end
-
-      training_data = []
+      # post_id_tag_map = {1=>[{"created_at"=>Thu, 20 Mar 2014 11:21:46 UTC +00:00, "id"=>4, "post_id"=>1, "tag_id"=>"baby", "updated_at"=>Thu, 20 Mar 2014 11:21:46 UTC +00:00, "value"=>0}]}
 
       # extract training data
+      training_data = []
       posts = Post.where({:id => post_ids})
       posts.each do |post|
-        if (Random.rand(15)==1)
-          # 3% rows are selected for testing instead of training
+        if (Random.rand(15)==1) # 3% rows are selected for testing instead of training
           post.is_test = true
           post.save
           next
@@ -37,14 +36,13 @@ class CalcController < ApplicationController
           post.save
         end
 
-        # features
-        features = post.post_features.to_a.map(&:serializable_hash);nil
+        features = post.post_features.to_a.map(&:serializable_hash)
+        #features = [{"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"分享", "id"=>1, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"欧洲", "id"=>2, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}]
         if features.blank?
           next
         end
 
         category = []
-
         all_categories.each do |cat|
           exist_tag = post_id_tag_map[post.id].select{|pt| pt['tag_id'] == cat[0]}.first
           if !exist_tag.blank?
@@ -121,7 +119,7 @@ class CalcController < ApplicationController
   end
 
   # params => {tags:array}
-  def test_rebuild
+  def test_rebuild # Batch Test
     tags = params[:tags]
 
     # get prior from database
@@ -196,11 +194,11 @@ class CalcController < ApplicationController
         if predicted[tag] > 0.51
           tp[tag] += 1 if test[tag] == 1
           fp[tag] += 1 if test[tag] == 0
-          fp_content[tag] << test[:body] if test[tag] == 0
+          fp_content[tag] << post.id if test[tag] == 0
         else
           tn[tag] += 1 if test[tag] == 0
           fn[tag] += 1 if test[tag] == 1
-          fn_content[tag] << test[:body] if test[tag] == 1
+          fn_content[tag] << post.id if test[tag] == 1
         end
       end
     end
@@ -212,6 +210,10 @@ class CalcController < ApplicationController
     #save tag precise and recall
     # FpContent.delete_all({:tag_id => tags})
     # FnContent.delete_all({:tag_id => tags})
+
+    # delete fnfp if same
+    Fnfp.delete_all({:tag_id => tags})
+
     return_precise = {}
     tags.each do |tag|
       precise = Precise.find_by_tag_id(tag)
@@ -255,17 +257,18 @@ class CalcController < ApplicationController
         'updated_at' => Time.now
       }
 
-      # contents = ""
-      # fp_content[tag].each do |c|
-      #   contents += c.gsub("\n", " ")
-      # end
-      # FpContent.create({:tag_id => tag, :fp_count => fp_content[tag].count, :content => contents, :test_volume => posts.count})
+      puts "======================="
+      puts fp_content[tag]
+      puts "======================="
 
-      # contents = ""
-      # fn_content[tag].each do |c|
-      #   contents += c.gsub("\n", " ")
-      # end
-      # FnContent.create({:tag_id => tag, :fn_count => fn_content[tag].count, :content => contents, :test_volume => posts.count})
+      # save fn fp to fnfps
+      fp_content[tag].each do |c|
+        Fnfp.create({:tag_id => tag, :flag => "fp", :post_id => c})
+      end
+
+      fn_content[tag].each do |c|
+        Fnfp.create({:tag_id => tag, :flag => "fn", :post_id => c})
+      end
 
       x += tp[tag].to_f
       y += tp[tag]+fp[tag]
