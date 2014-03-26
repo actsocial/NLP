@@ -1,25 +1,26 @@
 Mltraining::Application.routes.draw do
-  resources :fnfps
-
-
-  resources :tags
-  resources :priors
-  resources :posts
+  get "posts/get_features"
 
   post "calc/rebuild"
   post "calc/test_rebuild"
-  
+
   post "posts/change_tag"
   post "posts/confirm_import"
   post "posts/import_data"
   post "posts/select_tag"
   post "posts/do_feature"
-  get "posts/get_features"
+
 
   post "tags/load_data"
   post "tags/save_to_redis"
   post "tags/add_to_redis"
   post "tags/show"
+
+  resources :fnfps
+  resources :tags
+  resources :priors
+  resources :posts
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
