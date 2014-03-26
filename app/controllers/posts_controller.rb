@@ -308,7 +308,7 @@ class PostsController < ApplicationController
     elsif(flag == "fp")
       true_value = 1
     end
-    posttag = PostTag.find(:all,:conditions=>["post_id = ? and tag_id = ?",post_id,tag_id])
+    posttag = PostTag.find(:first,:conditions=>["post_id = ? and tag_id = ?",post_id,tag_id]) #1056 travel
     posttag.value = true_value
     posttag.save
     respond_to do |format|
