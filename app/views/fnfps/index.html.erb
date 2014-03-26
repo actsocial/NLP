@@ -21,9 +21,11 @@
     <td><%= link_to 'Edit', edit_fnfp_path(fnfp) %></td>
     <td><%= link_to 'Destroy', fnfp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <script>
+       $(document).ready(function(){
         $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
            $("#<%= fnfp.post_id %>").append(data);
         });
+       })
     </script>
   </tr>
 <% end %>
