@@ -298,4 +298,11 @@ class PostsController < ApplicationController
     end
   end
 
+  def change
+    puts params
+    respond_to do |format|
+      format.json { render json: {"status" => "ok"} }
+    end
+  end
+
 end

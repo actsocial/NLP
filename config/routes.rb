@@ -9,6 +9,7 @@ Mltraining::Application.routes.draw do
   post "posts/import_data"
   post "posts/select_tag"
   post "posts/do_feature"
+  post "posts/change"
 
 
   post "tags/load_data"
