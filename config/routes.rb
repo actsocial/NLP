@@ -16,6 +16,7 @@ Mltraining::Application.routes.draw do
   post "tags/save_to_redis"
   post "tags/add_to_redis"
   post "tags/show"
+  post "tags/sync"
 
   resources :fnfps
   resources :tags

@@ -244,4 +244,28 @@ class TagsController < ApplicationController
     end
     lbfile.close
   end
+
+  def sync
+    # from lejin
+    prior = get_prior
+    likelihood = get_likelihood
+
+    puts prior
+
+    # save to hanhuidi
+    redis_hhd = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server_hhd, :port => Settings.redis_port))
+    redis_hhd.hset("parameters", "prior", prior.to_json)
+
+    redis_hhd.del("likelihood")
+    likelihood.each do |k, v|
+      e = {}
+      e[k] = v
+      redis_hhd.lpush("likelihood", e.to_json)
+    end
+
+    respond_to do |format|
+      format.json { render json: {"status" => "success"} }
+    end
+  end
+
 end
