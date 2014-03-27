@@ -1,11 +1,11 @@
-<h1>Listing fnfps</h1>
+<h3>Listing fnfps</h3>
 
-<table>
+<table  class="table table-hover table-striped">
   <tr>
     <th>Post</th>
     <th>Tag</th>
     <th>Flag</th>
-    <th>content</th>
+    <th style="text-align: center;">content</th>
     <th>Change</th>
   </tr>
 
@@ -22,7 +22,7 @@
         <button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,'<%= fnfp.tag_id %>','<%= fnfp.flag %>')">Is <%= fnfp.tag_id%></button>
       <% end %>
     </td>
-    <script  type="text/javascript">
+    <script type="text/javascript">
        $(document).ready(function(){
            $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
                var feature_str = "";
@@ -31,7 +31,7 @@
                        feature_str += feature["feature"]+" x "+feature.occurrence+"     ";
                    }
                });
-               $("#<%= fnfp.post_id %>").after("<tr style='border-bottom: 1px solid black;'><td></td><td></td><td></td><td>" + feature_str + "</td></tr>");
+               $("#<%= fnfp.post_id %>").after("<tr style='border-bottom: 1px solid black;'><td></td><td></td><td></td><td>" + feature_str + "</td><td></td></tr>");
            });
        });
     </script>
@@ -39,7 +39,7 @@
 <% end %>
 </table>
 
-<script  type="text/javascript">
+<script type="text/javascript">
     function change(post_id,tag_id,flag,e){
         e = e || window.event;
         var src = e.srcElement || e.target;
