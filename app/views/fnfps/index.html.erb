@@ -40,12 +40,17 @@
 </table>
 
 <script  type="text/javascript">
-    function change(post_id,tag_id,flag){
+    function change(post_id,tag_id,flag,e){
+        e = e || window.event;
+        var src = e.srcElement || e.target;
+        src.textContent = "Runnning";
+        src.disabled = true;
         $.ajax({
             type: "POST",
             url: "posts/change",
             data: {post_id: post_id, tag_id: tag_id, flag: flag},
             success: function (data) {
+                src.textContent = "Finished"
                 console.log(data);
             }
         });
