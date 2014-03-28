@@ -13,7 +13,7 @@
 		<ul class="wat-cf" style="margin-top: 10px;">
 			<li><a href="/tags">Tags</a></li>
 			<li><a href="/posts">Posts</a></li>
-            <button type="button" class="btn btn-danger" onclick="sync()" style="float: right;">
+            <button type="button" class="btn btn-danger" id="syncbutton" onclick="sync()" style="float: right;">
               <div class="desc">同步Redis</div>
               <img class="loading" src="/loading_icon2.gif" style="width: 15px;"/>
             </button>
@@ -24,6 +24,7 @@
 <script type="text/javascript">
   $('.loading').hide();
   function sync(){
+      $('#syncbutton').addClass('disabled');
       $('.desc').hide();
       $('.loading').show();
       $.ajax({
@@ -33,6 +34,7 @@
           success: function (data) {
             $('.loading').hide();
             $('.desc').show();
+            $('#syncbutton').removeClass('disabled');
           }
       });
   }
