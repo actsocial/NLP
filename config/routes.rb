@@ -1,5 +1,6 @@
 Mltraining::Application.routes.draw do
   get "posts/get_features"
+  get "tags/test"
 
   post "calc/rebuild"
   post "calc/test_rebuild"
@@ -17,6 +18,7 @@ Mltraining::Application.routes.draw do
   post "tags/add_to_redis"
   post "tags/show"
   post "tags/sync"
+  post "tags/runtest"
 
   resources :fnfps
   resources :tags

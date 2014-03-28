@@ -1,4 +1,5 @@
 require "redis"
+require 'soap/wsdlDriver'
 
 class TagsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:create]
@@ -265,6 +266,65 @@ class TagsController < ApplicationController
 
     respond_to do |format|
       format.json { render json: {"status" => "success"} }
+    end
+  end
+
+  def test
+    render "test"
+  end
+
+  def runtest
+    puts params
+    puts "=== runtest start ==="
+    type = params["type"]
+    if(type === "topic_id")
+
+    elsif(type === "post_id")
+
+    elsif(type === "content")
+      body = params["content"]
+    end
+
+    @@tag_list = get_tag_list
+    @@likelihood = get_likelihood
+    @@prior = get_prior
+
+    post_hashs = [{:body => body}]
+    predict_tags = []
+    predicted = {}
+    @@soap_client = SOAP::WSDLDriverFactory.new(Settings.feature_ws_url).create_rpc_driver
+    response = @@soap_client.doFeature((post_hashs||[]).collect{|p| p.nil? ? "{}" : p.to_json.to_s})
+    new_features_arr = response['return'].split("|")
+    new_features_arr.each_with_index do |new_features,i|
+      features = []
+      new_features.split(",").each do |nf|
+        nf_keyword = nf.split("=")[0]
+        nf_count = nf.split("=")[1].to_i
+        f = "#{nf_keyword}=#{nf_count}"
+        features.push nf unless nf.blank?
+      end
+      post_hashs[i][:features] = features[0,50] if post_hashs[i]
+      post_hashs[i][:predict_version] = 1
+
+      @@tag_list.each do |tag|
+        predicted[tag] = (@@prior[tag] || 0)*1
+        features.each do |feature_str|
+          feature = feature_str.split("=")[0]
+          count = feature_str.split("=")[1].to_i
+          predicted[tag] += (@@likelihood[tag] && @@likelihood[tag][feature] || 0)*(1+Math.log(count))
+        end
+        predicted[tag] = 1/(1+Math.exp(0-predicted[tag]))
+        if  predicted[tag]>0.55
+          predict_tags << tag
+        end
+      end
+      predict_tags.sort! {| t1,t2 | predicted[t2] <=> predicted[t1] }
+      predict_tags = predict_tags[0,30]
+      post_hashs[i][:predict_tags] = predict_tags||[] if post_hashs[i]
+    end
+    puts "=== runtest end ==="
+    respond_to do |format|
+      format.json { render json: {"status" => "success", "predict_tags" => predict_tags, "features" => new_features_arr, "body" => body} }
     end
   end
 
