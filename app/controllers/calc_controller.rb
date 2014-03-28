@@ -27,7 +27,7 @@ class CalcController < ApplicationController
       training_data = []
       posts = Post.where({:id => post_ids})
       posts.each do |post|
-        if (Random.rand(5)==1) # 3% rows are selected for testing instead of training
+        if (Random.rand(10)==1) # 3% rows are selected for testing instead of training
           post.is_test = true
           post.save
           next
