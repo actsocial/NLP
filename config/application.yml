@@ -1,7 +1,7 @@
 defaults: &defaults
   redis_server: 54.248.232.237
   redis_port: 6379
-  feature_ws_url: 'http://localhost:8082/AxisWS/asia.wildfire.Featurer?wsdl'
+  feature_ws_url: 'http://localhost:8081/AxisWS/asia.wildfire.Featurer?wsdl'
   redis_server_hhd: 42.121.104.135
 
 development:
