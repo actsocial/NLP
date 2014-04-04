@@ -62,6 +62,7 @@ class TagsController < ApplicationController
   # GET /tags/new
   # GET /tags/new.json
   def new
+    puts params
     @tag = Tag.new
 
     respond_to do |format|
@@ -79,8 +80,7 @@ class TagsController < ApplicationController
   # POST /tags.json
   def create
     @tag = Tag.new
-    @tag.id = params[:tag]
-
+    @tag.tag_id = params[:tag]
     respond_to do |format|
       if @tag.save
         format.html { redirect_to @tag, notice: 'Tag was successfully created.' }
@@ -232,6 +232,12 @@ class TagsController < ApplicationController
     end
   end
 
+  def save_tag_list(tag_list)
+    redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
+    redis.del("tag_list")
+    redis.lpush("tag_list",tag_list)
+  end
+
   def backup_likelihood_prior(likelihood, prior)
     timestamp = Time.now.to_i.to_s
     bak_prior = "prior_bak" + timestamp + ".txt"
@@ -251,11 +257,22 @@ class TagsController < ApplicationController
     prior = get_prior
     likelihood = get_likelihood
 
-    puts prior
+    # tag_list = get_tag_list
+    tag_list = []
+    tags = Tag.find(:all)
+    tags.each do |tag|
+      tag_list << tag.tag_id
+    end
+
+    # save to lejin -- tag_list from db
+    save_tag_list(tag_list)
 
     # save to hanhuidi
     redis_hhd = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server_hhd, :port => Settings.redis_port))
     redis_hhd.hset("parameters", "prior", prior.to_json)
+
+    redis_hhd.del("tag_list")
+    redis_hhd.lpush("tag_list",tag_list)
 
     redis_hhd.del("likelihood")
     likelihood.each do |k, v|
