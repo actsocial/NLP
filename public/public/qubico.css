@@ -269,7 +269,7 @@ a:focus,
     background:#39c;
     color:#4E5961;
     box-shadow:0 0 0px rgba(0,0,0,0.3);
-    z-index:9999;
+    /*z-index:9999;*/
 }
 
 #main-nav.scrolled .navbar-toggle{
