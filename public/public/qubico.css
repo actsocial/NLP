@@ -268,7 +268,7 @@ a:focus,
 #main-nav{
     background:#39c;
     color:#4E5961;
-    box-shadow:0 0 3px rgba(0,0,0,0.3);
+    box-shadow:0 0 0px rgba(0,0,0,0.3);
     z-index:9999;
 }
 
@@ -307,10 +307,10 @@ a:focus,
     transition:opacity 0.2s ease-out; 
 }
 
-#main-nav .nav .active a,
-#main-nav .nav a:hover{
-    opacity:1;
-}
+/*#main-nav .nav .active a,*/
+/*#main-nav .nav a:hover{*/
+    /*opacity:1;*/
+/*}*/
 
 #main-nav .nav a:before {
     display:block;
@@ -325,6 +325,11 @@ a:focus,
     opacity:0;
     -webkit-transition:all 0.3s ease-out;
     transition:all 0.3s ease-out;
+}
+
+#main-nav .nav .dropdown-menu a:hover{
+    background-color: white;
+    color: #39c;
 }
 
 #main-nav .nav a:hover:before,
