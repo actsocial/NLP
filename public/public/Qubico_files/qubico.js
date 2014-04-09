@@ -25,7 +25,7 @@ $(document).ready(function() {
 		
 		setTimeout(function(){
 			$("#sequence h2").fitText(0.9, { minFontSize: '24px', maxFontSize: '56px' });
-			$("#sequence p").fitText(1.2, { minFontSize: '16px', maxFontSize: '28px' });
+			$("#sequence p").fitText(1.2, { minFontSize: '16px', maxFontSize: '22px' });
 		},500);
 	};
 	

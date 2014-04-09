@@ -1528,13 +1528,21 @@ a:focus,
 /*----------------------
 -----Clients Styles-----
 ------------------------*/
+.clients {
+    height:120px;
+}
 .clients .client {
     max-width:300px;
-    margin:0 auto 20px;
+    margin:20px;
     overflow:hidden;
 }
 
+.clients div{
+    height: 42px;
+    float: left;
+}
 .client img {
+    height: 35px;
     -webkit-transform:scale(1) rotate(0deg);
     transform:scale(1) rotate(0deg);
     -webkit-transition:all .6s ease-out;
