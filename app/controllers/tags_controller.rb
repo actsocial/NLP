@@ -268,7 +268,7 @@ class TagsController < ApplicationController
     save_tag_list(tag_list)
 
     # save to hanhuidi
-    redis_hhd = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server_hhd, :port => Settings.redis_port))
+    redis_hhd = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server_hhd, :port => Settings.redis_port, :timeout => 3600))
     redis_hhd.hset("parameters", "prior", prior.to_json)
 
     redis_hhd.del("tag_list")
