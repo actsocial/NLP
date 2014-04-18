@@ -1,16 +1,16 @@
 class TfIdf
   attr_reader :documents, :tokenized_documents
 
-  def initialize(documents)
-    @documents = documents
-    @tokenized_documents = tokenization
+  def initialize(start_date, end_date)
+    # @documents = documents
+    # @tokenized_documents = tokenization(start_date, end_date)
   end
   
-  def tf
+  def tf(start_date, end_date,threshold)
     @tf ||= calculate_term_frequencies
   end
   
-  def idf
+  def idf(start_date, end_date,threshold)
     @idf ||= calculate_inverse_document_frequency
   end
   
@@ -27,7 +27,7 @@ class TfIdf
     tf_idf
   end
 
-  def tokenization
+  def tokenization(start_date, end_date)
     results = []
     @documents = Term.where('date >= ? and date <= ?', start_date, end_date).group("post_id")
 
