@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-lg-1">
+      <select id="type">
+        <option value="topic_id">Topic Id</option>
+        <option value="post_id">Post Id</option>
+        <option value="content" selected="selected">Content</option>
+      </select>
+    </div>
+
+    <div class="col-lg-10">
+        <textarea id="content" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="col-lg-1">
+      <button type="button" class="btn btn-primary" id="run-test" onclick="runtest()">
+        <div class="run">Run</div>
+        <img class="loading-run-test" src="/loading_icon2.gif" style="width: 15px;"/>
+      </button>
+    </div>
+</div>
+
+<br>
+<div class="row">
+    <div class="col-lg-1" id="body">
+      Body:
+    </div>
+    <div class="col-lg-10" id="body_text">
+    </div>
+    <div class="col-lg-1" id="">
+    </div>
+</div>
+
+<br>
+<div class="row">
+    <div class="col-lg-1" id="predict_tags">
+      Predict Tags:
+    </div>
+    <div class="col-lg-10" id="predict_tags_text">
+    </div>
+    <div class="col-lg-1" id="">
+    </div>
+</div>
+
+<br>
+<div class="row">
+    <div class="col-lg-1" id="features">
+      Features:
+    </div>
+    <div class="col-lg-10" id="features_text">
+    </div>
+    <div class="col-lg-1" id="">
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.loading-run-test').hide();
+    function runtest(){
+        var type = $('#type').find("option:selected").val();
+        var content = $('#content').val();
+        $('#run-test').addClass('disabled');
+        $('.run').hide();
+        $('.loading-run-test').show();
+        $.ajax({
+            type: "POST",
+            url: "/tags/runtest",
+            dataType: "json",
+            data: {type: type, content: content},
+            success: function (data) {
+                $('.loading-run-test').hide();
+                $('.run').show();
+                $('#run-test').removeClass('disabled');
+                console.log("run test success");
+                $("#body_text").text(data["body"]);
+                $("#predict_tags_text").text(data["predict_tags"]);
+                $("#features_text").text(data["features"]);
+            }
+        });
+    }
+</script>

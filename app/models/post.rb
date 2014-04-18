@@ -1,4 +1,4 @@
 class Post < ActiveRecord::Base
-  has_many :post_tag
-  has_many :post_feature
+  has_many :post_tags
+  has_many :post_features
 end

@@ -1,0 +1,49 @@
+<h2>New Posts Overview</h2>
+<div>
+  <table id="compare_show" class="table-hover table">
+    <% if @exist_posts.count>0 || @new_posts.count>0 %>
+      <tr>
+        <th>New Posts</th>
+      </tr>
+      <% @new_posts.each do |np| %>
+          <tr>
+            <td><%= np[:content] %></td>
+          </tr>
+      <% end %>
+      <tr>
+        <th>Exist Posts</th>
+      </tr>
+      <% @exist_posts.each do |ep| %>
+        <tr>
+          <td><%= ep[:content] %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <th>No New Posts...</th>
+      </tr>
+    <% end %>
+  </table>
+</div>
+<div>
+  <a class="btn btn-primary confirm_import" onclick="confirmImport()">Confirm Import</a>
+  <a href="/posts" class="btn btn-warning cancel_import">Cancel</a>
+</div>
+<script type="text/javascript">
+  function confirmImport(e) {
+    e = e || window.event;
+    var src = e.srcElement || e.target;
+    src.textContent = "Importing...";
+    src.disabled = true;
+    $.ajax({
+      type: "POST",
+      url: "../posts/confirm_import",
+      success: function (p) {
+        if (p["status"] == "ok") {
+          src.textContent = "Success!";
+          $(".cancel_import").text("Back");
+        }
+      }
+    });
+  }
+</script>

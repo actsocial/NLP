@@ -1,14 +1,30 @@
 Mltraining::Application.routes.draw do
-  resources :tags
+  get "posts/get_features"
+  get "tags/test"
 
+  post "calc/rebuild"
+  post "calc/test_rebuild"
 
-  resources :posts
-
-  get "calc/rebuild"
   post "posts/change_tag"
-  post "calc/single_rebuild"
+  post "posts/confirm_import"
+  post "posts/import_data"
+  post "posts/select_tag"
+  post "posts/do_feature"
+  post "posts/change"
+
+
   post "tags/load_data"
   post "tags/save_to_redis"
+  post "tags/add_to_redis"
+  post "tags/show"
+  post "tags/sync"
+  post "tags/runtest"
+
+  resources :fnfps
+  resources :tags
+  resources :priors
+  resources :posts
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -65,4 +81,5 @@ Mltraining::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+  root :to => "tags#index"
 end

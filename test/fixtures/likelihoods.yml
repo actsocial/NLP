@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  tag_id: MyString
+  feature: MyString
+  likelihood: 1.5
+
+two:
+  tag_id: MyString
+  feature: MyString
+  likelihood: 1.5

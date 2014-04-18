@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Mltraining</title>
-	<link rel="stylesheet" href="/assets/bootstrap.min.css">
-	<script src="/assets/jquery-1.8.2.min.js"></script>
+  <title>MlTraining</title>
+  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "bootstrap.min" %>
+  <%= javascript_include_tag "jquery-1.8.2.min" %>
 
-	<script src="/assets/bootstrap.min.js"></script>
-
-	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<%= javascript_include_tag "application" %>
-	<%= csrf_meta_tags %>
 </head>
 <body>
-
-	<%= yield %>
-
+	<div id="main-navigation" class="navbar navbar-inverse" style="border-radius: 0px;">
+		<ul class="wat-cf" style="margin-top: 10px;">
+			<li><a href="/tags">Tags</a></li>
+			<li><a href="/posts">Posts</a></li>
+          <li><a href="/tags/test">Test</a></li>
+            <button type="button" class="btn btn-danger" id="syncbutton" onclick="sync()" style="float: right;">
+              <div class="desc">同步Redis</div>
+              <img class="loading" src="/loading_icon2.gif" style="width: 15px;"/>
+            </button>
+		</ul>
+	</div>
+    <%= yield %>
 </body>
+<script type="text/javascript">
+  $('.loading').hide();
+  function sync(){
+      $('#syncbutton').addClass('disabled');
+      $('.desc').hide();
+      $('.loading').show();
+      $.ajax({
+          type: "POST",
+          url: "tags/sync",
+          dataType: "json",
+          success: function (data) {
+            $('.loading').hide();
+            $('.desc').show();
+            $('#syncbutton').removeClass('disabled');
+          }
+      });
+  }
+</script>
 </html>

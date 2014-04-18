@@ -1,0 +1,58 @@
+<h3>Listing fnfps</h3>
+
+<table  class="table table-hover table-striped">
+  <tr>
+    <th>Post</th>
+    <th>Tag</th>
+    <th>Flag</th>
+    <th style="text-align: center;">content</th>
+    <th>Change</th>
+  </tr>
+
+<% @fnfps.each do |fnfp| %>
+  <tr id="<%= fnfp.post_id %>">
+    <td><%= fnfp.post_id %></td>
+    <td><%= fnfp.tag_id %></td>
+    <td><%= fnfp.flag %></td>
+    <td><%= fnfp.content %>
+    <td>
+      <% if(fnfp.flag == "fn") %>
+        <button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,'<%= fnfp.tag_id %>','<%= fnfp.flag %>')">Not <%= fnfp.tag_id%></button>
+      <% elsif(fnfp.flag == "fp") %>
+        <button class="btn btn-success" onclick="change(<%= fnfp.post_id %>,'<%= fnfp.tag_id %>','<%= fnfp.flag %>')">Is <%= fnfp.tag_id%></button>
+      <% end %>
+    </td>
+    <script type="text/javascript">
+       $(document).ready(function(){
+           $.get("/posts/get_features?post_id=<%= fnfp.post_id %>").success(function(data){
+               var feature_str = "";
+               data.features.forEach(function(feature){
+                   {
+                       feature_str += feature["feature"]+" x "+feature.occurrence+"     ";
+                   }
+               });
+               $("#<%= fnfp.post_id %>").after("<tr style='border-bottom: 1px solid black;'><td></td><td></td><td></td><td>" + feature_str + "</td><td></td></tr>");
+           });
+       });
+    </script>
+  </tr>
+<% end %>
+</table>
+
+<script type="text/javascript">
+    function change(post_id,tag_id,flag,e){
+        e = e || window.event;
+        var src = e.srcElement || e.target;
+        src.textContent = "Runnning";
+        src.disabled = true;
+        $.ajax({
+            type: "POST",
+            url: "posts/change",
+            data: {post_id: post_id, tag_id: tag_id, flag: flag},
+            success: function (data) {
+                src.textContent = "Finished"
+                console.log(data);
+            }
+        });
+    };
+</script>

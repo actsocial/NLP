@@ -1,3 +1,4 @@
 class Prior < ActiveRecord::Base
-  self.table_name = "prior"
+  attr_accessible :prior, :tag_id
+  belongs_to :tag
 end

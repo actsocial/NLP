@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
-
-<%= link_to 'Edit', edit_tag_path(@tag) %> |
-<%= link_to 'Back', tags_path %>
+<label>Tag Name:</label><span><%= @tag.tag_id %></span>
+<br>
+<%= link_to 'Edit', edit_tag_path(@tag), {:class => "btn btn-default"} %> |
+<%= link_to 'Back', tags_path, {:class => "btn btn-default"} %>
