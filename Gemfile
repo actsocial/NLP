@@ -45,3 +45,4 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'thin'
+gem 'ai4r'
