@@ -63,14 +63,17 @@ class TfIdf
     #return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
 
-  def self.generate_bigram(words)
+  def self.generate_bigram(words_trend)
     results = {}
+    words = words_trend.map{|w| w[:word]}
     tt_words = words.combination(2).to_a# + words.combination(3).to_a
     tt_words.each do |word|
       wa = word.join
       results[wa] = {
-        w: word,
-        count: 0
+        "word" => word,
+        "count" => 0
+        # "#{word[0]}" => words_trend.select{|r| r[:word] == word[0]}.first[:trend],
+        # "#{word[1]}" => words_trend.select{|r| r[:word] == word[1]}.first[:trend] 
       }
     end
     return results
@@ -83,7 +86,7 @@ class TfIdf
     tt_words.each do |word|
       wa = word.join
       results[wa] = {
-        w: word,
+        word: word,
         count: 0
       }
     end
@@ -117,22 +120,23 @@ class TfIdf
 =end    
     today_idfs = idf(start_date, end_date, 15)
     thirty_idfs = idf(start_date.to_date - 30.days, start_date, 2)
-    threshold1 = 2.5
+    threshold1 = 2
     tw = trending_words(today_idfs,thirty_idfs,threshold1)
     bigrams = generate_bigram(tw)
 
 
     # top_words = all_top_word(start_date, end_date)
     threads = ThreadSource.where("date >= '#{start_date}' and date < '#{end_date}'")
+    #pp bigrams
     bigrams.each do |words|
-      ws = words[1][:w]
+      ws = words[1]["word"]
       threads.each do |thread|
         if !thread.title.index(ws[0]).nil? && !thread.title.index(ws[1]).nil?
-          bigrams["#{words[0]}"][:count] += 1
+          bigrams["#{words[0]}"]["count"] += 1
         end
       end
     end
-    return bigrams.to_a.select{|a| a[1][:count]>0}.sort_by{|a| a[1][:count]}.reverse[0..50]
+    return bigrams.to_a.select{|a| a[1]["count"]>0}.sort_by{|a| a[1]["count"]}.reverse[0..50]
   end
   
   # tf_idf = tf * idf
