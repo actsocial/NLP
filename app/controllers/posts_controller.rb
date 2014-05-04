@@ -318,15 +318,17 @@ class PostsController < ApplicationController
 
   def get_daily_posts
     posts = Post.find_by_sql("select DATE_FORMAT(created_at,'%Y-%m-%d') day,count(*) count from posts group by DATE_FORMAT(created_at,'%Y-%m-%d')")
-    temp = Post.find_by_sql("select count(*) 'values' from posts where id is null")[0]
+    #posts = Post.find_by_sql("select created_at as day,count(*) count from posts group by DATE_FORMAT(created_at,'%Y-%m-%d')")
     result = {}
     result["values"] = []
     posts.each_with_index do |post,index|
-      result["values"][index] = {x: post.day, y: post.count}
+      result["values"][index] = {x: (DateTime.parse(post.day).to_i) * 1000, y: post.count}
     end
-    temp.values = result["values"]
+    res = [{values: result["values"],
+            key: 'posts number',
+            color: '#ff7f0e'}]
     respond_to do |format|
-      format.json { render json: temp.to_json }
+      format.json { render json: res.to_json }
     end
   end
 
