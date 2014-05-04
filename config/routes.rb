@@ -20,6 +20,9 @@ Mltraining::Application.routes.draw do
   post "tags/sync"
   post "tags/runtest"
 
+  get "posts/chart"
+  post "posts/get_daily_posts"
+
   resources :fnfps
   resources :tags
   resources :priors
