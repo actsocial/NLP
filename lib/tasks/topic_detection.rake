@@ -6,6 +6,22 @@ include Ai4r::Data
 include Ai4r::Clusterers
 
 namespace :topic_detection do
+  task :lda => :environment do |t, args|
+    @corpus = Lda::Corpus.new
+    docs = ThreadSource.where('date > ? and date < ?', '2014-04-10', '2014-04-11').all.map{|p| p.title};nil
+
+    docs.each do |doc|
+      d = Lda::TextDocument.new(@corpus, doc)
+      @corpus.add_document(d)
+    end
+
+    @lda = Lda::Lda.new(@corpus)
+    @lda.num_topics = 10
+    @lda.em('seeded')
+    topics = @lda.top_words(4)
+    pp topics
+  end
+
   task :run => :environment do |t, args|
 
     start_time = "2014-04-08"
