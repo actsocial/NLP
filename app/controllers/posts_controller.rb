@@ -316,4 +316,18 @@ class PostsController < ApplicationController
     end
   end
 
+  def get_daily_posts
+    posts = Post.find_by_sql("select DATE_FORMAT(created_at,'%Y-%m-%d') day,count(*) count from posts group by DATE_FORMAT(created_at,'%Y-%m-%d')")
+    temp = Post.find_by_sql("select count(*) 'values' from posts where id is null")[0]
+    result = {}
+    result["values"] = []
+    posts.each_with_index do |post,index|
+      result["values"][index] = {x: post.day, y: post.count}
+    end
+    temp.values = result["values"]
+    respond_to do |format|
+      format.json { render json: temp.to_json }
+    end
+  end
+
 end
