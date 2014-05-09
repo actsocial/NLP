@@ -19,7 +19,7 @@ class TfIdf
   end
 
   def self.idf(scope ,start_date, end_date, threshold)
-    threads = WeiboThread.where("scope = '#{scope}' and date_time >= '#{start_date}' and date_time < '#{end_date}'");nil
+    threads = WeiboThread.where("scope = '#{scope}' and date >= '#{start_date}' and date < '#{end_date}'");nil
     threads_count = threads.count
     results = {}
     threads.each do |thread|
