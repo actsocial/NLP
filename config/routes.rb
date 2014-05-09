@@ -1,4 +1,9 @@
 Mltraining::Application.routes.draw do
+
+  get "topic_dates/chart"
+  post "topic_dates/get_daily_topics"
+  resources :topic_dates
+
   get "posts/get_features"
   get "tags/test"
 

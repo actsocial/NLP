@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Topic:</b>
+  <%= @topic_date.topic %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @topic_date.date %>
+</p>
+
+
+<%= link_to 'Edit', edit_topic_date_path(@topic_date) %> |
+<%= link_to 'Back', topic_dates_path %>
