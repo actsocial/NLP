@@ -18,8 +18,8 @@ class TfIdf
     return @results
   end
 
-  def self.idf(start_date, end_date, threshold)
-    threads = ThreadSource.where("date >= '#{start_date}' and date < '#{end_date}'");nil
+  def self.idf(scope ,start_date, end_date, threshold)
+    threads = WeiboThread.where("scope = '#{scope}' and date >= '#{start_date}' and date < '#{end_date}'");nil
     threads_count = threads.count
     results = {}
     threads.each do |thread|
@@ -102,9 +102,9 @@ class TfIdf
     return results
   end
 
-  def self.get_condition_by_trend_word(start_date, end_date)
-    today_idfs = TfIdf.idf(start_date, end_date, 15)
-    thirty_idfs = TfIdf.idf(start_date.to_date - 30.days, start_date, 2)
+  def self.get_condition_by_trend_word(scope, start_date, end_date)
+    today_idfs = TfIdf.idf(scope, start_date, end_date, 15)
+    thirty_idfs = TfIdf.idf(scope, start_date.to_date - 30.days, start_date, 2)
     threshold1 = 2.5
     tw = TfIdf.trending_words(today_idfs,thirty_idfs,threshold1)
     words = tw.collect{|w| w[:word]}
@@ -112,7 +112,7 @@ class TfIdf
     words.each do |word|
       con << "title like '%#{word}%'"
     end
-    return "(#{con.join(' or ')}) and date >= '#{start_date}' and date < '#{end_date}'"
+    return "scope = '#{scope}' and (#{con.join(' or ')}) and date >= '#{start_date}' and date < '#{end_date}'"
   end
 
   def self.topic_detection(start_date, end_date)
