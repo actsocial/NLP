@@ -54,12 +54,12 @@ class TopicDatesController < ApplicationController
   end
 
   def get_daily_topics
-    topics = TopicDate.find_by_sql("SELECT date, GROUP_CONCAT(topic SEPARATOR ', ') as topic_str FROM topic_dates GROUP BY date")
+    topics = TopicDate.find_by_sql("SELECT date, count(*) as count, GROUP_CONCAT(topic SEPARATOR ', ') as topic_str FROM topic_dates GROUP BY date")
     puts topics
     result = {}
     result["values"] = []
     topics.each_with_index do |topic,index|
-      result["values"][index] = {x: (DateTime.parse(topic.date.to_s)).to_i * 1000, y: 3}
+      result["values"][index] = {x: (DateTime.parse(topic.date.to_s)).to_i * 1000, y: topic.count, z:topic.topic_str}
     end
     res = [{values: result["values"],
             key: 'topic str',

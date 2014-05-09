@@ -50,23 +50,20 @@
 
           d3.select('#chart').append("svg").datum(data).transition().duration(100).call(chart);
 
-//          var chart = nv.models.lineChart().useInteractiveGuideline(true);
+          chart.tooltipContent(function (key, x, y, graph) {
+              var seriesValue = graph.point.z;
+              return "<h3>" + seriesValue + " @ " + x + "</h3>"
 
-//          chart.xAxis.axisLabel('Time (ms)').tickFormat(d3.format(',r'));
-//          chart.xAxis.tickValues('Date')
-//                  .tickFormat(function (d) {
-//                      return d3.time.format(xformat)(new Date(d));
-//                  });
-//
-//          chart.yAxis.axisLabel('Voltage (v)').tickFormat(d3.format(',.2d'));
-//
-//          d3.select('#chart svg')
-//                  .datum(data)
-//                  .transition().duration(1000)
-//                  .call(chart);
+          });
 
-//          nv.utils.windowResize(chart.update);
-
+          chart.lines.scatter.dispatch.on('elementMouseout.tooltip', function (e) {});
+          chart.lines.scatter.dispatch.on('elementMouseover.tooltip', function (e) {
+              chart.dispatch.tooltipHide();
+              chart.dispatch.tooltipShow(e);
+          });
+          $('body').on('click', function (e) {
+              chart.dispatch.tooltipHide();
+          });
           return chart;
       }
     });
