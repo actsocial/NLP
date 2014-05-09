@@ -43,24 +43,8 @@ class TfIdf
         trend: trend
       }
     end
-    return results.select{|r| r[:trend] >= threshold}
-  end
-
-  def self.trend_top(start_date, end_date, threshold)
-    today_idfs = idf(start_date, end_date, 15)
-    thirty_idfs = idf(start_date.to_date - 30.days, start_date, 2)
-    results = []
-    today_idfs.each do |td_idf|
-      th_idf = thirty_idfs.select{|d| d[:word] == td_idf[:word]}.first
-      next if th_idf.nil? || th_idf.blank?
-      trend = td_idf[:percent]/th_idf[:percent]
-      results << {
-        word: td_idf[:word],
-        trend: trend
-      }
-    end
-    return results.select{|r| r[:trend] >= 3}
-    #return results.sort_by{|v| v[:trend]}.reverse[0...30]
+    #return results.select{|r| r[:trend] >= threshold}
+    return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
 
   def self.generate_bigram(words_trend)
@@ -79,55 +63,28 @@ class TfIdf
     return results
   end
 
-  def self.all_top_word(start_date, end_date)
-    results = {}
-    words = trend_top(start_date, end_date, 3).map{|w| w[:word]}
-    tt_words = words.combination(2).to_a# + words.combination(3).to_a
-    tt_words.each do |word|
-      wa = word.join
-      results[wa] = {
-        word: word,
-        count: 0
-      }
+  def self.get_condition_by_trend_word(start_date, end_date)
+    today_idfs = TfIdf.idf(start_date, end_date, 15)
+    thirty_idfs = TfIdf.idf(start_date.to_date - 30.days, start_date, 2)
+    threshold1 = 2.5
+    tw = TfIdf.trending_words(today_idfs,thirty_idfs,threshold1)
+    words = tw.collect{|w| w[:word]}
+    con = []
+    words.each do |word|
+      con << "title like '%#{word}%'"
     end
-    return results#.select{|r| r[:count] > 7}
+    return "(#{con.join(' or ')}) and date >= '#{start_date}' and date < '#{end_date}'"
   end
 
-
-
-
   def self.topic_detection(start_date, end_date)
-=begin    
-    words = all_top_word(start_date, end_date).collect{|w| w[1][:w]}
-    sql_arr = []
-    words.each_slice(1000).each do |word_arr|
-      con = []
-      word_arr.each do |word|
-        if word.length ==2
-          con << "sum(CASE WHEN title like '%#{word[0]}%' and title like '%#{word[1]}%' THEN 1 ELSE 0 END) as '#{word.join}'"
-        elsif word.length == 3
-          con << "sum(CASE WHEN title like '%#{word[0]}%' and title like '%#{word[1]}%' and title like '%#{word[2]}%' THEN 1 ELSE 0 END) as '#{word.join}'"
-        end
-      end
-      sql_arr << "select #{con.join(',')} from thread_source where date >= '2014-04-10' and date < '2014-04-11'"
-    end
-
-    results = {}
-    sql_arr.each do |sql|
-      results.merge!(ThreadSource.find_by_sql(sql).first.attributes)
-    end
-    return results
-=end    
-    today_idfs = idf(start_date, end_date, 15)
-    thirty_idfs = idf(start_date.to_date - 30.days, start_date, 2)
-    threshold1 = 2
-    tw = trending_words(today_idfs,thirty_idfs,threshold1)
+    today_idfs = TfIdf.idf(start_date, end_date, 15)
+    thirty_idfs = TfIdf.idf(start_date.to_date - 30.days, start_date, 2)
+    threshold1 = 2.5
+    tw = TfIdf.trending_words(today_idfs,thirty_idfs,threshold1)
     bigrams = generate_bigram(tw)
-
 
     # top_words = all_top_word(start_date, end_date)
     threads = ThreadSource.where("date >= '#{start_date}' and date < '#{end_date}'")
-    #pp bigrams
     bigrams.each do |words|
       ws = words[1]["word"]
       threads.each do |thread|

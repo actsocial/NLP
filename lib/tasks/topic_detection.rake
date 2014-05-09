@@ -8,7 +8,7 @@ include Ai4r::Clusterers
 namespace :topic_detection do
   task :lda => :environment do |t, args|
     @corpus = Lda::Corpus.new
-    docs = ThreadSource.where('date > ? and date < ?', '2014-04-10', '2014-04-11').all.map{|p| p.title};nil
+    docs = ThreadSource.where(TfIdf.get_condition_by_trend_word('2014-04-10','2014-04-11')).map{|p| p.title};nil
 
     docs.each do |doc|
       d = Lda::TextDocument.new(@corpus, doc)
