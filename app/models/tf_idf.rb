@@ -17,7 +17,28 @@ class TfIdf
     end
     return @results
   end
-  
+
+  def self.idf(start_date, end_date, threshold)
+    threads = ThreadSource.where("date >= '#{start_date}' and date < '#{end_date}'");nil
+    threads_count = threads.count
+    results = {}
+    threads.each do |thread|
+      response = @@soap_client.doSegmentation([{:body => thread.title}].collect{|p| p.nil? ? "{}" : p.to_json.to_s})
+      response["return"].split(",").each do |word|
+        word,count = word.split("=")
+        results[word] ||= {
+          word: word,
+          idf: 0,
+          percent: 0.0
+        }
+        results[word][:idf] += 1
+        results[word][:percent] = results[word][:idf].to_f/threads_count
+      end
+    end;nil
+    return results.to_a.select{|w| w[1][:idf] > threshold}
+  end
+ 
+=begin  
   def self.idf(start_date, end_date,threshold)
     total_post_count = ThreadSource.where("date >= '#{start_date}' and date < '#{end_date}'").count
     idfs = Term.find_by_sql("select word, count(DISTINCT(post_id)) idf from terms where post_time >= '#{start_date}' and post_time < '#{end_date}' group by word HAVING(idf) > #{threshold}")
@@ -31,7 +52,24 @@ class TfIdf
     end
     return results
   end
+=end  
 
+  def self.trending_words(today_idfs, thirty_idfs, threshold)
+    results = []
+    today_idfs.each do |td_idf|
+      th_idf = thirty_idfs.select{|d| d[0] == td_idf[0]}.first
+      next if th_idf.nil? || th_idf.blank?
+      trend = td_idf[1][:percent]/th_idf[1][:percent]
+      results << {
+        word: td_idf[1][:word],
+        trend: trend
+      }
+    end
+    #return results.select{|r| r[:trend] >= threshold}
+    return results.sort_by{|v| v[:trend]}.reverse[0...30]
+  end
+
+=begin
   def self.trending_words(today_idfs, thirty_idfs, threshold)
     results = []
     today_idfs.each do |td_idf|
@@ -46,6 +84,7 @@ class TfIdf
     #return results.select{|r| r[:trend] >= threshold}
     return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
+=end
 
   def self.generate_bigram(words_trend)
     results = {}

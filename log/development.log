@@ -13997,3 +13997,13 @@ on(((`ft00`.`tag_id` = `ft11`.`tag_id`) and (`ft00`.`feature` = `ft11`.`feature`
 left join TAG_STATS_0 ts00 on ts00.`tag_id` = `ft11`.tag_id
 left join TAG_STATS_1 ts11 on ts11.`tag_id` = `ft11`.tag_id;
 Completed   in 2009337ms
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Mysql2::Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '00:00:00 and date < 2014-04-11 00:00:00)' at line 1: SELECT COUNT(*) FROM `thread_source`  WHERE (date >= 2014-04-10 00:00:00 and date < 2014-04-11 00:00:00)
+Mysql2::Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '00:00:00 and date < 2014-04-11 00:00:00)' at line 1: SELECT COUNT(*) FROM `thread_source`  WHERE (date >= 2014-04-10 00:00:00 and date < 2014-04-11 00:00:00)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Mysql2::Error: Lost connection to MySQL server during query: SELECT `thread_source`.* FROM `thread_source`  WHERE (date >= '2014-04-10' and date < '2014-04-11')
+Mysql2::Error: Lost connection to MySQL server during query: SELECT `thread_source`.* FROM `thread_source`  WHERE (date >= '2014-04-10' and date < '2014-04-11')
+Connecting to database specified by database.yml
