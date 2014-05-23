@@ -132,7 +132,11 @@ class TfIdf
       con << "title like '%#{word}%'"
     end
 
-    return "scope = '#{scope}' and (#{con.join(' or ')}) and date >= '#{start_date}' and date < '#{end_date}'"
+    if con.blank?
+      return "scope = '#{scope}' and ymd >= '#{start_date}' and ymd < '#{end_date}' and topic = 'all' "
+    else
+      return "scope = '#{scope}' and (#{con.join(' or ')}) and ymd >= '#{start_date}' and ymd < '#{end_date}' and topic = 'all' "
+    end
   end
 
   def self.topic_detection(start_date, end_date)
