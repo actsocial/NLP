@@ -8,11 +8,11 @@ class TfIdf
 
   def self.do_segmentation(scope, start_date, end_date)
     results = {}
-    threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').order("thread_id")
+    threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').group("thread_id").order("thread_id").limit(10)
     results_arr = []
     threads.each do |t|
       results_arr << {:body => t.title}
-    end
+    end;nil
     response = @@soap_client.doSegmentation(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
     response["return"].split("|").each_with_index do |words, index|
       results[threads[index].thread_id] = {:words => words}
@@ -33,12 +33,12 @@ class TfIdf
   end
 
   def self.idf(scope ,start_date, end_date, threshold)
-    threads = WeiboThread.where("scope = '#{scope}' and date >= '#{start_date}' and date < '#{end_date}'");nil
-    threads_count = threads.count
     results = {}
-    threads.each do |thread|
-      response = @@soap_client.doSegmentation([{:body => thread.title}].collect{|p| p.nil? ? "{}" : p.to_json.to_s})
-      response["return"].split(",").each do |word|
+    threads_words = do_segmentation(scope, start_date, end_date)
+    threads_count = threads_words.count
+    threads_words.each do |thread_id, words|
+      words = words.values[0].split(",")
+      words.each do |word|
         word,count = word.split("=")
         results[word] ||= {
           word: word,
@@ -48,7 +48,7 @@ class TfIdf
         results[word][:idf] += 1
         results[word][:percent] = results[word][:idf].to_f/threads_count
       end
-    end;nil
+    end
     return results.to_a.select{|w| w[1][:idf] > threshold}
   end
 
@@ -68,8 +68,6 @@ class TfIdf
   end
 =end  
 
-#动态分词
-=begin
   def self.trending_words(today_idfs, thirty_idfs, threshold)
     results = []
     today_idfs.each do |td_idf|
@@ -84,7 +82,6 @@ class TfIdf
     #return results.select{|r| r[:trend] >= threshold}
     return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
-=end  
 
   def self.trending_words(today_idfs, thirty_idfs, threshold)
     results = []
