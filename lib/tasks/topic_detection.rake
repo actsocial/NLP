@@ -2,22 +2,30 @@
 require 'rubygems'
 require 'rake'
 require 'ai4r'
+require 'soap/wsdlDriver'
 include Ai4r::Data
 include Ai4r::Clusterers
 
 namespace :topic_detection do
   task :lda => :environment do |t, args|
     @corpus = Lda::Corpus.new
-    docs = WeiboThread.where(TfIdf.get_condition_by_trend_word('siemens','2014-04-02','2014-04-03')).map{|p| p.title};nil
 
-    docs.each do |doc|
+    tokenized_docs = TfIdf.do_segmentation('Auto_Lincoln','2014-05-07','2014-05-08')
+    docs = WeiboThread.where(TfIdf.get_condition_by_trend_word('Quechua','2014-04-07','2014-04-08')).map{|p| p.title};nil
+
+    tokenized_docs.each do |thread_id, doc|
       d = Lda::TextDocument.new(@corpus, doc)
       @corpus.add_document(d)
     end
 
+    docs.each do |doc|
+      d = Lda::TextDocument.new(@corpus, tokenized_docs[doc.thread_id])
+      @corpus.add_document(d)
+    end
+
     @lda = Lda::Lda.new(@corpus)
-    @lda.num_topics = 10
-    @lda.em('seeded')
+    @lda.num_topics = 5
+    @lda.em('random')
     topics = @lda.top_words(4)
     pp topics
   end
