@@ -43,7 +43,6 @@ class TfIdf
     threads_words.each do |thread_id, words|
       words = words.values[0].split(",")
       words.each do |word|
-        word,count = word.split("=")
         results[word] ||= {
           word: word,
           idf: 0,
