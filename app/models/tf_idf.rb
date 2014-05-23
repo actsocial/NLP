@@ -8,6 +8,10 @@ class TfIdf
     # @tokenized_documents = tokenization(start_date, end_date)
   end
 
+  def self.get_thread_andwords(scope, start_date, end_date)
+
+  end
+
   def self.do_segmentation(scope, start_date, end_date)
     results = {}
     threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').group("thread_id").order("thread_id")
@@ -17,7 +21,7 @@ class TfIdf
     end;nil
     response = @@soap_client.doSegmentation(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
     response["return"].split("|").each_with_index do |words, index|
-      results[threads[index].thread_id] = {:words => words}
+      results[threads[index].thread_id] = {:words => words.split(",").map{|w| w.split("=")[0]}.join(',')}
     end
     return results
   end
