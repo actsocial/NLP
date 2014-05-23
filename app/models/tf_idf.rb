@@ -19,7 +19,7 @@ class TfIdf
     threads.each do |t|
       results_arr << {:body => t.title}
     end;nil
-    response = @@soap_client.doSegmentation(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
+    response = @@soap_client.doFeature(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
     response["return"].split("|").each_with_index do |words, index|
       results[threads[index].thread_id] = {:words => words.split(",").map{|w| w.split("=")[0]}.join(',')}
     end
@@ -131,6 +131,7 @@ class TfIdf
     words.each do |word|
       con << "title like '%#{word}%'"
     end
+
     return "scope = '#{scope}' and (#{con.join(' or ')}) and date >= '#{start_date}' and date < '#{end_date}'"
   end
 
