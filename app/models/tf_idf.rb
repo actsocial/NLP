@@ -5,7 +5,21 @@ class TfIdf
     # @documents = documents
     # @tokenized_documents = tokenization(start_date, end_date)
   end
-  
+
+  def self.do_segmentation(scope, start_date, end_date)
+    results = {}
+    threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').order("thread_id")
+    results_arr = []
+    threads.each do |t|
+      results_arr << {:body => t.title}
+    end
+    response = @@soap_client.doSegmentation(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
+    response["return"].split("|").each_with_index do |words, index|
+      results[threads[index].thread_id] = {:words => words}
+    end
+    return results
+  end
+
   def self.tf(start_date, end_date,threshold)
     @tf = Term.find_by_sql("select sum(count) as tf, word from terms where post_time >= '#{start_date}' and post_time < '#{end_date}' group by word HAVING(tf) > #{threshold}")
     @results = []
@@ -37,11 +51,11 @@ class TfIdf
     end;nil
     return results.to_a.select{|w| w[1][:idf] > threshold}
   end
- 
+
 =begin  
-  def self.idf(start_date, end_date,threshold)
-    total_post_count = ThreadSource.where("date >= '#{start_date}' and date < '#{end_date}'").count
-    idfs = Term.find_by_sql("select word, count(DISTINCT(post_id)) idf from terms where post_time >= '#{start_date}' and post_time < '#{end_date}' group by word HAVING(idf) > #{threshold}")
+  def self.idf(scope, start_date, end_date,threshold)
+    total_post_count = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').count
+    idfs = Term.find_by_sql("select word, count(DISTINCT(post_id)) idf from terms where scope = '#{scope}' and post_time >= '#{start_date}' and post_time < '#{end_date}' group by word HAVING(idf) > #{threshold}")
     results = []
     idfs.each do |idf|
       results << {
@@ -54,6 +68,8 @@ class TfIdf
   end
 =end  
 
+#动态分词
+=begin
   def self.trending_words(today_idfs, thirty_idfs, threshold)
     results = []
     today_idfs.each do |td_idf|
@@ -68,8 +84,8 @@ class TfIdf
     #return results.select{|r| r[:trend] >= threshold}
     return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
+=end  
 
-=begin
   def self.trending_words(today_idfs, thirty_idfs, threshold)
     results = []
     today_idfs.each do |td_idf|
@@ -84,7 +100,6 @@ class TfIdf
     #return results.select{|r| r[:trend] >= threshold}
     return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
-=end
 
   def self.generate_bigram(words_trend)
     results = {}
