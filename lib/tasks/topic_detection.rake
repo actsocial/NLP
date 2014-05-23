@@ -10,10 +10,10 @@ namespace :topic_detection do
   task :lda => :environment do |t, args|
     @corpus = Lda::Corpus.new
 
-    docs = WeiboThread.where(TfIdf.get_condition_by_trend_word('sports','2014-04-25','2014-04-26')).map{|p| p.title};nil
+    #docs = WeiboThread.where(TfIdf.get_condition_by_trend_word('sports','2014-04-25','2014-04-26')).map{|p| p.title};nil
 
     tokenized_docs = TfIdf.do_segmentation('Auto_Lincoln','2014-05-07','2014-05-08')
-    docs = WeiboThread.where(TfIdf.get_condition_by_trend_word('Quechua','2014-04-07','2014-04-08')).map{|p| p.title};nil
+    docs = WeiboThread.where(TfIdf.get_condition_by_trend_word('Auto_Lincoln','2014-05-07','2014-05-08')).group("thread_id");nil
 
     tokenized_docs.each do |thread_id, doc|
       d = Lda::TextDocument.new(@corpus, doc)
