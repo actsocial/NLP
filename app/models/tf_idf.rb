@@ -83,6 +83,7 @@ class TfIdf
     return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
 
+=begin
   def self.trending_words(today_idfs, thirty_idfs, threshold)
     results = []
     today_idfs.each do |td_idf|
@@ -97,6 +98,7 @@ class TfIdf
     #return results.select{|r| r[:trend] >= threshold}
     return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
+=end  
 
   def self.generate_bigram(words_trend)
     results = {}
@@ -115,8 +117,8 @@ class TfIdf
   end
 
   def self.get_condition_by_trend_word(scope, start_date, end_date)
-    today_idfs = TfIdf.idf(scope, start_date, end_date, 15)
-    thirty_idfs = TfIdf.idf(scope, start_date.to_date - 30.days, start_date, 2)
+    today_idfs = TfIdf.idf(scope, start_date.to_s, end_date.to_s, 15)
+    thirty_idfs = TfIdf.idf(scope, (start_date.to_date - 30.days).to_s, start_date.to_s, 2)
     threshold1 = 2.5
     tw = TfIdf.trending_words(today_idfs,thirty_idfs,threshold1)
     words = tw.collect{|w| w[:word]}
