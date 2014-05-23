@@ -15,7 +15,7 @@ mvpdatabase:
   database: production
   username: root
   password: IVmenyCUp2iPeGa
-  host: mvp.canhg57duqhd.ap-northeast-1.rds.amazonaws.com
+  host: alpha.canhg57duqhd.ap-northeast-1.rds.amazonaws.com
 
 test:
   adapter: mysql2
