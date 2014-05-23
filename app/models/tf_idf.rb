@@ -1,6 +1,8 @@
 class TfIdf
   attr_reader :documents, :tokenized_documents
 
+  @@soap_client = SOAP::WSDLDriverFactory.new('http://localhost:8083/AxisWS/asia.wildfire.Featurer?wsdl').create_rpc_driver
+
   def initialize(start_date, end_date)
     # @documents = documents
     # @tokenized_documents = tokenization(start_date, end_date)
