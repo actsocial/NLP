@@ -12,14 +12,32 @@ class TfIdf
 
   end
 
+  def self.do_feature(scope, start_date, end_date)
+    results = {}
+    threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').group("thread_id").order("thread_id")
+    i = 0
+    threads.each_slice(800) do |threads_arr|
+      results_arr = []
+      threads_arr.each do |t|
+        results_arr << {:body => t.title}
+      end
+      response = @@soap_client.doFeature(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
+      response["return"].split("|").each_with_index do |words, index|
+        results[threads[index+i].thread_id] = {:words => words.split(",").map{|w| w.split("=")[0]}.join(',')}
+      end
+      i += 800
+    end
+    return results
+  end
+
   def self.do_segmentation(scope, start_date, end_date)
     results = {}
     threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').group("thread_id").order("thread_id")
     results_arr = []
     threads.each do |t|
       results_arr << {:body => t.title}
-    end;nil
-    response = @@soap_client.doFeature(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
+    end
+    response = @@soap_client.doSegmentation(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
     response["return"].split("|").each_with_index do |words, index|
       results[threads[index].thread_id] = {:words => words.split(",").map{|w| w.split("=")[0]}.join(',')}
     end

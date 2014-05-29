@@ -14007,3 +14007,6 @@ Connecting to database specified by database.yml
 Mysql2::Error: Lost connection to MySQL server during query: SELECT `thread_source`.* FROM `thread_source`  WHERE (date >= '2014-04-10' and date < '2014-04-11')
 Mysql2::Error: Lost connection to MySQL server during query: SELECT `thread_source`.* FROM `thread_source`  WHERE (date >= '2014-04-10' and date < '2014-04-11')
 Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml

@@ -10,7 +10,8 @@ namespace :topic_detection do
   task :lda => :environment do |t, args|
     @corpus = Lda::Corpus.new
 
-    tokenized_docs = TfIdf.do_segmentation('Auto_Lincoln','2014-05-07','2014-05-08')
+    #tokenized_docs = TfIdf.do_segmentation('Auto_Lincoln','2014-05-07','2014-05-08');nil
+    tokenized_docs = TfIdf.do_feature('Auto_Lincoln','2014-05-07','2014-05-08');nil
     docs = WeiboThread.where(TfIdf.get_condition_by_trend_word('Auto_Lincoln','2014-05-07','2014-05-08')).group("thread_id");nil
 
     docs.each do |doc|
