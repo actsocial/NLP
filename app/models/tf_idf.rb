@@ -1,7 +1,7 @@
 class TfIdf
   attr_reader :documents, :tokenized_documents
 
-  @@soap_client = SOAP::WSDLDriverFactory.new('http://localhost:8083/AxisWS/asia.wildfire.Featurer?wsdl').create_rpc_driver
+  @@soap_client = SOAP::WSDLDriverFactory.new('http://localhost:8081/AxisWS/asia.wildfire.Featurer?wsdl').create_rpc_driver
 
   def initialize(start_date, end_date)
     # @documents = documents
@@ -16,7 +16,7 @@ class TfIdf
     results = {}
     threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').group("thread_id").order("thread_id")
     i = 0
-    threads.each_slice(800) do |threads_arr|
+    threads.each_slice(100) do |threads_arr|
       results_arr = []
       threads_arr.each do |t|
         results_arr << {:body => t.title}
@@ -25,7 +25,7 @@ class TfIdf
       response["return"].split("|").each_with_index do |words, index|
         results[threads[index+i].thread_id] = {:words => words.split(",").map{|w| w.split("=")[0]}.join(',')}
       end
-      i += 800
+      i += 100
     end
     return results
   end
@@ -75,7 +75,7 @@ class TfIdf
     return results.to_a.select{|w| w[1][:idf] > threshold}
   end
 
-=begin  
+=begin
   def self.idf(scope, start_date, end_date,threshold)
     total_post_count = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').count
     idfs = Term.find_by_sql("select word, count(DISTINCT(post_id)) idf from terms where scope = '#{scope}' and post_time >= '#{start_date}' and post_time < '#{end_date}' group by word HAVING(idf) > #{threshold}")
@@ -89,7 +89,7 @@ class TfIdf
     end
     return results
   end
-=end  
+=end
 
   def self.trending_words(today_idfs, thirty_idfs, threshold)
     results = []
@@ -121,7 +121,7 @@ class TfIdf
     #return results.select{|r| r[:trend] >= threshold}
     return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
-=end  
+=end
 
   def self.generate_bigram(words_trend)
     results = {}
@@ -133,7 +133,7 @@ class TfIdf
         "word" => word,
         "count" => 0
         # "#{word[0]}" => words_trend.select{|r| r[:word] == word[0]}.first[:trend],
-        # "#{word[1]}" => words_trend.select{|r| r[:word] == word[1]}.first[:trend] 
+        # "#{word[1]}" => words_trend.select{|r| r[:word] == word[1]}.first[:trend]
       }
     end
     return results
@@ -176,17 +176,17 @@ class TfIdf
     end
     return bigrams.to_a.select{|a| a[1]["count"]>0}.sort_by{|a| a[1]["count"]}.reverse[0..50]
   end
-  
+
   # tf_idf = tf * idf
   def tf_idf
     tf_idf = tf.map(&:clone)
-    
+
     tf.each_with_index do |document, index|
       document.each_pair do |term, tf_score|
         tf_idf[index][term] = tf_score * idf[term]
       end
     end
-    
+
     tf_idf
   end
 
@@ -208,7 +208,7 @@ class TfIdf
     end
     results
   end
-    
+
 
   def total_documents
     @documents.size
@@ -223,19 +223,19 @@ class TfIdf
   # Calculates how frequency a term appears in the document
   def calculate_term_frequencies
     results = []
-    
+
     @tokenized_documents.each do |tokens|
       document_result = {}
       tokens[:words].each do |term, count|
         document_result[term] = (count/tokens[:total_count].to_f).round(6)
       end
-      
+
       results << document_result
     end
-    
+
     results
   end
-  
+
   # IDF = total_documents / number_of_documents_the_term_appears_in
   # This calculates how important a term is.
   def calculate_inverse_document_frequency
@@ -252,8 +252,8 @@ class TfIdf
     results.each_pair do |term, count|
       results[term] = 1 + Math.log(total_documents.to_f / (count + 1.0))
     end
-    
+
     results
   end
-  
+
 end

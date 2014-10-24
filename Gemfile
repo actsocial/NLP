@@ -47,5 +47,5 @@ gem 'jquery-rails'
 gem 'thin'
 gem 'ai4r'
 
-#gem 'lda-ruby', :git => 'https://github.com/brucewinger/lda-ruby.git'
+gem 'lda-ruby', :git => 'https://github.com/brucewinger/lda-ruby.git'
 gem 'rmmseg-cpp'
