@@ -2,10 +2,78 @@ class TfIdf
   attr_reader :documents, :tokenized_documents
 
   @@soap_client = SOAP::WSDLDriverFactory.new('http://localhost:8081/AxisWS/asia.wildfire.Featurer?wsdl').create_rpc_driver
+  @@corpus = Lda::Corpus.new
 
   def initialize(start_date, end_date)
     # @documents = documents
     # @tokenized_documents = tokenization(start_date, end_date)
+  end
+
+  # TfIdf.all_days_unigram_detection("ABBOTT","2014-11-26","2014-12-29")
+  def self.single_day_unigram_detection(scope,start_date, end_date)
+    low_threshold  = 0.0003
+    high_threshold = 0.0018
+    velocity = 2
+
+    threads_words = do_segmentation(scope, start_date.to_s, end_date.to_s)
+    today_tfs = TfIdf.tf(threads_words, low_threshold,high_threshold)
+
+    thirty_threads_words = do_segmentation(scope, (start_date.to_date - 30.days).to_s, start_date.to_s)
+    thirty_tfs = TfIdf.tf(thirty_threads_words, low_threshold,high_threshold)
+
+    tw = TfIdf.trending_words(today_tfs,thirty_tfs,velocity)
+    
+    return tw
+  end
+
+
+  def self.all_days_unigram_detection(scope,start_date, end_date)
+    low_threshold = 0.0005
+    high_threshold = 0.005    
+    velocity = 4
+
+    tw = {}
+    all_threads_words = do_segmentation(scope, start_date.to_s, end_date.to_s )
+
+    all_tfs = TfIdf.tf(all_threads_words, low_threshold,high_threshold)
+
+    day = Time.parse(start_date)
+    while day<end_date
+      threads_words = do_segmentation(scope, day.to_s, (day+1.day).to_s,)
+      current_day_tfs = TfIdf.tf(threads_words, low_threshold,1)
+      tw[day.to_s] = TfIdf.trending_words(current_day_tfs,all_tfs,velocity)
+      # pp day.to_s
+      # pp tw[day.to_s]
+      day += 1.day
+    end
+    pp tw
+
+    return tw
+  end
+
+
+  def self.single_day_bigram_detection(scope,start_date, end_date)
+    least_occurance = 10
+    velocity = 2.5
+
+    today_idfs = TfIdf.idf(scope, start_date.to_s, end_date.to_s, least_occurance)
+    thirty_idfs = TfIdf.idf(scope, (start_date.to_date - 30.days).to_s, start_date.to_s, least_occurance)
+
+    tw = TfIdf.trending_words(today_idfs,thirty_idfs,velocity)
+
+    bigrams = generate_bigram(tw)
+
+    # top_words = all_top_word(start_date, end_date)
+    threads = ThreadSource.where("date >= '#{start_date}' and date < '#{end_date}'")
+    bigrams.each do |words|
+      ws = words[1]["word"]
+      threads.each do |thread|
+        if !thread.title.index(ws[0]).nil? && !thread.title.index(ws[1]).nil?
+          bigrams["#{words[0]}"]["count"] += 1
+        end
+      end
+    end
+    return bigrams.to_a.select{|a| a[1]["count"]>0}.sort_by{|a| a[1]["count"]}.reverse[0..50]
   end
 
   def self.get_thread_andwords(scope, start_date, end_date)
@@ -44,35 +112,31 @@ class TfIdf
     return results
   end
 
-  def self.tf(start_date, end_date,threshold)
-    @tf = Term.find_by_sql("select sum(count) as tf, word from terms where post_time >= '#{start_date}' and post_time < '#{end_date}' group by word HAVING(tf) > #{threshold}")
-    @results = []
-    @tf.each do |tf|
-      @results << {
-        word: tf.word,
-        tf: tf.tf
-      }
-    end
-    return @results
-  end
-
-  def self.idf(scope ,start_date, end_date, threshold)
+  def self.tf(threads_words, low_threshold,high_threshold)
     results = {}
-    threads_words = do_segmentation(scope, start_date, end_date)
-    threads_count = threads_words.count
+    document_count = threads_words.count
+    total_words_count = 0
     threads_words.each do |thread_id, words|
       words = words.values[0].split(",")
       words.each do |word|
         results[word] ||= {
           word: word,
-          idf: 0,
-          percent: 0.0
+          occurance: 0,
+          tf: 0.0
         }
-        results[word][:idf] += 1
-        results[word][:percent] = results[word][:idf].to_f/threads_count
+        results[word][:occurance] += 1
+        # results[word][:tf] = results[word][:tf].to_f/document_count
+      end
+      total_words_count += words.count
+    end
+    results.each do |word|
+      word[1][:tf] = word[1][:occurance].to_f/total_words_count
+      if (@@corpus.stopwords.include?(word[1][:word]))
+        word[1][:tf] = 0
       end
     end
-    return results.to_a.select{|w| w[1][:idf] > threshold}
+
+    return results.to_a.select{|w| (w[1][:tf] > low_threshold && w[1][:tf] < high_threshold) }
   end
 
 =begin
@@ -91,19 +155,19 @@ class TfIdf
   end
 =end
 
-  def self.trending_words(today_idfs, thirty_idfs, threshold)
+  def self.trending_words(today_tfs, thirty_tfs, threshold)
     results = []
-    today_idfs.each do |td_idf|
-      th_idf = thirty_idfs.select{|d| d[0] == td_idf[0]}.first
+    today_tfs.each do |td_tf|
+      th_idf = thirty_tfs.select{|d| d[0] == td_tf[0]}.first
       next if th_idf.nil? || th_idf.blank?
-      trend = td_idf[1][:percent]/th_idf[1][:percent]
+      trend = td_tf[1][:tf]/th_idf[1][:tf]
       results << {
-        word: td_idf[1][:word],
+        word: td_tf[1][:word],
         trend: trend
       }
     end
-    #return results.select{|r| r[:trend] >= threshold}
-    return results.sort_by{|v| v[:trend]}.reverse[0...30]
+    return results.select{|r| r[:trend] >= threshold}
+    # return results.sort_by{|v| v[:trend]}.reverse[0...30]
   end
 
 =begin
@@ -140,10 +204,14 @@ class TfIdf
   end
 
   def self.get_condition_by_trend_word(scope, start_date, end_date)
-    today_idfs = TfIdf.idf(scope, start_date.to_s, end_date.to_s, 15)
-    thirty_idfs = TfIdf.idf(scope, (start_date.to_date - 30.days).to_s, start_date.to_s, 2)
-    threshold1 = 2.5
-    tw = TfIdf.trending_words(today_idfs,thirty_idfs,threshold1)
+    least_occurance = 10
+    velocity = 2.5
+
+    today_idfs = TfIdf.idf(scope, start_date.to_s, end_date.to_s, least_occurance)
+    thirty_idfs = TfIdf.idf(scope, (start_date.to_date - 30.days).to_s, start_date.to_s, least_occurance)
+
+    tw = TfIdf.trending_words(today_idfs,thirty_idfs,velocity)
+
     words = tw.collect{|w| w[:word]}
     con = []
     words.each do |word|
@@ -157,25 +225,6 @@ class TfIdf
     end
   end
 
-  def self.topic_detection(start_date, end_date)
-    today_idfs = TfIdf.idf(start_date, end_date, 15)
-    thirty_idfs = TfIdf.idf(start_date.to_date - 30.days, start_date, 2)
-    threshold1 = 2.5
-    tw = TfIdf.trending_words(today_idfs,thirty_idfs,threshold1)
-    bigrams = generate_bigram(tw)
-
-    # top_words = all_top_word(start_date, end_date)
-    threads = ThreadSource.where("date >= '#{start_date}' and date < '#{end_date}'")
-    bigrams.each do |words|
-      ws = words[1]["word"]
-      threads.each do |thread|
-        if !thread.title.index(ws[0]).nil? && !thread.title.index(ws[1]).nil?
-          bigrams["#{words[0]}"]["count"] += 1
-        end
-      end
-    end
-    return bigrams.to_a.select{|a| a[1]["count"]>0}.sort_by{|a| a[1]["count"]}.reverse[0..50]
-  end
 
   # tf_idf = tf * idf
   def tf_idf
