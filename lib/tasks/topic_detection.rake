@@ -8,7 +8,6 @@ include Ai4r::Clusterers
 
 namespace :topic_detection do
   task :lda => :environment do |t, args|
-    @corpus = Lda::Corpus.new
 
     #tokenized_docs = TfIdf.do_segmentation('Auto_Lincoln','2014-05-07','2014-05-08');nil
 
@@ -16,17 +15,20 @@ namespace :topic_detection do
     words = TfIdf.all_days_unigram_detection('DUMEX','2014-12-20','2015-01-20');nil
 
     #LDA优先 方案
-    tokenized_docs = TfIdf.do_segmentation('DUMEX','2014-12-20','2015-01-20');nil
+    tokenized_docs = TfIdf.do_segmentation('siemens','2014-12-25','2015-01-25');nil
+    words = TfIdf.tf(tokenized_docs,0.0003,0.0018);
+    ws = words.map{|w| w[0]}
 
+    @corpus = Lda::Corpus.new
     tokenized_docs.each do |key,doc|
-      d = Lda::TextDocument.new(@corpus, doc[:words].split(","))
+      d = Lda::TextDocument.new(@corpus, (doc[:words].split(",")&ws))
       @corpus.add_document(d)
     end;nil
 
     @lda = Lda::Lda.new(@corpus);nil
-    @lda.num_topics = 10
+    @lda.num_topics = (tokenized_docs.count/100)
     @lda.em('random')
-    topics = @lda.top_words(10);nil
+    topics = @lda.top_words(15);nil
     pp topics
   end
 
