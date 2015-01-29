@@ -11,25 +11,17 @@ namespace :topic_detection do
     @corpus = Lda::Corpus.new
 
     #tokenized_docs = TfIdf.do_segmentation('Auto_Lincoln','2014-05-07','2014-05-08');nil
+
+    #TF优先 方案
+    words = TfIdf.all_days_unigram_detection('DUMEX','2014-12-20','2015-01-20');nil
+
+    #LDA优先 方案
     tokenized_docs = TfIdf.do_segmentation('DUMEX','2014-12-20','2015-01-20');nil
 
     tokenized_docs.each do |key,doc|
       d = Lda::TextDocument.new(@corpus, doc[:words].split(","))
       @corpus.add_document(d)
     end;nil
-
-    #寻找最trend的word(和30天的数据对比)
-    # tfidf = TfIdf.get_condition_by_trend_word('ABBOTT','2014-12-28','2014-12-29');nil
-
-    #获取包含trending words的所有帖子
-    # docs = WeiboThread.where(tfidf).group("thread_id");nil
-
-    # docs.each do |doc| 
-    #   d = Lda::TextDocument.new(@corpus, tokenized_docs[doc.thread_id][:words].split(","))
-    #   @corpus.add_document(d)
-    # end
-
-
 
     @lda = Lda::Lda.new(@corpus);nil
     @lda.num_topics = 10
