@@ -100,7 +100,7 @@ class TfIdf
 
   def self.do_segmentation(scope, start_date, end_date)
     results = {}
-    threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').group("thread_id").order("thread_id")
+    threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').group("user_name,title").order("thread_id")
     results_arr = []
     threads.each do |t|
       results_arr << {:body => t.title}
