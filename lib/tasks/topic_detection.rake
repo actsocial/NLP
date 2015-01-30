@@ -5,6 +5,7 @@ require 'ai4r'
 require 'soap/wsdlDriver'
 include Ai4r::Data
 include Ai4r::Clusterers
+require 'solr'
 
 namespace :topic_detection do
   task :lda => :environment do |t, args|
@@ -15,7 +16,7 @@ namespace :topic_detection do
     words = TfIdf.all_days_unigram_detection('DUMEX','2014-12-20','2015-01-20');nil
 
     #LDA优先 方案
-    tokenized_docs = TfIdf.do_segmentation('siemens','2014-12-25','2015-01-25');nil
+    tokenized_docs = TfIdf.do_segmentation('siemens','2015-01-15','2015-01-25');nil
     words = TfIdf.tf(tokenized_docs,0.0003,0.0018);
     ws = words.map{|w| w[0]}
 
