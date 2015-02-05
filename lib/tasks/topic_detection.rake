@@ -16,9 +16,10 @@ namespace :topic_detection do
     words = TfIdf.all_days_unigram_detection('DUMEX','2014-12-20','2015-01-20');nil
 
     #LDA优先 方案
-    tokenized_docs = TfIdf.do_segmentation('siemens','2015-01-15','2015-01-25');nil
-    words = TfIdf.tf(tokenized_docs,0.0003,0.0018);
-    ws = words.map{|w| w[0]}
+    rss_arr = TfIdf.get_title_arr('DUMEX','2014-12-20','2015-01-20')
+    tokenized_docs = TfIdf.do_segmentation(rss_arr);nil
+    wts = TfIdf.tf(tokenized_docs,0.0003,0.0018)
+    ws = wts.map{|w| w[0]}
 
     @corpus = Lda::Corpus.new
     tokenized_docs.each do |key,doc|
@@ -31,6 +32,11 @@ namespace :topic_detection do
     @lda.em('random')
     topics = @lda.top_words(15);nil
     pp topics
+    express = "多美滋"
+    topics.each do |key, value|
+      number = Solr::Solr.count_for_n_minimun_match("",value,Date.parse('2014-12-20'),Date.parse('2015-01-20'),8)
+      puts "--#{value.join(' ')}---#{number}"
+    end
   end
 
   task :run => :environment do |t, args|

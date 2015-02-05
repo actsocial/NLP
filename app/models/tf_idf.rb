@@ -98,13 +98,26 @@ class TfIdf
     return results
   end
 
-  def self.do_segmentation(scope, start_date, end_date)
-    results = {}
+  def self.get_title_arr(scope, start_date, end_date)
+    results = []
     threads = WeiboThread.where(:scope => scope, :ymd => start_date...end_date, :topic => 'all').group("user_name,title").order("thread_id")
     results_arr = []
+    thread_id_title_hash = {}
     threads.each do |t|
       results_arr << {:body => t.title}
+      thread_id_title_hash[t.thread_id] = t.title
     end
+    results[0] = threads
+    results[1] = results_arr
+    results[2] = thread_id_title_hash
+    return results
+  end
+
+  def self.do_segmentation(rss)
+    results = {}
+    threads = rss[0]
+    results_arr = rss[1]
+
     response = @@soap_client.doSegmentation(results_arr.collect{|p| p.nil? ? "{}" : p.to_json.to_s})
     response["return"].split("|").each_with_index do |words, index|
       results[threads[index].thread_id] = {:words => words.split(",").map{|w| w.split("=")[0]}.join(',')}

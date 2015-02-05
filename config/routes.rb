@@ -28,6 +28,9 @@ Mltraining::Application.routes.draw do
   get "posts/chart"
   post "posts/get_daily_posts"
 
+  get "topicshow/detect_show2"
+  get "topicshow/detect_show"
+
   resources :fnfps
   resources :tags
   resources :priors

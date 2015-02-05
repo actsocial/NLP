@@ -1,0 +1,93 @@
+<%= javascript_include_tag "bootstrap.js" %>
+<%= javascript_include_tag "jquery-2.1.3.min.js" %>
+<%= stylesheet_link_tag "bootstrap.css" %>
+<style type="text/css">
+    .topic-div div {
+        padding-left: 15px;
+        padding-right: 15px;
+        float: left;
+    }
+
+    .topic-div button {
+        margin-top: 25px;
+    }
+
+    .detect-table {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .thread_titles_div {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .thread_title_div {
+        min-height: 30px;
+        border: 1px solid gainsboro;
+        margin-top: 10px;
+    }
+    .thread_header {
+        height: 40px; border: 1px solid gainsboro; margin-top: 10px; font-size: 20px
+    }
+
+    .thread_header div {
+        line-height: 40px
+    }
+</style>
+<div class="topic-div">
+  <!--<form class="form-inline">-->
+  <div class="form-group">
+    <label for="scopeInput">scope:</label>
+    <input type="text" class="form-control" id="scopeInput" placeholder="enter scope" value="<%= params['scope'] %>">
+  </div>
+  <div class="form-group">
+    <label for="keywordInput">keyword:</label>
+    <input type="text" class="form-control" id="keywordInput" placeholder="only one word" value="<%= params['keyword'] %>">
+  </div>
+  <div class="form-group">
+    <label for="startInput">start:</label>
+    <input type="text" class="form-control" id="startInput" placeholder="like 2015-01-01" value="<%= params['start'] %>">
+  </div>
+  <div class="form-group">
+    <label for="endInput">end:</label>
+    <input type="text" class="form-control" id="endInput" placeholder="like 2015-02-01" value="<%= params['end'] %>">
+  </div>
+
+  <button type="submit" id="detection" class="btn btn-default" onclick="beginDetectionTopic()">Topic Detect</button>
+  <!--</form>-->
+</div>
+<div class="detect-table">
+  <div style="height: 40px; border: 1px solid">
+    <div class="col-md-10" style="line-height: 40px">Topic Array</div>
+    <div class="col-md-2" style="line-height: 40px">Number Found</div>
+  </div>
+  <div>
+    <% @result.each do |rs| %>
+        <div>
+          <div class="thread_header" onclick="toggle_thread_titles()">
+            <div class="col-md-10"><%= rs['key'] %></div>
+            <div class="col-md-2"><%= rs['value'] %></div>
+          </div>
+          <div class="thread_titles_div" style="display: none">
+            <% rs['thread_titles'].each do |tt| %>
+                <div class="thread_title_div"><%= tt %></div>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+    function beginDetectionTopic() {
+        console.log('aaa');
+        var url = "/topicshow/detect_show?scope=" + $('#scopeInput').val() + "&keyword=" + $('#keywordInput').val() + "&start="+ $('#startInput').val() + "&end=" + $('#endInput').val();
+        window.location.href = url;
+    }
+
+    function toggle_thread_titles() {
+        console.log("aaa");
+        $(event.currentTarget).parent().find('.thread_titles_div').toggle();
+    }
+</script>
