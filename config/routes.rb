@@ -30,6 +30,11 @@ Mltraining::Application.routes.draw do
 
   get "topicshow/detect_show2"
   get "topicshow/detect_show"
+  get "topicshow/topic_svg_show"
+  get "topicshow/flare_imports"
+  get "topicshow/get_word_to_word_relation"
+  get "topicshow/get_word_in_arr_relation"
+  get "topicshow/get_json"
 
   resources :fnfps
   resources :tags
