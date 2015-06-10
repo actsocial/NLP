@@ -14,6 +14,8 @@ gem 'settingslogic'
 gem 'activerecord-import', '~> 0.3.1'
 gem 'soap2r'
 gem 'will_paginate'
+gem 'aws-sdk', '~> 1.0'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
