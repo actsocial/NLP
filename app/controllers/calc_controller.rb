@@ -11,6 +11,7 @@ class CalcController < ApplicationController
       tags.each{|tag| all_categories << [tag, "not_"+tag]}
       # all_categories = [["baby", "not_baby"]]
 
+      pp "loading post ids"
       distinct_features = {}
       post_ids = []
       post_tags = PostTag.where({:tag_id => tags}).to_a.map(&:serializable_hash) # limit()  post_ids = post_ids[0..300]
@@ -25,15 +26,21 @@ class CalcController < ApplicationController
 
       # extract training data
       training_data = []
+
+      pp "loading posts"
       posts = Post.where({:id => post_ids})
+      pp posts.count.to_s+" posts are loaded"
+      i = 0
       posts.each do |post|
-        if (Random.rand(5)==1) # 3% rows are selected for testing instead of training
+        i += 1
+        if (Random.rand(30)==1) # 3% rows are selected for testing instead of training
+          pp i
           post.is_test = true
           post.save
           next
         else
-          post.is_test = false
-          post.save
+          # post.is_test = false
+          # post.save
         end
 
         features = post.post_features.to_a.map(&:serializable_hash)
@@ -72,7 +79,7 @@ class CalcController < ApplicationController
         training_data << {:features => features, :category => category}
       end
       #training_data = [{:features=>[{"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"分享", "id"=>1, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"欧洲", "id"=>2, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"最后", "id"=>3, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"斯内德", "id"=>4, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"HTTP", "id"=>5, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"再见", "id"=>6, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"球星", "id"=>7, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"黑", "id"=>8, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"生涯", "id"=>9, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"视频", "id"=>10, "occurrence"=>2, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"新浪", "id"=>11, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"一个", "id"=>12, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}], :category=>["not_baby"]}]
-
+      pp "start calculation "
       nb = []
       all_categories.each_with_index do |categories,index| # ??????????????
         training_data.each_with_index do |data, j|

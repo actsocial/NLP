@@ -3,7 +3,7 @@
   <%= link_to 'New Tag', new_tag_path, {:class => "btn btn-warning"} %>
 </h3>
 
-<table class="table table-hover table-striped">
+<table style="  font-size: 16px;" class="table table-hover table-striped">
   <tr>
     <th><input type="checkbox" class="select_all"> Tag</th>
     <!-- <th>is in redis</th> -->
@@ -28,7 +28,7 @@
       <tr id="<%= tag['tag_id'] %>">
         <td><input type="checkbox" class="select_tag" value="<%= tag['tag_id'] %>"> <%= tag['tag_id'] %></td>
         <td name="local_prior"><%= tag['prior'].to_f.round(4) if(tag['prior'])%></td>
-        <td name="redis_prior"><%= @redis_prior[tag['tag_id']].round(4) if(@redis_prior[tag['tag_id']])%></td>
+        <td name="redis_prior"><%= @redis_prior[tag['tag_id']].to_f.round(4) if(@redis_prior[tag['tag_id']])%></td>
         <td name="f"><%= tag['f'] %></td>
         <td name="precise"><%= tag['precise'] %></td>
         <td name="recall"><%= tag['recall'] %></td>

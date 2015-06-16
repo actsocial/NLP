@@ -155,12 +155,14 @@ class PostsController < ApplicationController
 
   def import_data # Select
     file = params[:file]['file']
+    pp file
     begin
       @@doc = Nokogiri::XML(file)
       all_post_contents = []
-      Post.select("content").each do |p|
-        all_post_contents << p.content
-      end
+      # pp "loading all posts"
+      # Post.select("content").each do |p|
+      #   all_post_contents << p.content
+      # end
       @exist_posts = []
       @new_posts = []
       @tag_list = []
@@ -172,7 +174,8 @@ class PostsController < ApplicationController
           end
           next
         end
-
+        pp @tag_list
+        pp i
         body = row.css("Data")[0].text
         if all_post_contents.include?(body)
           @exist_posts << {:content => body}
@@ -195,18 +198,23 @@ class PostsController < ApplicationController
       soap_client = SOAP::WSDLDriverFactory.new(Settings.feature_ws_url).create_rpc_driver
 
       all_post_contents = []
+      pp "fetching all posts for duplication check"
       Post.select("content").each do |p|
         all_post_contents << p.content
       end
 
+      pp "start parsing file"
       @@doc.css("Worksheet").first.css("Row").each_with_index do |row, i|
         # read taglist
+        pp i 
+
         if (i==0 && row.css("Data").count>1)
           row.css("Data")[1..-1].each do |tag|
             tag_list << tag.text
           end
           next
         end
+        pp tag_list
 
         body = row.css("Data")[0].text
         if all_post_contents.include?(body)
