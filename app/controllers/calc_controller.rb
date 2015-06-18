@@ -46,7 +46,23 @@ class CalcController < ApplicationController
         features = post.post_features.to_a.map(&:serializable_hash)
         #features = [{"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"分享", "id"=>1, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"欧洲", "id"=>2, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}]
         if features.blank?
-          next
+          document = {:body => body}
+          response = soap_client.doFeature([document].collect { |p| p.nil? ? "{}" : p.to_json.to_s })
+          if response['return'].blank?
+            next
+          end
+          features = []
+          f = response['return'].split("|")[0].split(",")
+          f.each do |feature|
+            f = feature.split("=")[0]
+            occurrence = feature.split("=")[1]
+            pf = PostFeature.new
+            pf.post_id = p.id
+            pf.feature = f
+            pf.occurrence = occurrence.to_i
+            features << pf
+          end
+          PostFeature.import features
         end
 
         category = []
