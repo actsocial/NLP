@@ -1,11 +1,15 @@
 # encoding : utf-8
 require 'naivebayes'
+require 'soap/wsdlDriver'
+
 class CalcController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:create]
 
   def rebuild # params: {:tags :array}
     puts params
     begin
+      soap_client = SOAP::WSDLDriverFactory.new(Settings.feature_ws_url).create_rpc_driver
+
       tags = params[:tags]
       all_categories = []
       tags.each{|tag| all_categories << [tag, "not_"+tag]}
@@ -46,7 +50,7 @@ class CalcController < ApplicationController
         features = post.post_features.to_a.map(&:serializable_hash)
         #features = [{"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"分享", "id"=>1, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}, {"created_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00, "feature"=>"欧洲", "id"=>2, "occurrence"=>1, "post_id"=>1, "updated_at"=>Fri, 21 Mar 2014 01:29:49 UTC +00:00}]
         if features.blank?
-          document = {:body => body}
+          document = {:body => post.content}
           response = soap_client.doFeature([document].collect { |p| p.nil? ? "{}" : p.to_json.to_s })
           if response['return'].blank?
             next
@@ -57,7 +61,7 @@ class CalcController < ApplicationController
             f = feature.split("=")[0]
             occurrence = feature.split("=")[1]
             pf = PostFeature.new
-            pf.post_id = p.id
+            pf.post_id = post.id
             pf.feature = f
             pf.occurrence = occurrence.to_i
             features << pf
