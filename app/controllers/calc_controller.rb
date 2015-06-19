@@ -219,14 +219,14 @@ class CalcController < ApplicationController
           predicted[tag] += (likelihood[tag][feature]|| 0)*(1+Math.log(count))
         end
         predicted[tag] = 1/(1+Math.exp(0-predicted[tag]))
-        if predicted[tag] > 0.51
+        if predicted[tag] > 0.80
           tp[tag] += 1 if test[tag] == 1
           fp[tag] += 1 if test[tag] == 0
-          fp_content[tag] << post.id if test[tag] == 0
+          fp_content[tag] << {id:post.id,value:predicted[tag]} if test[tag] == 0
         else
           tn[tag] += 1 if test[tag] == 0
           fn[tag] += 1 if test[tag] == 1
-          fn_content[tag] << post.id if test[tag] == 1
+          fn_content[tag] << {id:post.id,value:predicted[tag]}  if test[tag] == 1
         end
       end
     end
@@ -287,11 +287,11 @@ class CalcController < ApplicationController
 
       # save fn fp to fnfps
       fp_content[tag].each do |c|
-        Fnfp.create({:tag_id => tag, :flag => "fp", :post_id => c})
+        Fnfp.create({:tag_id => tag, :flag => "fp", :post_id => c[:id],:value=>c[:value]})
       end
 
       fn_content[tag].each do |c|
-        Fnfp.create({:tag_id => tag, :flag => "fn", :post_id => c})
+        Fnfp.create({:tag_id => tag, :flag => "fn", :post_id => c[:id],:value=>c[:value]})
       end
 
       x += tp[tag].to_f

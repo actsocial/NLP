@@ -12,7 +12,7 @@
 <% @fnfps.each do |fnfp| %>
   <tr id="<%= fnfp.post_id %>">
     <td><%= fnfp.post_id %></td>
-    <td><%= fnfp.tag_id %></td>
+    <td><%= fnfp.tag_id %><%= fnfp.value %></td>
     <td><%= fnfp.flag %></td>
     <td><%= fnfp.content %>
     <td>

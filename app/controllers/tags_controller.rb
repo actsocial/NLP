@@ -125,7 +125,7 @@ class TagsController < ApplicationController
     @@redis_likelihood = get_likelihood
     @@redis_prior = get_prior
     tag_id = params["tag"]
-    main_features = Likelihood.select("tag_id, feature, likelihood").where("tag_id = '" + tag_id + "'").order("likelihood desc").limit(5)
+    main_features = Likelihood.select("tag_id, feature, likelihood").where("tag_id = '" + tag_id + "'").order("likelihood desc").limit(15)
     prior = Prior.find_by_tag_id(tag_id)
 
     results = {}
