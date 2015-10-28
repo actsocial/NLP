@@ -1,0 +1,13 @@
+defaults: &defaults
+  aws_access_key: 'AKIAIDJN2PXT6S7DOJZA'
+  aws_secret_access_key: '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'
+  simple_db_endpoint: 'sdb.ap-southeast-1.amazonaws.com'
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

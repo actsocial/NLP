@@ -11,64 +11,133 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20150619065851) do
 
-  create_table "FEATURE_TAG_0", :id => false, :force => true do |t|
-    t.string "tag_id"
-    t.string "feature"
-    t.string "value"
-    t.float  "frequency"
+  create_table "daily_threads", :id => false, :force => true do |t|
+    t.string   "thread_id", :limit => 765
+    t.string   "title",     :limit => 6000
+    t.datetime "date"
   end
 
-  create_table "FEATURE_TAG_1", :id => false, :force => true do |t|
-    t.string "tag_id"
-    t.string "feature"
-    t.string "value"
-    t.float  "frequency"
+  create_table "fn_contents", :force => true do |t|
+    t.string   "tag_id"
+    t.integer  "fn_count"
+    t.text     "content"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "test_volume"
+    t.float    "value"
   end
 
-  create_table "LIKELIHOOD", :id => false, :force => true do |t|
-    t.string "tag_id"
-    t.string "feature"
-    t.float  "freq0"
-    t.float  "freq1"
-    t.float  "likelihood"
+  create_table "fnfps", :force => true do |t|
+    t.integer  "post_id"
+    t.string   "tag_id"
+    t.string   "flag"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.float    "value"
   end
 
-  create_table "PRIOR", :id => false, :force => true do |t|
-    t.string "tag_id"
-    t.float  "prior"
+  create_table "fp_contents", :force => true do |t|
+    t.string   "tag_id"
+    t.integer  "fp_count"
+    t.text     "content"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "test_volume"
+    t.float    "value"
   end
 
-  create_table "TAG_STATS", :id => false, :force => true do |t|
-    t.string  "tag_id"
-    t.string  "value"
-    t.integer "distinct_features_num", :limit => 8, :default => 0, :null => false
-    t.integer "feature_num",           :limit => 8, :default => 0, :null => false
+  create_table "likelihoods", :force => true do |t|
+    t.string   "tag_id"
+    t.string   "feature"
+    t.float    "likelihood"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "post_features", :id => false, :force => true do |t|
-    t.string "id"
-    t.string "post_id"
-    t.string "feature"
-    t.string "occurrence"
+  create_table "post_features", :force => true do |t|
+    t.integer  "post_id"
+    t.string   "feature"
+    t.integer  "occurrence"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "posts", :id => false, :force => true do |t|
-    t.string "id"
-    t.string "content"
-    t.string "created_at"
+  add_index "post_features", ["post_id"], :name => "post_id"
+
+  create_table "post_tags", :force => true do |t|
+    t.integer  "post_id"
+    t.string   "tag_id"
+    t.integer  "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "posts_tags", :id => false, :force => true do |t|
-    t.string "id"
-    t.string "post_id"
-    t.string "tag_id"
-    t.string "value"
+  create_table "posts", :force => true do |t|
+    t.text     "content"
+    t.boolean  "is_test"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "tags", :id => false, :force => true do |t|
-    t.string "id"
+  create_table "precises", :force => true do |t|
+    t.string   "tag_id"
+    t.float    "precise"
+    t.float    "recall"
+    t.float    "true_positive"
+    t.float    "false_positive"
+    t.float    "true_negative"
+    t.float    "false_negative"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "test_volume"
+  end
+
+  create_table "priors", :force => true do |t|
+    t.string   "tag_id"
+    t.float    "prior"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id", :length => {"session_id"=>191}
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "tags", :force => true do |t|
+    t.string   "tag_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "terms", :force => true do |t|
+    t.string   "post_id"
+    t.string   "word"
+    t.datetime "post_time"
+    t.integer  "count"
+    t.string   "scope"
+  end
+
+  add_index "terms", ["post_id", "count", "post_time", "word"], :name => "id_date_count"
+
+  create_table "thread_source", :force => true do |t|
+    t.string   "thread_id", :limit => 120,  :null => false
+    t.string   "title",     :limit => 2000
+    t.datetime "date"
+  end
+
+  create_table "topic_dates", :force => true do |t|
+    t.string   "topic"
+    t.date     "date"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

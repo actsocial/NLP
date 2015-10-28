@@ -63,9 +63,9 @@ module Mltraining
     # # load project config
     # APP_CONFIG = YAML.load_file(File.expand_path("../", __FILE__) + '/aws.yml')[ENV["RACK_ENV"]]
 
-    AWS.config(access_key_id: 'AKIAIDJN2PXT6S7DOJZA',
-               secret_access_key: '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',
-               s3_endpoint: 's3-ap-northeast-1.amazonaws.com',
+    AWS.config(access_key_id: 'AKIAJXZ62BYGCNXEFKMQ',
+               secret_access_key: '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',
+               s3_endpoint: 's3-ap-southeast-1.amazonaws.com',
                simple_db_endpoint: 'sdb.ap-southeast-1.amazonaws.com'
               )
   end
