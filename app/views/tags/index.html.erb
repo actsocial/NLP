@@ -28,8 +28,8 @@
       <tr id="<%= tag['tag_id'] %>">
         <td><input type="checkbox" class="select_tag" value="<%= tag['tag_id'] %>"> <%= tag['tag_id'] %></td>
         <td name="local_prior"><%= tag['prior'].to_f.round(4) if(tag['prior'])%></td>
-        <td name="redis_prior"><%= @redis_prior[tag['tag_id']].to_f.round(4) if(@redis_prior[tag['tag_id']])%></td>
-        <td name="f"><%= tag['f'] %></td>
+        
+                <td name="f"><%= tag['f'] %></td>
         <td name="precise"><%= tag['precise'] %></td>
         <td name="recall"><%= tag['recall'] %></td>
         <td name="true_positive"><%= tag['true_positive'] %></td>
@@ -47,7 +47,7 @@
 </table>
 
 <div class="modal" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="width:1000px">
+  <div class="modal-dialog" style="width:1000px;left:10%">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

@@ -133,7 +133,12 @@ class TagsController < ApplicationController
     results[:redis] = {}
     results[:features] = []
     results[:local][:prior] = prior.prior if prior
-    results[:redis][:prior] = @@redis_prior[tag_id]
+    # results[:redis][:prior] = 0
+    if @@redis_prior.nil? || @@redis_prior[tag_id].nil?
+      results[:redis][:prior] = 0
+    else
+      results[:redis][:prior] = @@redis_prior[tag_id]
+    end
     results[:local][:likelihood] = {}
     results[:redis][:likelihood] = {}
     main_features.each do |mf|
@@ -209,7 +214,11 @@ class TagsController < ApplicationController
   def get_prior
     redis = Redis::Namespace.new(:parameters, :redis => Redis.new(:host => Settings.redis_server, :port => Settings.redis_port))
     ret = redis.hget("parameters", "prior")
-    JSON.parse(ret)
+    if ret.nil?
+      {}
+    else
+      JSON.parse(ret)
+    end 
   end
 
   def get_tag_list
